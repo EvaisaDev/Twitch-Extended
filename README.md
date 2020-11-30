@@ -37,7 +37,7 @@ If you get it from Github make sure you get Config Lib aswell which is linked at
 ***
 ### Adding new rewards and run modifiers
 Adding new rewards and run modifiers is totally possible! I have included a example mod that you can work off of.  
-You can get it [here](https://github.com/EvaisaGiac/Twitch-Extended/releases)
+You can get it [here](https://github.com/EvaisaGiac/Twitch-Extended/releases)  
 Some programming knowledge is ofcourse required.  
 ***
 **Config Menu:**
