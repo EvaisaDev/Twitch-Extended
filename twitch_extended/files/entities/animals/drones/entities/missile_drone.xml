@@ -1,0 +1,104 @@
+<Entity  tags="teleportable,drone_friendly" >	
+	
+	<LuaComponent
+		script_source_file="mods/twitch_extended/files/entities/animals/drones/scripts/sethomeposition.lua"
+		execute_on_added="1"
+		execute_every_n_frame="40"
+		execute_times="-1" >
+	</LuaComponent>
+	<LuaComponent
+		script_source_file="mods/twitch_extended/files/entities/animals/drones/scripts/missiledroneshoot.lua"
+		execute_on_added="0"
+		execute_every_n_frame="240"
+		execute_times="-1" >
+	</LuaComponent>	
+	<LuaComponent
+		script_source_file="mods/twitch_extended/files/entities/animals/drones/scripts/toofarteleport.lua"
+		execute_on_added="1"
+		execute_every_n_frame="20"
+		execute_times="-1" >
+	</LuaComponent>	
+	<LuaComponent
+		script_source_file="mods/twitch_extended/files/entities/animals/drones/scripts/removetarget.lua"
+		execute_on_added="1"
+		execute_every_n_frame="1"
+		execute_times="1" >
+	</LuaComponent>		
+	<Base file="data/entities/base_enemy_robot.xml" >
+		<AnimalAIComponent 
+			_enabled="1" 
+			preferred_job="JobDefault"
+			creature_detection_range_x="250"
+			creature_detection_range_y="250"
+    		attack_ranged_min_distance="0" 
+    		attack_ranged_max_distance="100" 
+			food_material="blood"
+			needs_food="0"
+            attack_only_if_attacked="0"
+			sense_creatures="1"
+			attack_ranged_enabled="1"
+			can_fly="1"  
+			can_walk="0"
+			max_distance_to_move_from_home="60">
+		</AnimalAIComponent>
+			
+			
+
+		<DamageModelComponent 
+            hp="2"
+			ragdoll_filenames_file="" 
+			blood_material=""
+			blood_spray_material=""
+			fire_probability_of_ignition="0" 
+			ragdoll_material="steel">
+		</DamageModelComponent>
+
+		<SpriteComponent 
+			image_file="mods/twitch_extended/files/entities/animals/drones/gfx/missile_drone/missile_drone_animation.xml" 
+			offset_x="0"
+			offset_y="0">
+		</SpriteComponent>
+
+		<PathFindingComponent
+			can_walk="0"
+			can_fly="1"
+			space_required="2" >
+		</PathFindingComponent>
+
+		<PathFindingGridMarkerComponent
+			marker_work_flag="16" >
+		</PathFindingGridMarkerComponent>
+		
+		<GenomeDataComponent 
+			herd_id="player"
+			food_chain_rank="5"
+			is_predator="1" 
+			berserk_dont_attack_friends="1" >
+		</GenomeDataComponent>
+		
+		<CharacterPlatformingComponent 
+			fly_speed_max_up="60"
+			fly_speed_max_down="65"
+			fly_speed_mult="50"
+			fly_speed_change_spd="1"
+			fly_velocity_x="65">
+		</CharacterPlatformingComponent>
+		
+		<HitboxComponent 
+			_enabled="1" 
+			aabb_max_x="6" 
+			aabb_max_y="-6" 
+			aabb_min_x="-6" 
+			aabb_min_y="-6" >
+		</HitboxComponent>
+		
+		<CharacterDataComponent 
+			_enabled="1" 
+			buoyancy_check_offset_y="0">
+	    </CharacterDataComponent>		
+  
+	</Base>
+		
+
+</Entity>
+

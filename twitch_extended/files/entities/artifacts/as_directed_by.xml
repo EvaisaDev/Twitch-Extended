@@ -1,0 +1,9 @@
+<Entity>
+	<InheritTransformComponent></InheritTransformComponent>
+	
+    <ShotEffectComponent
+        extra_modifier="twitch_more_explosions"
+		>
+	</ShotEffectComponent>
+	
+</Entity>

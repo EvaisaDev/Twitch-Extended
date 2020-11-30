@@ -1,0 +1,15 @@
+<Entity>
+	<InheritTransformComponent></InheritTransformComponent>
+	
+	<LuaComponent 
+        execute_every_n_frame="60"
+        script_source_file="mods/twitch_extended/files/scripts/artifacts/floor_is_lava.lua" 
+	>
+    </LuaComponent>
+
+		<LuaComponent 
+        execute_every_n_frame="4"
+        script_source_file="mods/twitch_extended/files/scripts/artifacts/lava_particles.lua" 
+	>
+    </LuaComponent>
+</Entity>

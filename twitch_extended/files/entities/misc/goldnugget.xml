@@ -1,0 +1,65 @@
+<Entity name="unknown" tags="item_physics,gold_nugget_spawned" >
+
+  <!-- physical presence -->
+	<UIInfoComponent
+		name="$item_goldnugget">
+	</UIInfoComponent>
+
+  <PhysicsBodyComponent 
+    _tags="enabled_in_world"
+    uid="1" 
+    allow_sleep="1" 
+    angular_damping="0" 
+    fixed_rotation="0" 
+    is_bullet="0" 
+    linear_damping="0"
+    auto_clean="0"
+    hax_fix_going_through_ground="1"
+    on_death_leave_physics_body="1" >
+  </PhysicsBodyComponent>
+  
+  <PhysicsImageShapeComponent 
+    body_id="1"
+    centered="1"
+    image_file="data/items_gfx/goldnugget_6px.png"
+    material="gold_box2d" >
+  </PhysicsImageShapeComponent>
+
+  <VariableStorageComponent
+    name="gold_value"
+    value_int="5" >
+  </VariableStorageComponent>
+
+  
+  <!-- item -->
+
+  <ItemComponent
+    _tags="enabled_in_world"
+    auto_pickup="1"
+    item_name="$item_goldnugget_10"
+    stats_count_as_item_pick_up="0"
+    max_child_items="0"
+    is_pickable="1"
+    ui_sprite="data/ui_gfx/items/book.png"
+    ui_description="Lorem ipsum"
+    play_pick_sound="0"
+    preferred_inventory="FULL" >
+  </ItemComponent>
+
+  <HitboxComponent 
+    _tags="enabled_in_world"
+    aabb_min_x="-3" 
+    aabb_max_x="3" 
+    aabb_min_y="-5" 
+    aabb_max_y="0" >
+  </HitboxComponent>
+
+  <LifetimeComponent
+    lifetime="900" >
+  </LifetimeComponent>
+  
+	<LuaComponent 
+		script_item_picked_up="data/scripts/items/gold_pickup.lua" >
+	</LuaComponent>
+
+</Entity>

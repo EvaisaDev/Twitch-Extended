@@ -1,0 +1,78 @@
+<Sprite
+filename="mods/twitch_extended/files/entities/animals/drones/gfx/health_drone/health_drone.png"
+offset_x="5"
+offset_y="5" >
+
+<!-- all -->
+<RectAnimation
+name="stand"
+pos_x="0"
+pos_y="0"
+frame_count="1"
+frame_width="11"
+frame_height="11"
+frame_wait="1"
+frames_per_row="2"
+loop="1"   >
+</RectAnimation>
+
+<RectAnimation
+name="walk"
+pos_x="0"
+pos_y="0"
+frame_count="1"
+frame_width="11"
+frame_height="11"
+frame_wait="1"
+frames_per_row="2"
+loop="1"   >
+</RectAnimation>
+
+<RectAnimation
+name="run"
+pos_x="0"
+pos_y="0"
+frame_count="1"
+frame_width="11"
+frame_height="11"
+frame_wait="1"
+frames_per_row="2"
+loop="1"   >
+</RectAnimation>
+
+<RectAnimation
+name="burn"
+pos_x="0"
+pos_y="0"
+frame_count="1"
+frame_width="11"
+frame_height="11"
+frame_wait="1"
+frames_per_row="2"
+loop="1"   >
+</RectAnimation>
+
+<RectAnimation
+name="fly_move"
+pos_x="0"
+pos_y="0"
+frame_count="1"
+frame_width="11"
+frame_height="11"
+frame_wait="1"
+frames_per_row="2"
+loop="1"   >
+</RectAnimation>
+
+<RectAnimation
+name="fly_idle"
+pos_x="0"
+pos_y="0"
+frame_count="1"
+frame_width="11"
+frame_height="11"
+frame_wait="1"
+frames_per_row="2"
+loop="1"   >
+</RectAnimation>
+</Sprite>

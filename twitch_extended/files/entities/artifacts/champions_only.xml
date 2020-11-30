@@ -1,0 +1,9 @@
+<Entity>
+	<InheritTransformComponent></InheritTransformComponent>
+	
+	<LuaComponent 
+        execute_every_n_frame="20"
+        script_source_file="mods/twitch_extended/files/scripts/artifacts/champions_only.lua" 
+	>
+    </LuaComponent>
+</Entity>

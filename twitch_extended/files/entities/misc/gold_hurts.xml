@@ -1,0 +1,29 @@
+<Entity >
+      
+	<InheritTransformComponent>
+    </InheritTransformComponent>
+
+  <LifetimeComponent lifetime="1800">
+  </LifetimeComponent>
+  
+  <LuaComponent
+		script_source_file="mods/twitch_extended/files/scripts/events/gold_hurts_added.lua"
+    execute_times="1"
+    execute_on_added="1"
+    >
+	</LuaComponent>
+
+  <LuaComponent
+		script_source_file="mods/twitch_extended/files/scripts/events/gold_hurts_removed.lua"
+		execute_on_removed="1"
+		execute_every_n_frame="-1"
+    >
+	</LuaComponent>
+  <!--
+  <AudioLoopComponent
+      file="data/audio/Desktop/projectiles.snd"
+      event_name="player_projectiles/field/loop"
+      auto_play="1" >
+  </AudioLoopComponent>
+  -->
+</Entity>

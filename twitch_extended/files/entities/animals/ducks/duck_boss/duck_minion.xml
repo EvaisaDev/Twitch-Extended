@@ -1,0 +1,97 @@
+<Entity tags="zombie,mortal,hittable" name="$animal_duck">
+  
+	<Base file="data/entities/base_enemy_basic.xml" >
+
+
+		<AnimalAIComponent 
+			_enabled="1" 
+			preferred_job="JobDefault"
+			escape_if_damaged_probability="0"
+			attack_melee_damage_min="0.1" 
+			attack_melee_damage_max="0.2"
+			attack_dash_enabled="1"
+			creature_detection_range_x="250"
+			creature_detection_range_y="250"
+			food_material="meat"
+			needs_food="0"
+			sense_creatures="1"
+			attack_ranged_enabled="0"
+			can_fly="0"  
+			defecates_and_pees="1"
+			>
+		</AnimalAIComponent>
+
+		
+		<DamageModelComponent 
+			ragdoll_filenames_file="data/ragdolls/duck/filenames.txt" 
+			fire_probability_of_ignition="0.05"
+			hp="0.1"
+			>
+		</DamageModelComponent>
+
+		<SpriteComponent 
+			_enabled="1" 
+			alpha="1" 
+			image_file="data/enemies_gfx/duck.xml" 
+			next_rect_animation="" 
+			offset_x="0" 
+			offset_y="0" 
+			rect_animation="stand" 
+			 
+			 >
+		</SpriteComponent>
+
+		<PathFindingComponent
+		    distance_to_reach_node_x="20"
+		    distance_to_reach_node_y="20"
+			frames_to_get_stuck="20"
+			can_jump="1" >
+		</PathFindingComponent>
+
+		<PathFindingGridMarkerComponent
+			marker_work_flag="24" >
+		</PathFindingGridMarkerComponent>
+		
+		<GenomeDataComponent 
+			herd_id="orcs"
+			food_chain_rank="10"
+			predator="1">
+		</GenomeDataComponent>
+		
+		<CharacterDataComponent 
+			collision_aabb_min_x="-2.6" 
+			collision_aabb_max_x="2.6" 
+			collision_aabb_min_y="-6" 
+			collision_aabb_max_y="3" 
+			buoyancy_check_offset_y="-1" 
+			mass="0.3"
+			>
+		</CharacterDataComponent>
+		
+		<CharacterPlatformingComponent 
+			jump_velocity_y="-12" 
+			run_velocity="30"  
+        	velocity_max_y="60"
+			run_animation_velocity_switching_enabled="1"
+			run_animation_velocity_switching_threshold="20">
+		</CharacterPlatformingComponent>
+		
+		<HitboxComponent 
+			_enabled="1" 
+			aabb_min_x="-4.5" 
+			aabb_max_x="4.5" 
+			aabb_min_y="-5.5" 
+			aabb_max_y="3"
+			is_enemy="1" 
+			is_item="0" 
+			is_player="0" 
+			>
+		</HitboxComponent>
+	</Base>
+
+	<VariableStorageComponent
+		_tags="no_gold_drop">
+	</VariableStorageComponent>
+
+</Entity>
+

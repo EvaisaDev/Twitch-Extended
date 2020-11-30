@@ -1,0 +1,1 @@
+GameRemoveFlagRun( "gold_hurts" )

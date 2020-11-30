@@ -1,0 +1,145 @@
+<Entity tags="hittable,mortal">
+	<!--<LuaComponent 
+		script_source_file="data/scripts/animals/heal_ghost_shoot.lua"
+		execute_every_n_frame="70"
+		>
+	</LuaComponent>-->
+<!--
+	<DamageModelComponent 
+		hp="2.0"
+		ragdoll_material="meat"
+		ragdoll_filenames_file=""
+		air_needed="0"
+		falling_damages="0"
+		>
+		<damage_multipliers
+			fire="0.5" 
+			slice="0.5"
+			melee="0.5"
+			projectile="0.5"
+			explosion="0.5"
+			>
+		</damage_multipliers>
+	</DamageModelComponent>
+
+	<SpriteComponent 
+		image_file="mods/twitch_extended/files/gfx/enemy_gfx/glitch.png"
+		offset_x="0"
+		offset_y="0">
+	</SpriteComponent>
+
+	<GenomeDataComponent 
+		herd_id="player"
+		food_chain_rank="6"
+		is_predator="0"
+		berserk_dont_attack_friends="1" >
+	</GenomeDataComponent>
+
+	<HitboxComponent 
+		_enabled="1" 
+		aabb_min_x="-4.5" 
+		aabb_max_x="4.5" 
+		aabb_min_y="-10" 
+		aabb_max_y="3" 
+		>
+	</HitboxComponent>
+-->
+
+	<AnimalAIComponent 
+		_enabled="1" 
+		preferred_job="JobDefault"
+		escape_if_damaged_probability="0"
+		attack_melee_enabled="0"
+		attack_melee_damage_min="0.1" 
+		attack_melee_damage_max="0.2"
+		attack_melee_max_distance="20"
+		attack_dash_enabled="0"
+		attack_dash_distance="120"
+		attack_dash_frames_between="0"
+		attack_dash_damage="0.3"
+		creature_detection_range_x="0"
+		creature_detection_range_y="0"
+		food_material="meat"
+		needs_food="0"
+		sense_creatures="0"
+		attack_ranged_enabled="0"
+		can_fly="1"  
+		aggressiveness_min="80"
+		aggressiveness_max="100"
+		defecates_and_pees="1"
+		dont_counter_attack_own_herd="1"
+		>
+	</AnimalAIComponent>
+	
+	<DamageModelComponent 
+		hp="2.0"
+		ragdoll_material="meat"
+		ragdoll_filenames_file=""
+		>
+		<damage_multipliers
+			fire="0.5" 
+			slice="0.5"
+			melee="0.5"
+			projectile="0.5"
+			explosion="0.5"
+			>
+		</damage_multipliers>
+	</DamageModelComponent>
+
+	<SpriteComponent 
+		image_file="mods/twitch_extended/files/gfx/enemy_gfx/glitch.png"
+		offset_x="3"
+		offset_y="3"
+		>
+	</SpriteComponent>
+
+	<GenomeDataComponent 
+		herd_id="player"
+		food_chain_rank="200"
+		is_predator="0"
+		berserk_dont_attack_friends="1" >
+	</GenomeDataComponent>
+
+	<CameraBoundComponent
+		max_count="30"
+		distance="160000">
+	</CameraBoundComponent>
+
+	<HitboxComponent 
+		_enabled="1" 
+		aabb_min_x="-4.5" 
+		aabb_max_x="4.5" 
+		aabb_min_y="-10" 
+		aabb_max_y="3" 
+		>
+	</HitboxComponent>
+	
+
+
+	<LuaComponent 
+		script_enabled_changed="data/scripts/animals/tiny_ghost_enabled_changed.lua"
+		execute_every_n_frame="-1"
+		>
+	</LuaComponent>
+	
+	<LuaComponent
+		script_source_file="mods/twitch_extended/files/entities/animals/glitch/glitch_init.lua"
+		execute_every_n_frame="5"
+		execute_times="1"
+		remove_after_executed="1"
+		>
+	</LuaComponent>
+
+	<AudioComponent
+		file="data/audio/Desktop/animals.bank"
+		event_root="animals/tiny_ghost" >
+	</AudioComponent>
+
+	<AudioLoopComponent
+		file="data/audio/Desktop/animals.bank"
+		event_name="animals/tiny_ghost/movement_loop"
+		set_speed_parameter="1"
+		auto_play="1">
+	</AudioLoopComponent>
+
+</Entity>

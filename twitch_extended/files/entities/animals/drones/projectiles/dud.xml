@@ -1,0 +1,17 @@
+<Entity name="$projectile_default">
+
+	<Base file="data/entities/base_projectile.xml" >
+		<VelocityComponent
+			mass="0.05"
+			>
+    	</VelocityComponent> 
+	</Base>
+
+  <ProjectileComponent 
+    _enabled="1" 
+    lifetime="1"
+	>
+  </ProjectileComponent>
+
+</Entity>
+

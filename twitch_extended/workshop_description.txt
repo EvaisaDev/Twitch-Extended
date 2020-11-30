@@ -1,0 +1,43 @@
+[img]https://imgur.com/z5QmOTt.gif[/img]
+
+[img]https://i.imgur.com/KlqWAlT.png[/img] 
+
+[b]Welcome to Twitch Extended![/b]
+This mod extends Noita's twitch integration with tweaks, new events and channel point rewards, subscription rewards and more!
+
+[This mod requires Config Lib, it will not function properly without it.]
+
+[b]This mod currently adds:[/b]
+[list]
+    [*]61 New events
+    [*]2 Modified event
+    [*]3 Renamed events
+    [*]Modified event picking system, there is more cooldown for events so that the same events do not keep showing up.
+    [*]Loadout voting [Requires Goki's Things]
+    [*]Run modifier voting 
+    [*]Perk voting
+    [*]Champion naming [Requires Goki's Things]
+    [*]Miniboss naming [Requires Goki's Things]
+    [*]Subscription rewards
+    [*]Channel point rewards
+    [*]Menu to easily link channel point rewards
+    [*]Option to disable voting system [will still let you use channel point rewards and such]
+    [*]Option to show chat in game
+    [*]Menu to remove perks from the perk vote
+    [*]Menu to disable individual subscription rewards
+	[*]You can make your own mods to add new rewards to this mod, a example mod is available.
+[/list]
+
+[b][ IF YOU HAVE GOKI'S THINGS INSTALLED MAKE SURE THIS MOD IS ABOVE IT IN THE MODS LIST ][/b]
+
+When Goki's Things is installed a new Twitch Extended tab will be added to Goki's config menu.
+Currently in this tab you can enable loadout voting.
+Do not enable Loadouts in Goki's Things when using this feature. 
+(You can however disable and enable individual loadouts through Goki's config menu)
+
+Get Goki's Things [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1975079109]here.[/url]
+
+[b]Current Issues:[/b]
+[list]
+    [*]None, this mod is perfect :)
+[/list]

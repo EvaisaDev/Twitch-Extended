@@ -1,0 +1,15 @@
+<Entity name="$projectile_default" tags="projectile_player">
+
+
+	<LifetimeComponent
+		lifetime="1" >
+	</LifetimeComponent>
+
+	<CellEaterComponent
+      radius="12"
+      eat_dynamic_physics_bodies="1" 
+	  >
+	</CellEaterComponent>
+
+</Entity>
+

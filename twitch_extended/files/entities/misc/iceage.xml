@@ -1,0 +1,22 @@
+<Entity>
+	<InheritTransformComponent
+        _tags="enabled_in_hand"
+        use_root_parent="1">
+      <Transform 
+        position.x="0" 
+        position.y="-4" >
+      </Transform>
+    </InheritTransformComponent>
+	
+	<MagicConvertMaterialComponent
+      kill_when_finished="1"
+      from_any_material="1"
+      steps_per_frame="32"
+      to_material="ice_static"
+      clean_stains="0"
+      is_circle="1"
+      radius="120" 
+	  loop="0"
+	  >
+    </MagicConvertMaterialComponent>
+</Entity>

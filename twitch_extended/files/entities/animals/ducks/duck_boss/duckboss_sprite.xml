@@ -1,0 +1,121 @@
+<Sprite
+ filename="mods/twitch_extended/files/entities/animals/ducks/duck_boss/duckboss.png"
+ offset_x="23"
+ offset_y="23" >
+
+ <!-- walk -->
+ <RectAnimation
+  name="walk"
+  pos_x="0"
+  pos_y="0"
+  frame_count="8"
+  frame_width="46"
+  frame_height="46"
+  frame_wait="0.11"
+  frames_per_row="8"
+  loop="1"   >
+  <Event frame="1" name="step" probability="1" check_physics_material="1"/>
+  <Event frame="5" name="step" probability="1" check_physics_material="1"/>
+ </RectAnimation>
+ 
+ 
+ <!-- stand -->
+ <RectAnimation
+  name="stand"
+  pos_x="0"
+  pos_y="47"
+  frame_count="6"
+  frame_width="46"
+  frame_height="46"
+  frame_wait="0.16"
+  frames_per_row="6"
+  loop="1"   >
+ </RectAnimation>
+
+ <!-- walk -->
+ <RectAnimation
+  name="run"
+  pos_x="0"
+  pos_y="0"
+  frame_count="8"
+  frame_width="46"
+  frame_height="46"
+  frame_wait="0.07"
+  frames_per_row="8"
+  loop="1"   >
+  <Event frame="1" name="step" probability="1" check_physics_material="1"/>
+  <Event frame="5" name="step" probability="1" check_physics_material="1"/>
+ </RectAnimation>
+
+ <!-- shoot -->
+  <RectAnimation
+  name="attack"
+  pos_x="0"
+  pos_y="93"
+  frame_count="4"
+  frame_width="68"
+  frame_height="46"
+  frame_wait="0.07"
+  frames_per_row="4"
+  loop="0"   >
+  <Event frame="3" name="hit" probability="1" check_physics_material="0"/>
+  <Event frame="4" name="voc_attack" probability="1" check_physics_material="0"/>
+ </RectAnimation>
+ 
+ <!-- shoot -->
+  <RectAnimation
+  name="attack_ranged"
+  pos_x="0"
+  pos_y="139"
+  frame_count="4"
+  frame_width="46"
+  frame_height="46"
+  frame_wait="0.15"
+  frames_per_row="4"
+  loop="0"   >
+  <Event frame="3" name="shoot_bullet" probability="1" check_physics_material="0"/>
+  <Event frame="0" name="throw"/>
+ </RectAnimation>
+ 
+ <RectAnimation
+  name="eat"
+  pos_x="0"
+  pos_y="93"
+  frame_count="4"
+  frame_width="68"
+  frame_height="46"
+  frame_wait="0.07"
+  frames_per_row="4"
+  loop="0"   >
+  <Event frame="3" name="hit" probability="1" check_physics_material="0"/>
+  <Event frame="0" name="voc_stomp" probability="1" check_physics_material="0"/>
+ </RectAnimation>
+ 
+ <RectAnimation
+  name="swim_idle"
+  pos_x="0"
+  pos_y="47"
+  frame_count="6"
+  frame_width="46"
+  frame_height="46"
+  frame_wait="0.16"
+  frames_per_row="6"
+  loop="1"   >
+  <Event frame="2" name="paddle" probability="1" check_physics_material="0"/>
+  <Event frame="5" name="paddle" probability="1" check_physics_material="0"/>
+ </RectAnimation>
+ 
+ <RectAnimation
+  name="swim_move"
+  pos_x="0"
+  pos_y="47"
+  frame_count="6"
+  frame_width="46"
+  frame_height="46"
+  frame_wait="0.16"
+  frames_per_row="6"
+  loop="1"   >
+  <Event frame="2" name="paddle" probability="1" check_physics_material="0"/>
+  <Event frame="5" name="paddle" probability="1" check_physics_material="0"/>
+ </RectAnimation>
+</Sprite>

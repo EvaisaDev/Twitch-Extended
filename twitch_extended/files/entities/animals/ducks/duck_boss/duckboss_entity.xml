@@ -1,0 +1,128 @@
+<Entity name="giant duck" tags="mortal,homing_target" >
+  
+	<Base file="data/entities/base_enemy_basic.xml" >
+		<ItemChestComponent level="1" >
+		</ItemChestComponent>
+		
+		<AnimalAIComponent 
+			_enabled="1" 
+			preferred_job="JobDefault"
+			escape_if_damaged_probability="40"
+			attack_melee_damage_min="0.8" 
+			attack_melee_damage_max="1.4"
+			creature_detection_range_x="500"
+			creature_detection_range_y="500"
+			creature_detection_angular_range_deg="360"
+			attack_melee_max_distance="50"
+			food_material="meat"
+			needs_food="0"
+			sense_creatures="1"
+			attack_ranged_enabled="1"
+			attack_melee_enabled="1"
+			can_fly="0" 
+			attack_melee_action_frame="3"
+			attack_ranged_action_frame="3"
+			attack_ranged_min_distance="0"
+			attack_ranged_max_distance="300"
+			attack_ranged_entity_file="mods/twitch_extended/files/entities/animals/ducks/duck_boss/duck_egg.xml"
+			attack_ranged_entity_count_min="2"
+			attack_ranged_entity_count_max="3"
+			attack_ranged_frames_between="240" 
+			attack_ranged_offset_y="-3"
+			attack_ranged_offset_x="20"	>
+		</AnimalAIComponent>
+		
+		<DamageModelComponent 
+            hp="50"
+            materials_create_messages="1"
+			ragdoll_filenames_file="mods/twitch_extended/files/entities/animals/ducks/duck_boss/filenames.txt" 
+			fire_probability_of_ignition="0" 
+    		blood_spray_material="blood" 
+            blood_spray_create_some_cosmetic="1" >
+		</DamageModelComponent>
+
+		<SpriteComponent 
+			image_file="mods/twitch_extended/files/entities/animals/ducks/duck_boss/duckboss_sprite.xml" 
+			offset_x="23"
+			offset_y="23">
+		</SpriteComponent>
+
+		<PathFindingComponent
+			can_jump="0"
+			can_fly="0" 
+			jump_speed="80"
+			initial_jump_lob="1"
+			initial_jump_max_distance_x="60"
+			initial_jump_max_distance_y="60" 
+			can_swim_on_surface="1"
+			can_dive="0" >
+		</PathFindingComponent>
+
+		<PathFindingGridMarkerComponent
+			marker_work_flag="16" >
+		</PathFindingGridMarkerComponent>
+		
+		<GenomeDataComponent 
+			herd_id="orcs">
+		</GenomeDataComponent>
+		
+		<CharacterPlatformingComponent 
+			jump_velocity_y="-12" 
+			run_velocity="20" >
+		</CharacterPlatformingComponent>
+
+		<CharacterDataComponent
+			collision_aabb_min_x="-10.0" 
+			collision_aabb_max_x="10.0" 
+			collision_aabb_min_y="-22"
+			collision_aabb_max_y="22" 
+			mass="1.3"
+			>
+		</CharacterDataComponent>
+
+		<CameraBoundComponent
+			max_count="30"
+			distance="160000" >
+		</CameraBoundComponent>
+		
+		<HitboxComponent 
+            _enabled="1" 
+			aabb_min_x="-20" 
+            aabb_max_x="20" 
+			aabb_min_y="-23"
+            aabb_max_y="23" 
+            >
+        </HitboxComponent>
+	</Base>
+
+	<LightComponent 
+		radius="50"
+		fade_out_time="1.5" >
+	</LightComponent>
+  
+	<ItemPickUpperComponent
+    	is_in_npc="1" >
+    </ItemPickUpperComponent>
+
+	<HitboxComponent 
+		_enabled="1" 
+		aabb_min_x="-20" 
+		aabb_max_x="20" 
+		aabb_min_y="-23"
+		aabb_max_y="23" 
+		>
+	</HitboxComponent>
+	
+    <LuaComponent 
+		_enabled="1" 
+		script_source_file="mods/twitch_extended/files/entities/animals/ducks/duck_boss/set_health.lua" 
+		execute_on_added="1"
+		execute_every_n_frame="-1"
+		execute_times="1">
+	</LuaComponent>	
+	
+	<LuaComponent
+		script_death="mods/twitch_extended/files/entities/animals/ducks/duck_boss/duckloot.lua"
+		>
+	</LuaComponent>	
+</Entity>

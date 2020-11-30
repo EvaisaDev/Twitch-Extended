@@ -1,0 +1,17 @@
+[NOW REQUIRES CONFIG LIB, MAKE SURE YOU INSTALL IT TO USE THE UPDATE]
+Added ingame config menu using Config Lib [Which is a required dependency now]
+Added adjustable loadout vote length
+Added run modifier votes
+Added perk votes
+Added no vote delay option [Which disables the wait time at the start of the round]
+Added champion naming [Goki's things champions can be named after twitch viewers]
+Added miniboss naming [Goki's things minibosses can be named after twitch viewers]
+Added option to display chat message as reward description
+Added subscription rewards
+Added channel point rewards
+Added menu to easily link channel point rewards to their twitch counterpart
+Added option to disable voting system [While still allowing channel points and subscription rewards to be used]
+Added option to show chat in game.
+Added menu to remove individual perks from the perk vote
+Added menu to disable individual subscription rewards
+Rewrote basically every single event and added status effects to the ones that were lacking it.

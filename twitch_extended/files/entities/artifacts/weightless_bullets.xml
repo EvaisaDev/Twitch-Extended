@@ -1,0 +1,11 @@
+<Entity>
+	
+	<InheritTransformComponent>
+    </InheritTransformComponent>	
+    
+    <ShotEffectComponent
+        extra_modifier="twitch_weightless"
+		>
+	</ShotEffectComponent>
+	
+</Entity>

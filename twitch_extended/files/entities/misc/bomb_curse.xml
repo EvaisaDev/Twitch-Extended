@@ -1,0 +1,24 @@
+<Entity >
+      
+	<InheritTransformComponent>
+    </InheritTransformComponent>
+
+  <LifetimeComponent lifetime="900">
+  </LifetimeComponent>
+  
+  <LuaComponent
+		script_source_file="mods/twitch_extended/files/scripts/events/bomb_curse.lua"
+    execute_every_n_frame="60"
+    execute_on_added="1"
+    >
+	</LuaComponent>
+
+
+  <!--
+  <AudioLoopComponent
+      file="data/audio/Desktop/projectiles.snd"
+      event_name="player_projectiles/field/loop"
+      auto_play="1" >
+  </AudioLoopComponent>
+  -->
+</Entity>

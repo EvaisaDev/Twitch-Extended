@@ -1,0 +1,15 @@
+<Entity>
+	<InheritTransformComponent></InheritTransformComponent>
+	
+	<LuaComponent 
+        _enabled="1" 
+        execute_every_n_frame="40"
+        script_source_file="mods/twitch_extended/files/scripts/events/wind.lua" 
+	>
+    </LuaComponent>
+
+	<LifetimeComponent
+		lifetime="2400"
+		>
+	</LifetimeComponent>
+</Entity>

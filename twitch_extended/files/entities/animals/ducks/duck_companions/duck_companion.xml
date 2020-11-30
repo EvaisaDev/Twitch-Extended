@@ -1,0 +1,147 @@
+<Entity tags="zombie,mortal,hittable" name="$animal_duck">
+ 	<LuaComponent
+		script_source_file="mods/twitch_extended/files/entities/animals/ducks/duck_companions/set_home_on_player.lua"
+		execute_on_added="1"
+		execute_every_n_frame="40"
+		execute_times="-1" >
+	</LuaComponent>
+	<LuaComponent
+		script_source_file="mods/twitch_extended/files/entities/animals/ducks/duck_companions/removetarget.lua"
+		execute_on_added="1"
+		execute_every_n_frame="1"
+		execute_times="1" >
+	</LuaComponent>	
+	<LuaComponent
+		script_source_file="mods/twitch_extended/files/entities/animals/ducks/duck_companions/set_duck_peaceful.lua"
+		execute_on_added="1"
+		execute_every_n_frame="1"
+		execute_times="-1" >
+	</LuaComponent>	
+	<LuaComponent
+		script_source_file="mods/twitch_extended/files/entities/animals/ducks/duck_companions/toofarteleport.lua"
+		execute_on_added="1"
+		execute_every_n_frame="20"
+		execute_times="-1" >
+	</LuaComponent>		 
+	<LuaComponent
+		script_source_file="mods/twitch_extended/files/entities/animals/ducks/duck_companions/summon_egg.lua"
+		execute_on_added="1"
+		execute_every_n_frame="360"
+		execute_times="-1" >
+	</LuaComponent>		 
+	<LuaComponent
+		script_source_file="mods/twitch_extended/files/entities/animals/ducks/duck_companions/throw_egg.lua"
+		execute_on_added="1"
+		execute_every_n_frame="120"
+		execute_times="-1" >
+	</LuaComponent>
+	<Base file="data/entities/base_enemy_basic.xml" >
+
+
+		<AnimalAIComponent 
+			_enabled="1" 
+			preferred_job="JobDefault"
+			escape_if_damaged_probability="0"
+			attack_melee_enabled="1"
+			attack_melee_damage_min="0.1" 
+			attack_melee_damage_max="0.2"
+			attack_melee_max_distance="20"
+			attack_dash_enabled="1"
+			attack_dash_distance="120"
+			attack_dash_frames_between="0"
+			attack_dash_damage="0.3"
+			creature_detection_range_x="400"
+			creature_detection_range_y="400"
+			food_material="meat"
+			needs_food="0"
+			sense_creatures="1"
+			attack_ranged_enabled="0"
+			can_fly="1"  
+			aggressiveness_min="80"
+			aggressiveness_max="100"
+			defecates_and_pees="1"
+			max_distance_to_move_from_home="150"
+			dont_counter_attack_own_herd="1"
+			>
+		</AnimalAIComponent>
+
+		
+		<DamageModelComponent 
+			ragdoll_filenames_file="data/ragdolls/duck/filenames.txt" 
+			fire_probability_of_ignition="0"
+			hp="3.5"
+			>
+		</DamageModelComponent>
+
+		<SpriteComponent 
+			_enabled="1" 
+			alpha="1" 
+			image_file="mods/twitch_extended/files/entities/animals/ducks/duck_companions/duck_sprite.xml" 
+			next_rect_animation="" 
+			offset_x="0" 
+			offset_y="0" 
+			rect_animation="stand" 
+			 
+			 >
+		</SpriteComponent>
+
+		<PathFindingComponent
+			can_jump="1"
+			can_fly="1" 
+			can_walk="1"
+			can_swim_on_surface="1"
+		    can_dive="1"
+			>
+		</PathFindingComponent>
+
+		<PathFindingGridMarkerComponent
+			marker_work_flag="24" >
+		</PathFindingGridMarkerComponent>
+		
+		<GenomeDataComponent 
+			herd_id="player"
+			food_chain_rank="10"
+			predator="1"
+			berserk_dont_attack_friends="1" >
+		</GenomeDataComponent>
+		
+		<CharacterDataComponent 
+			collision_aabb_min_x="-2.6" 
+			collision_aabb_max_x="2.6" 
+			collision_aabb_min_y="-6" 
+			collision_aabb_max_y="3" 
+			buoyancy_check_offset_y="-1" 
+			mass="0.3"
+			>
+		</CharacterDataComponent>
+		
+		<CharacterPlatformingComponent 
+			fly_velocity_x="40" 
+			jump_velocity_y="-20" 
+			run_velocity="35">
+		</CharacterPlatformingComponent>
+		
+		<HitboxComponent 
+			_enabled="1" 
+			aabb_min_x="-4.5" 
+			aabb_max_x="4.5" 
+			aabb_min_y="-5.5" 
+			aabb_max_y="3"
+			is_enemy="1" 
+			is_item="0" 
+			is_player="0" 
+			>
+		</HitboxComponent>
+	</Base>
+
+	<VariableStorageComponent
+		_tags="no_gold_drop">
+	</VariableStorageComponent>
+
+	<VariableStorageComponent
+		name = "duck_pacifist_timer"
+		value_int = "20">
+	</VariableStorageComponent>
+
+</Entity>
+

@@ -1,0 +1,52 @@
+<Entity tags="hittable" >
+    
+    <ItemComponent
+        _tags="enabled_in_world"
+        max_child_items="5">
+    </ItemComponent>
+
+    <HitboxComponent 
+        _tags="enabled_in_world"
+        aabb_min_x="-4" 
+        aabb_max_x="4" 
+        aabb_min_y="-3" 
+        aabb_max_y="3" 
+    >
+    </HitboxComponent>
+
+    <SimplePhysicsComponent
+        _tags="enabled_in_world" />
+
+    <VelocityComponent
+        _tags="enabled_in_world" />
+
+    <SpriteComponent 
+        _tags="enabled_in_world"
+        image_file="mods/twitch_extended/files/entities/animals/drones/gfx/basic_drone/basic_drone_item.png" 
+        offset_x="8"
+        offset_y="8"
+    >
+    </SpriteComponent>
+
+	<GenomeDataComponent 
+		herd_id="player"
+		food_chain_rank="6"
+		is_predator="1" >
+	</GenomeDataComponent>	
+	
+    <ItemActionComponent 
+        _tags="enabled_in_world"
+        action_id="BULLET" >
+    </ItemActionComponent>
+
+    <LightComponent 
+        _tags="enabled_in_hand"
+        _enabled="1" 
+        r="255"
+        g="208"
+        b="205"
+        radius="180"
+        fade_out_time="0.75" >
+    </LightComponent>
+
+</Entity>

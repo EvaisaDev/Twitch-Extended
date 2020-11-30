@@ -1,0 +1,25 @@
+Fix this:
+Spawn potion channel point reward // dronew
+Remove extra perk from perk vote // done
+Remove perk lottery from perk vote, or add support i guess //done
+Elite names are too low // fixed kind of
+
+Allow unlinking while waiting for link // done
+Name tags disappear after restart // done
+ 
+Count current votes and add event to skip waiting time // no
+
+
+Push UI forward if inventory open with GameIsInventoryOpen() // Done, somewhat. Controls freeze when you press a button while opening the menu
+replace menu button with image // done
+
+Name tags are weird // fixed
+
+
+1D20/2D20 crashes the game // Done
+Make perk list apply to random perk votes
+Randomized Wands semi broken // Fixed probably
+Teleport streamer fails when stained // fixed by rewrite
+
+Shielded enemies includes the player // maybe leave it
+Add perk vote delay option // Done

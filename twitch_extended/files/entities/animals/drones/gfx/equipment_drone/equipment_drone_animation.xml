@@ -1,0 +1,78 @@
+<Sprite
+filename="mods/twitch_extended/files/entities/animals/drones/gfx/equipment_drone/equipment_drone_animation.png"
+offset_x="6"
+offset_y="17" >
+
+<!-- all -->
+<RectAnimation
+name="stand"
+pos_x="0"
+pos_y="0"
+frame_count="7"
+frame_width="13"
+frame_height="13"
+frame_wait="0.01"
+frames_per_row="7"
+loop="1"   >
+</RectAnimation>
+
+<RectAnimation
+name="walk"
+pos_x="0"
+pos_y="0"
+frame_count="7"
+frame_width="13"
+frame_height="13"
+frame_wait="0.01"
+frames_per_row="7"
+loop="1"   >
+</RectAnimation>
+
+<RectAnimation
+name="run"
+pos_x="0"
+pos_y="0"
+frame_count="7"
+frame_width="13"
+frame_height="13"
+frame_wait="0.01"
+frames_per_row="7"
+loop="1"   >
+</RectAnimation>
+
+<RectAnimation
+name="burn"
+pos_x="0"
+pos_y="0"
+frame_count="7"
+frame_width="13"
+frame_height="13"
+frame_wait="0.01"
+frames_per_row="7"
+loop="1"   >
+</RectAnimation>
+
+<RectAnimation
+name="fly_move"
+pos_x="0"
+pos_y="0"
+frame_count="7"
+frame_width="13"
+frame_height="13"
+frame_wait="0.01"
+frames_per_row="7"
+loop="1"   >
+</RectAnimation>
+
+<RectAnimation
+name="fly_idle"
+pos_x="0"
+pos_y="0"
+frame_count="7"
+frame_width="13"
+frame_height="13"
+frame_wait="0.01"
+frames_per_row="7"
+loop="1"   >
+</RectAnimation>
+</Sprite>

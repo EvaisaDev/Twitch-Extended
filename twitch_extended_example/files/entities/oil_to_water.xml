@@ -1,0 +1,16 @@
+<Entity >
+	<InheritTransformComponent>
+    </InheritTransformComponent>
+
+	<MagicConvertMaterialComponent
+      kill_when_finished="0"
+      from_material="oil"
+      steps_per_frame="3"
+      to_material="water"
+      clean_stains="0"
+      is_circle="1"
+      radius="32" 
+	  >
+    </MagicConvertMaterialComponent>
+	
+</Entity>

@@ -1,0 +1,1 @@
+GameAddFlagRun( "gold_hurts" )

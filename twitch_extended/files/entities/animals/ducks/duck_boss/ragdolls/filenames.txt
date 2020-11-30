@@ -1,0 +1,4 @@
+mods/twitch_extended/files/entities/animals/ducks/duck_boss/1.png
+mods/twitch_extended/files/entities/animals/ducks/duck_boss/2.png
+mods/twitch_extended/files/entities/animals/ducks/duck_boss/3.png
+mods/twitch_extended/files/entities/animals/ducks/duck_boss/4.png

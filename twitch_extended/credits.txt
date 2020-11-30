@@ -1,0 +1,5 @@
+Goki - Goki's Things, loadout support.
+Horscht - Wand utilities, stripped from Anvil of Destiny
+XN - Jump King run modifier, stripped from Magic Warfare
+
+Thanks to the whole Noita modding community for being awesome!
