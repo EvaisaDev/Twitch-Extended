@@ -28,16 +28,15 @@ This mod extends Noita's twitch integration with tweaks, new events and channel 
 	[*]You can make your own mods to add new rewards to this mod, a example mod is available.
 [/list]
 
-[b][ IF YOU HAVE GOKI'S THINGS INSTALLED MAKE SURE THIS MOD IS ABOVE IT IN THE MODS LIST ][/b]
-
-When Goki's Things is installed a new Twitch Extended tab will be added to Goki's config menu.
-Currently in this tab you can enable loadout voting.
-Do not enable Loadouts in Goki's Things when using this feature. 
-(You can however disable and enable individual loadouts through Goki's config menu)
-
 Get Goki's Things [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1975079109]here.[/url]
 
-[b]Current Issues:[/b]
+If you are a developer and want to add new Rewards or Run Modifiers there is a example mod for adding these available on the [url=https://github.com/EvaisaGiac/Twitch-Extended/releases]github.[/url]
+
+To access the new Config Menu during a run press the Cog button at the top right of the screen (It might move based on how many mods add new buttons.)
+The menu looks like this once it is opened:
+[img]https://i.imgur.com/0hcXp98.png[/img] 
+
+[b]Known Issues:[/b]
 [list]
-    [*]None, this mod is perfect :)
+    [*]None, this mod is perfect :^)
 [/list]

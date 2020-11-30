@@ -8,7 +8,7 @@ function OnMessage(userdata, message)
 			GamePrint(userdata.username..": "..message)
 		end
 	end
-	if( true --[[userdata.broadcaster or userdata.mod ]])then
+	if( userdata.broadcaster or userdata.mod )then
 		words = {}
 
 		for word in message:gmatch("%S+") do table.insert(words, word) end
