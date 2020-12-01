@@ -53,7 +53,7 @@
     </ParticleEmitterComponent>
 
     	<LuaComponent 
-        execute_every_n_frame="20"
+        execute_every_n_frame="10"
         script_source_file="mods/twitch_extended/files/entities/animals/glitch/twitchy_player.lua" 
 	    >
     </LuaComponent>

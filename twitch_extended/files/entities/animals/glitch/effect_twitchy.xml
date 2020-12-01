@@ -1,4 +1,4 @@
-<Entity>
+<Entity name="glitch_twitchy_effect">
 	<InheritTransformComponent 
 		_enabled="1" >
     </InheritTransformComponent>	

@@ -302,7 +302,7 @@
 	wang_color="ff4dDD3d"
 	electrical_conductivity="0">
   	<Graphics
-	  	texture_file="mods/twitch_extended_v2/files/mat_gfx/space.png"
+	  	texture_file="mods/twitch_extended/files/gfx/materials/space.png"
 		color="00ffffff" >
     </Graphics>
   </CellDataChild>
@@ -413,7 +413,7 @@
 	>
 	<Graphics
 	color="ff000000" 
-	texture_file="mods/twitch_extended_v2/files/mat_gfx/space.png">
+	texture_file="mods/twitch_extended/files/gfx/materials/space.png">
     </Graphics>
   </CellData>
 
@@ -427,7 +427,7 @@
 	>
 	<Graphics
 	color="ff000000" 
-	texture_file="mods/twitch_extended_v2/files/mat_gfx/space.png">
+	texture_file="mods/twitch_extended/files/gfx/materials/space.png">
     </Graphics>
   </CellData>
 
@@ -454,7 +454,7 @@
 	show_in_creative_mode="1"
 	>
     <Graphics
-		texture_file="mods/twitch_extended_v2/files/mat_gfx/sand.png"
+		texture_file="mods/twitch_extended/files/gfx/materials/sand.png"
 		color="ffb89e57" >
 		<Edge>
 			 <EdgeGraphics 
