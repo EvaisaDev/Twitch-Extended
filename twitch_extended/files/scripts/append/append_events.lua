@@ -617,7 +617,11 @@ append_events = {
 		weight = 1.0,
 		kind = STREAMING_EVENT_NEUTRAL,
 		action = function(event)
-			spawn_item("data/entities/projectiles/deck/sea_water.xml", 0, -256, false, true)
+			for i,entity_id in pairs( get_players() ) do
+				local x, y = EntityGetTransform( entity_id )
+                
+				EntityLoad("data/entities/projectiles/deck/sea_water.xml", x, y -256)
+			end
 		end,
 	},
 	{

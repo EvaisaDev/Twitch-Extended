@@ -23,6 +23,58 @@ end
 
 ]]
 
+getRandomViewer = function()
+	user = {
+
+	}
+	str = GlobalsGetValue("random_twitch_user", "")
+	i = 1
+	for word in string.gmatch(str, '([^,]+)') do
+		if(i == 1)then
+			user.name = word
+		elseif(i == 2)then
+			user.color = word
+		elseif(i == 3)then
+			user.broadcaster = word
+		elseif(i == 4)then
+			user.moderator = word
+		else
+			user.subscriber = word
+		end
+
+		i = i + 1
+	end
+	GlobalsSetValue("random_twitch_user_used", user.name or "")
+
+	return user
+end
+
+getRandomViewerName = function()
+	user = {
+
+	}
+	str = GlobalsGetValue("random_twitch_user", "")
+	i = 1
+	for word in string.gmatch(str, '([^,]+)') do
+		if(i == 1)then
+			user.name = word
+		elseif(i == 2)then
+			user.color = word
+		elseif(i == 3)then
+			user.broadcaster = word
+		elseif(i == 4)then
+			user.moderator = word
+		else
+			user.subscriber = word
+		end
+
+		i = i + 1
+	end
+
+	GlobalsSetValue("random_twitch_user_used", user.name or "")
+
+	return user.name or ""
+end
 
 function ShootProjectile( who_shot, entity_file, x, y, vx, vy, send_message )
     local entity = EntityLoad( entity_file, x, y );
@@ -1241,14 +1293,14 @@ function get_spawn_pos(min_range, max_range)
 		
 		local count = 0
 		
-		for i = 1, 100 do
+		for i = 1, 1000 do
 		
 			local angle = Random()*math.pi*2;
 		  
 			local dx = x + (math.cos(angle)*Random(min_range, max_range));
 			local dy = y + (math.sin(angle)*Random(min_range, max_range));		
 			
-			local rhit, rx, ry = Raytrace(dx - 2, dy - 2, dx + 2, dy + 2)
+			local rhit, rx, ry = RaytracePlatforms(dx - 2, dy - 2, dx + 2, dy + 2)
 			
 			
 			
@@ -1293,54 +1345,15 @@ function spawn_item(entity_path, min_range, max_range, black_hole, ignore_bad_sp
 	if(not ignore_bad_spawns)then
         local x, y = get_player_pos()
 		
-		local spawn_points = {}
-		
-		local count = 0
-		
-		for i = 1, 100 do
-		
-			local angle = Random()*math.pi*2;
-		  
-			local dx = x + (math.cos(angle)*Random(min_range, max_range));
-			local dy = y + (math.sin(angle)*Random(min_range, max_range));		
-			
-			local rhit, rx, ry = Raytrace(dx - 2, dy - 2, dx + 2, dy + 2)
-			
-			
-			
-			if(rhit) then 
-				--DEBUG_MARK( dx, dy, "bad_spawn_point",0, 0, 1 )
-			else
+		spawn_x, spawn_y = get_spawn_pos(min_range, max_range)
 
-				table.insert(spawn_points, {
-					x = dx,
-					y = dy,
-				})
-			end
+		if black_hole then
+			--EntityLoad("mods/twitch_extended/files/entities/short_blackhole.xml", spawn_x, spawn_y)
+			create_hole_of_size(spawn_x, spawn_y, hole_size)
 		end
+		
+		return EntityLoad(entity_path, spawn_x, spawn_y)
 
-		local spawn_index = Random(1, table.getn(spawn_points))
-		
-		local spawn_x = spawn_points[spawn_index].x
-		local spawn_y = spawn_points[spawn_index].y
-		
-		if(spawn_x == nil)then
-			local angle = Random()*math.pi*2;
-		  
-			local dx = x + (math.cos(angle)*Random(min_range, max_range));
-			local dy = y + (math.sin(angle)*Random(min_range, max_range));		
-			
-			create_hole_of_size(dx, dy, hole_size)
-			
-			return EntityLoad(entity_path, dx, dy)
-		else
-			if black_hole then
-				--EntityLoad("mods/twitch_extended/files/entities/short_blackhole.xml", spawn_x, spawn_y)
-				create_hole_of_size(spawn_x, spawn_y, hole_size)
-			end
-			
-			return EntityLoad(entity_path, spawn_x, spawn_y)
-		end
 	else
 		local x, y = get_player_pos()
 		  

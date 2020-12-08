@@ -1,25 +1,21 @@
-Fix this:
-Spawn potion channel point reward // dronew
-Remove extra perk from perk vote // done
-Remove perk lottery from perk vote, or add support i guess //done
-Elite names are too low // fixed kind of
-
-Allow unlinking while waiting for link // done
-Name tags disappear after restart // done
- 
-Count current votes and add event to skip waiting time // no
+Instant ocean broke // done
+Teleport streamer broken(? // cannot reproduce
+Perk vote breaks when delay is enabled // probably implement a perk queue
+Add option to pause voting in holy mountain // done
+Add better in game chat // done
+Better creature nametagging // nevermind
 
 
-Push UI forward if inventory open with GameIsInventoryOpen() // Done, somewhat. Controls freeze when you press a button while opening the menu
-replace menu button with image // done
-
-Name tags are weird // fixed
+Sometimes random enemies are a floating nametag
 
 
-1D20/2D20 crashes the game // Done
-Make perk list apply to random perk votes
-Randomized Wands semi broken // Fixed probably
-Teleport streamer fails when stained // fixed by rewrite
 
-Shielded enemies includes the player // maybe leave it
-Add perk vote delay option // Done
+Perk vote gets skipped if you get to holy mountain too fast (loadout vote) // fixed
+Run modifier sometimes doesn't show a UI // wait until confirmed
+
+
+Add friendly ghost rewards
+Add spawn object 
+Add spawn Healthium rain
+Death counter
+Randomize wand puts 2 wands in the same slot

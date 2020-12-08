@@ -212,6 +212,12 @@ function HSL(h, s, l, a)
 color = 0
 was_recently_disabled = false
 was_recently_enabled = false
+
+is_in_mountain = false
+
+
+dofile("mods/twitch_extended/files/scripts/utils/utilities.lua")
+
 function OnWorldPreUpdate() 
 	if(not ModIsEnabled( "config_lib" ))then
 		gui = gui or GuiCreate()
@@ -238,9 +244,25 @@ function OnWorldPreUpdate()
 	end
 	if(ModIsEnabled( "config_lib" ))then
 		if(StreamingGetIsConnected())then
-			
+			if(not HasSettingFlag("twitch_extended_options_perks"))then
+				if(is_in_mountain == false)then
+					if(BiomeMapGetName() == "$biome_holymountain" and HasSettingFlag("twitch_extended_options_pause_in_mountain") or BiomeMapGetName() == "$biome_boss_arena" and HasSettingFlag("twitch_extended_options_pause_in_boss"))then
+						StreamingSetVotingEnabled( false )
+						GameAddFlagRun("twitch_vote_paused" )
+
+						is_in_mountain = true
+					end
+				else	
+					if(BiomeMapGetName() ~= "$biome_holymountain" and BiomeMapGetName() ~= "$biome_boss_arena")then
+						StreamingSetVotingEnabled( true )
+						GameRemoveFlagRun("twitch_vote_paused" )
+						is_in_mountain = false
+					end
+				end
+			end
+
 			local open = false
-			if(GlobalsGetValue("config_lib_open", "false") == "true")then
+			if(GameHasFlagRun("config_lib_open"))then
 				open = true
 			end
 			if(get_player())then

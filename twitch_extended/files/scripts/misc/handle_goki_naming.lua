@@ -13,9 +13,11 @@ if(HasSettingFlag("twitch_extended_options_champion_naming"))then
 			
 			if(not EntityHasTag(target_id, "twitch_name") and not EntityHasTag(target_id, "gkbrkn_mini_boss"))then
 				--GamePrint("rrrrrrrrr")
-				viewer = StreamingGetRandomViewerName()
-
 				if(Random(1, 100) < 20)then
+					viewer = getRandomViewerName()
+
+
+					--GamePrint("Viewer = "..viewer)
 					if(viewer ~= "")then
 						nametag = text_above_entity( target_id, viewer, 0 )
 					end
@@ -37,9 +39,10 @@ if(HasSettingFlag("twitch_extended_options_miniboss_naming"))then
 			
 			if(not EntityHasTag(target_id, "twitch_name"))then
 				--GamePrint("rrrrrrrrr")
-				viewer = StreamingGetRandomViewerName()
+				
 
 				if(Random(1, 100) < 20)then
+					viewer = getRandomViewerName()
 					if(viewer ~= "")then
 						nametag = text_above_entity( target_id, viewer, 0 )
 					end

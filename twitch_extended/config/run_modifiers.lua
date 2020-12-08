@@ -108,6 +108,7 @@ run_modifiers = {
             end
 		end,
 	},
+	--[[
 	{
 		id = "TWITCH_EXTENDED_ARTIFACT_FALL_DAMAGE",
 		ui_name = "$twitch_extended_artifact_fall_damage",
@@ -132,6 +133,7 @@ run_modifiers = {
             end
 		end,
 	},
+	]]
 	{
 		id = "TWITCH_EXTENDED_ARTIFACT_FLOOR_IS_LAVA",
 		ui_name = "$twitch_extended_artifact_floor_is_lava",

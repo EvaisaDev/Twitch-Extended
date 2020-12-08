@@ -28,9 +28,18 @@ function perk_spawn_many( x, y )
 		if not HasSettingFlag( "twitch_extended_options_disable_voting_system" ) then
 			StreamingSetVotingEnabled(true)
 		end
-		GlobalsSetValue("current_vote_type", "perk")
+		
+		
+		perk_count = tonumber(GlobalsGetValue("perk_vote_count", "0"))
+		GlobalsSetValue("perk_vote_count", tostring(perk_count + 1))
+
+		if(not GameHasFlagRun("twitch_vote_ongoing"))then
+			GlobalsSetValue("current_vote_type", "perk")
+			StreamingForceNewVoting() 
+		end
 
 		if(not HasSettingFlag("twitch_extended_options_delay_perk"))then
+			GlobalsSetValue("current_vote_type", "perk")
 			StreamingForceNewVoting() 
 		end
 	else

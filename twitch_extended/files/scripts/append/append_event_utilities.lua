@@ -1,6 +1,7 @@
 dofile_once("data/scripts/lib/utilities.lua")
 dofile_once("data/scripts/lib/coroutines.lua")
 dofile_once("mods/twitch_extended/files/scripts/utils/utilities.lua")
+dofile_once("mods/twitch_extended/files/scripts/utils/utils.lua")
 dofile_once("data/scripts/streaming_integration/event_list.lua")
 dofile_once("mods/twitch_extended/lib/persistent_store.lua")
 dofile_once("mods/twitch_extended/config/rewards.lua")
@@ -11,6 +12,34 @@ local streaming_config_events_per_vote = 4
 
 local next_event_id = 1
 local event_weights = {}
+
+StreamingGetRandomViewerName = function()
+	user = {
+
+	}
+	str = GlobalsGetValue("random_twitch_user", "")
+	i = 1
+	for word in string.gmatch(str, '([^,]+)') do
+		if(i == 1)then
+			user.name = word
+		elseif(i == 2)then
+			user.color = word
+		elseif(i == 3)then
+			user.broadcaster = word
+		elseif(i == 4)then
+			user.moderator = word
+		else
+			user.subscriber = word
+		end
+
+		i = i + 1
+	end
+
+	GlobalsSetValue("random_twitch_user_used", user.name or "")
+
+	return user.name or ""
+end
+
 
 add_timer_above_head = function( entity_id, event_id, event_timer, event_formatting)
 	local timer_id = EntityCreateNew( "delay_timer" )
@@ -133,21 +162,31 @@ _streaming_run_event = function(id)
 			
 			event_weights[i] = -1.0
 
+			perk_count = tonumber(GlobalsGetValue("perk_vote_count", "0"))
+			print("Current perk count = "..tostring(perk_count))
+
+			GameRemoveFlagRun("twitch_vote_ongoing")
+			
 			if(GlobalsGetValue("current_vote_type", "event") == "loadout")then
 				if(HasSettingFlag("twitch_extended_options_artifacts"))then
 					GlobalsSetValue("current_vote_type", "artifact")
 					StreamingForceNewVoting() 
 				else
-					if(HasSettingFlag("twitch_extended_options_events"))then
-						GlobalsSetValue("current_vote_type", "event")
-						StreamingSetCustomPhaseDurations( -1, -1 )
-						GameRemoveFlagRun("perk_vote")
-						print("Switched to event vote.")
+					if(perk_count <= 0)then
+						if(HasSettingFlag("twitch_extended_options_events"))then
+							GlobalsSetValue("current_vote_type", "event")
+							StreamingSetCustomPhaseDurations( -1, -1 )
+							GameRemoveFlagRun("perk_vote")
+							print("Switched to event vote.")
+						else
+							StreamingSetCustomPhaseDurations( -1, -1 )
+							StreamingSetVotingEnabled(false)
+							GameRemoveFlagRun("perk_vote")
+							print("Disabled voting.")
+						end
 					else
-						StreamingSetCustomPhaseDurations( -1, -1 )
-						StreamingSetVotingEnabled(false)
-						GameRemoveFlagRun("perk_vote")
-						print("Disabled voting.")
+						GlobalsSetValue("current_vote_type", "perk")
+						StreamingForceNewVoting()
 					end
 				end
 			else
@@ -159,16 +198,26 @@ _streaming_run_event = function(id)
 							EntitySetVariable(world_entity_id, "run_modifier_description", evt.ui_description)
 						end
 					end
-					if(HasSettingFlag("twitch_extended_options_events"))then
-						GlobalsSetValue("current_vote_type", "event")
-						StreamingSetCustomPhaseDurations( -1, -1 )
-						GameRemoveFlagRun("perk_vote")
-						print("Switched to event vote.")
+					if(perk_count <= 0)then
+						if(HasSettingFlag("twitch_extended_options_events"))then
+							GlobalsSetValue("current_vote_type", "event")
+							StreamingSetCustomPhaseDurations( -1, -1 )
+							GameRemoveFlagRun("perk_vote")
+							print("Switched to event vote.")
+						else
+							StreamingSetCustomPhaseDurations( -1, -1 )
+							StreamingSetVotingEnabled(false)
+							GameRemoveFlagRun("perk_vote")
+							print("Disabled voting.")
+						end
 					else
-						StreamingSetCustomPhaseDurations( -1, -1 )
-						StreamingSetVotingEnabled(false)
-						GameRemoveFlagRun("perk_vote")
-						print("Disabled voting.")
+						GlobalsSetValue("current_vote_type", "perk")
+						StreamingForceNewVoting()
+					end
+				else
+					if(perk_count > 0)then
+						GlobalsSetValue("current_vote_type", "perk")
+						StreamingForceNewVoting()
 					end
 				end
 			end
@@ -197,6 +246,13 @@ _streaming_get_event_for_vote = function()
 		StreamingSetCustomPhaseDurations( 0, vote_time )
 	else
 		streaming_events = special_events
+	end
+
+	GameAddFlagRun("twitch_vote_ongoing")
+
+	perk_count = tonumber(GlobalsGetValue("perk_vote_count", "0"))
+	if(perk_count > 0)then
+		GlobalsSetValue("perk_vote_count", tostring(perk_count - 1))
 	end
 	-- TODO: implement random event selection
 	local weighted_list = {}
@@ -297,6 +353,8 @@ function _streaming_on_irc( is_userstate, sender_username, message, raw )
 				local subscriber = false
 				local turbo = false
 
+				--print(table.dump(data))
+
 				if(string.match(data["tags"]["badges"], "broadcaster"))then
 					broadcaster = true
 				end
@@ -314,10 +372,12 @@ function _streaming_on_irc( is_userstate, sender_username, message, raw )
 				local userdata = {
 					username = data["tags"]["display-name"],
 					user_id = data["tags"]["user-id"],
+					message_id = data["tags"]["id"],
 					broadcaster = broadcaster,
 					mod = mod,
 					subscriber = subscriber,
 					turbo = turbo,
+					color = data["tags"]["color"],
 					custom_reward = data["tags"]["custom-reward-id"],
 					message = message
 				}
@@ -367,6 +427,7 @@ function _streaming_on_irc( is_userstate, sender_username, message, raw )
 						mod = mod,
 						subscriber = subscriber,
 						msg_id = data["tags"]["msg-id"],
+						color = data["tags"]["color"],
 						total_months = tonumber(data["tags"]["msg-param-cumulative-months"]),
 						streak = tonumber(data["tags"]["msg-param-streak-months"]),
 						message = message

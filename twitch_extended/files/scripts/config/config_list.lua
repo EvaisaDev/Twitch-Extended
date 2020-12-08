@@ -27,6 +27,23 @@ twitch_config_options = {
                     type = "spacer"
                 },  
                 {
+                    required_flag = "",
+                    type = "spacer"
+                },  
+                {
+                    name = "$twitch_extended_voting_system",
+                    required_flag = "",
+                    description = "",
+                    offset_x = -4,
+                    offset_y = 0,
+                    color = "ffb5b5b5",
+                    type = "text"
+                },      
+                {
+                    required_flag = "",
+                    type = "spacer"
+                },  
+                {
                     flag = "events",
                     required_flag = "",
                     name = "$twitch_extended_config_events",
@@ -156,6 +173,214 @@ twitch_config_options = {
                     end
                 },  
                 {
+                    flag = "disable_voting_system",
+                    required_flag = "",
+                    name = "$twitch_extended_config_disable_voting_system",
+                    description = "$twitch_extended_config_disable_voting_system_description",
+                    default = false,
+                    type = "toggle",
+                    requires_restart = false,
+                    callback = function(item, enabled)
+                        --StreamingSetVotingEnabled(not enabled)
+                        if(enabled == true)then
+                            GamePrint("Voting system disabled.")
+                            
+                        else
+                            GamePrint("Voting system enabled.")
+                        end
+                    end
+                },  
+                {
+                    flag = "pause_in_mountain",
+                    required_flag = "",
+                    name = "$twitch_extended_config_pause_in_mountain",
+                    description = "$twitch_extended_config_pause_in_mountain_description",
+                    default = false,
+                    type = "toggle",
+                    requires_restart = false,
+                    callback = function(item, enabled)
+                    end
+                },  
+                {
+                    flag = "pause_in_boss",
+                    required_flag = "",
+                    name = "$twitch_extended_config_pause_in_boss",
+                    description = "$twitch_extended_config_pause_in_boss_description",
+                    default = false,
+                    type = "toggle",
+                    requires_restart = false,
+                    callback = function(item, enabled)
+                    end
+                },  
+                {
+                    flag = "left_side_votes",
+                    required_flag = "",
+                    name = "$twitch_extended_config_left_side_votes",
+                    description = "$twitch_extended_config_left_side_votes_description",
+                    default = false,
+                    type = "toggle",
+                    requires_restart = false,
+                    callback = function(item, enabled)
+                    end
+                },  
+                {
+                    required_flag = "",
+                    type = "spacer"
+                },  
+                {
+                    name = "$twitch_extended_in_game_chat",
+                    required_flag = "",
+                    description = "",
+                    offset_x = -4,
+                    offset_y = 0,
+                    color = "ffb5b5b5",
+                    type = "text"
+                },      
+                {
+                    required_flag = "",
+                    type = "spacer"
+                },  
+                {
+                    flag = "show_chat",
+                    required_flag = "",
+                    name = "$twitch_extended_config_show_chat",
+                    description = "$twitch_extended_config_show_chat_description",
+                    default = false,
+                    type = "toggle",
+                    requires_restart = false,
+                    callback = function(item, enabled)
+                    end
+                },  
+                {
+                    flag = "chat_timeout",
+                    required_flag = "",
+                    name = "$twitch_extended_config_chat_timeout",
+                    description = "$twitch_extended_config_chat_timeout_description",
+                    default_number = 10,
+                    max_number = 120,
+                    min_number = 1,
+                    format = "$0",
+                    type = "slider",
+                    requires_restart = false,
+                    callback = function(number)
+
+                    end
+                }, 
+                {
+                    flag = "chat_count",
+                    required_flag = "",
+                    name = "$twitch_extended_config_chat_count",
+                    description = "$twitch_extended_config_chat_count_description",
+                    default_number = 7,
+                    max_number = 20,
+                    min_number = 1,
+                    format = "$0",
+                    type = "slider",
+                    requires_restart = false,
+                    callback = function(number)
+
+                    end
+                }, 
+                {
+                    flag = "chat_position_x",
+                    required_flag = "",
+                    name = "$twitch_extended_config_chat_x",
+                    description = "$twitch_extended_config_chat_x_description",
+                    default_number = 1,
+                    max_number = 100,
+                    min_number = 0,
+                    format = "$0%",
+                    type = "slider",
+                    requires_restart = false,
+                    callback = function(number)
+
+                    end
+                }, 
+                {
+                    flag = "chat_position_y",
+                    required_flag = "",
+                    name = "$twitch_extended_config_chat_y",
+                    description = "$twitch_extended_config_chat_y_description",
+                    default_number = 15,
+                    max_number = 100,
+                    min_number = 0,
+                    format = "$0%",
+                    type = "slider",
+                    requires_restart = false,
+                    callback = function(number)
+
+                    end
+                }, 
+                {
+                    flag = "chat_line_split",
+                    required_flag = "",
+                    name = "$twitch_extended_config_chat_line_split",
+                    description = "$twitch_extended_config_chat_line_split_description",
+                    default_number = 50,
+                    max_number = 500,
+                    min_number = 0,
+                    format = "$0",
+                    type = "slider",
+                    requires_restart = false,
+                    callback = function(number)
+
+                    end
+                }, 
+                {
+                    flag = "chat_line_cut",
+                    required_flag = "",
+                    name = "$twitch_extended_config_chat_char_limit",
+                    description = "$twitch_extended_config_chat_char_limit_description",
+                    default_number = 50,
+                    max_number = 500,
+                    min_number = 0,
+                    format = "$0",
+                    type = "slider",
+                    requires_restart = false,
+                    callback = function(number)
+
+                    end
+                }, 
+                {
+                    flag = "show_chat_badges",
+                    required_flag = "",
+                    name = "$twitch_extended_config_show_chat_badges",
+                    description = "$twitch_extended_config_show_chat_badges_description",
+                    default = true,
+                    type = "toggle",
+                    requires_restart = false,
+                    callback = function(item, enabled)
+                    end
+                },  
+                {
+                    flag = "chat_background",
+                    required_flag = "",
+                    name = "$twitch_extended_config_show_chat_background",
+                    description = "$twitch_extended_config_show_chat_background_description",
+                    default = false,
+                    type = "toggle",
+                    requires_restart = false,
+                    callback = function(item, enabled)
+                    end
+                },  
+                {
+                    required_flag = "",
+                    type = "spacer"
+                },  
+                {
+                    name = "$twitch_extended_nametags",
+                    required_flag = "",
+                    description = "",
+                    offset_x = -4,
+                    offset_y = 0,
+                    color = "ffb5b5b5",
+                    type = "text"
+                },      
+                {
+                    required_flag = "",
+                    type = "spacer"
+                },  
+                {
                     flag = "champion_naming",
                     required_flag = "gokis_things_enabled",
                     name = "$twitch_extended_config_champion_naming",
@@ -179,6 +404,83 @@ twitch_config_options = {
 
                     end
                 },
+                {
+                    flag = "remove_user_minutes",
+                    required_flag = "",
+                    name = "$twitch_extended_config_remove_user_minutes",
+                    description = "$twitch_extended_config_remove_user_minutes_description",
+                    default_number = 10,
+                    max_number = 120,
+                    min_number = 1,
+                    format = "$0",
+                    type = "slider",
+                    requires_restart = false,
+                    callback = function(number)
+
+                    end
+                }, 
+                {
+                    flag = "remove_after_used",
+                    required_flag = "",
+                    name = "$twitch_extended_config_remove_after_used",
+                    description = "$twitch_extended_config_remove_after_used_description",
+                    default = true,
+                    type = "toggle",
+                    requires_restart = false,
+                    callback = function(item, enabled)
+                    end
+                },  
+                {
+                    flag = "include_broadcaster",
+                    required_flag = "",
+                    name = "$twitch_extended_config_include_broadcaster",
+                    description = "$twitch_extended_config_include_broadcaster_description",
+                    default = false,
+                    type = "toggle",
+                    requires_restart = false,
+                    callback = function(item, enabled)
+                    end
+                },  
+                {
+                    flag = "include_moderators",
+                    required_flag = "",
+                    name = "$twitch_extended_config_include_moderators",
+                    description = "$twitch_extended_config_include_moderators_description",
+                    default = true,
+                    type = "toggle",
+                    requires_restart = false,
+                    callback = function(item, enabled)
+                    end
+                },
+                {
+                    flag = "only_subscribers",
+                    required_flag = "",
+                    name = "$twitch_extended_config_only_subscribers",
+                    description = "$twitch_extended_config_only_subscribers_description",
+                    default = false,
+                    type = "toggle",
+                    requires_restart = false,
+                    callback = function(item, enabled)
+                    end
+                },
+                {
+                    required_flag = "",
+                    type = "spacer"
+                },  
+                {
+                    name = "$twitch_extended_misc",
+                    required_flag = "",
+                    description = "",
+                    offset_x = -4,
+                    offset_y = 0,
+                    color = "ffb5b5b5",
+                    type = "text"
+                },      
+                {
+                    required_flag = "",
+                    type = "spacer"
+                },  
+ 
                 {
                     flag = "reward_message",
                     required_flag = "",
@@ -240,36 +542,7 @@ twitch_config_options = {
                     callback = function(number)
 
                     end
-                },]]
-                {
-                    flag = "disable_voting_system",
-                    required_flag = "",
-                    name = "$twitch_extended_config_disable_voting_system",
-                    description = "$twitch_extended_config_disable_voting_system_description",
-                    default = false,
-                    type = "toggle",
-                    requires_restart = false,
-                    callback = function(item, enabled)
-                        --StreamingSetVotingEnabled(not enabled)
-                        if(enabled == true)then
-                            GamePrint("Voting system disabled.")
-                            
-                        else
-                            GamePrint("Voting system enabled.")
-                        end
-                    end
-                },  
-                {
-                    flag = "show_chat",
-                    required_flag = "",
-                    name = "$twitch_extended_config_show_chat",
-                    description = "$twitch_extended_config_show_chat_description",
-                    default = true,
-                    type = "toggle",
-                    requires_restart = false,
-                    callback = function(item, enabled)
-                    end
-                },  
+                },]]               
             }
         },
         {

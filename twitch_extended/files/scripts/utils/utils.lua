@@ -117,6 +117,11 @@ for i, v in ipairs(t2) do
 end
 return out
 end
+
+string.trim = function(s)
+   return (string.gsub(s, "^%s*(.-)%s*$", "%1"))
+end
+
 -- Randomly either rounds up or down
 function randround(val)
 if Random() < 0.5 then
