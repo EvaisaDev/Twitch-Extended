@@ -22,7 +22,7 @@ if(twitch_extended_biome_scripts ~= "none" and twitch_extended_biome_names ~= "n
 end
 
 ]]
-
+timed_out_names = {}
 getRandomViewer = function()
 	user = {
 
@@ -39,8 +39,31 @@ getRandomViewer = function()
 		
 	}
 
+	for i = #timed_out_names, 1, -1 do
+		v = timed_out_names[i]
+		if(GameGetFrameNum() > v.frame + 10)then
+			table.remove(timed_out_names, i)
+		end
+	end
+	
 	for word in string.gmatch(str, '([^%:]+)') do
-		table.insert(users, word)
+		allow_add = true
+		for word2 in string.gmatch(word, '([^,]+)') do
+			if(i == 1)then
+				for k, v in pairs(timed_out_names)do
+					if(v.name == word2)then
+						allow_add = false
+					end
+				end
+			end
+		end
+		if(allow_add)then
+			table.insert(users, word)
+		end
+	end
+
+	if(#users == 0)then
+		return ""
 	end
 
 	user_string = users[Random(1, #users)]
@@ -81,8 +104,31 @@ getRandomViewerName = function()
 		
 	}
 
+	for i = #timed_out_names, 1, -1 do
+		v = timed_out_names[i]
+		if(GameGetFrameNum() > v.frame + 10)then
+			table.remove(timed_out_names, i)
+		end
+	end
+	
 	for word in string.gmatch(str, '([^%:]+)') do
-		table.insert(users, word)
+		allow_add = true
+		for word2 in string.gmatch(word, '([^,]+)') do
+			if(i == 1)then
+				for k, v in pairs(timed_out_names)do
+					if(v.name == word2)then
+						allow_add = false
+					end
+				end
+			end
+		end
+		if(allow_add)then
+			table.insert(users, word)
+		end
+	end
+
+	if(#users == 0)then
+		return ""
 	end
 
 	user_string = users[Random(1, #users)]

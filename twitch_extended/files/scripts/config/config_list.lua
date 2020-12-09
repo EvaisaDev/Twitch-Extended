@@ -393,6 +393,21 @@ twitch_config_options = {
                     end
                 },  
                 {
+                    flag = "champion_percentage",
+                    required_flag = "",
+                    name = "$twitch_extended_config_champion_percentage",
+                    description = "$twitch_extended_config_champion_percentage_description",
+                    default_number = 20,
+                    max_number = 100,
+                    min_number = 1,
+                    format = "$0%",
+                    type = "slider",
+                    requires_restart = false,
+                    callback = function(number)
+
+                    end
+                }, 
+                {
                     flag = "miniboss_naming",
                     required_flag = "gokis_things_enabled",
                     name = "$twitch_extended_config_miniboss_naming",
@@ -404,6 +419,21 @@ twitch_config_options = {
 
                     end
                 },
+                {
+                    flag = "miniboss_percentage",
+                    required_flag = "",
+                    name = "$twitch_extended_config_miniboss_percentage",
+                    description = "$twitch_extended_config_miniboss_percentage_description",
+                    default_number = 20,
+                    max_number = 100,
+                    min_number = 1,
+                    format = "$0%",
+                    type = "slider",
+                    requires_restart = false,
+                    callback = function(number)
+
+                    end
+                }, 
                 {
                     flag = "remove_user_minutes",
                     required_flag = "",
