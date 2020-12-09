@@ -5,51 +5,51 @@ dofile( "data/scripts/game_helpers.lua" )
 
 function OnMessage(userdata, message)
 	
-	if(HasSettingFlag("twitch_extended_options_show_chat"))then
-		if(message ~= "1" and message ~= "2" and message ~= "3" and message ~= "4")then
-			--GamePrint(userdata.username..": "..message)
 
-			--[[
-			local userdata = {
-				username = data["tags"]["display-name"],
-				user_id = data["tags"]["user-id"],
-				message_id = data["tags"]["id"],
-				broadcaster = broadcaster,
-				mod = mod,
-				subscriber = subscriber,
-				turbo = turbo,
-				color = data["tags"]["color"],
-				custom_reward = data["tags"]["custom-reward-id"],
-				message = message
-			}
-			]]
+	
+		--GamePrint(userdata.username..": "..message)
 
-			
+		--[[
+		local userdata = {
+			username = data["tags"]["display-name"],
+			user_id = data["tags"]["user-id"],
+			message_id = data["tags"]["id"],
+			broadcaster = broadcaster,
+			mod = mod,
+			subscriber = subscriber,
+			turbo = turbo,
+			color = data["tags"]["color"],
+			custom_reward = data["tags"]["custom-reward-id"],
+			message = message
+		}
+		]]
 
-			async(function()
-				while(GlobalsGetValue("twitch_chat_message_id", "") ~= "")do
-					--print("eee")
-					wait(1)
-				end
-				--print("aaa")
-				--print(message)
+		
 
-				if(userdata.color == "" or userdata.color == nil)then
-					userdata.color = "#8f8f8f"
-				end
-
-				GlobalsSetValue("twitch_chat_message_id", userdata.message_id or "0")
-				GlobalsSetValue("twitch_chat_message_color", userdata.color)
-				GlobalsSetValue("twitch_chat_message_name", userdata.username or "")
-				GlobalsSetValue("twitch_chat_message_message", userdata.message or "")
-				GlobalsSetValue("twitch_chat_message_broadcaster", tostring(userdata.broadcaster or "false"))
-				GlobalsSetValue("twitch_chat_message_subscriber", tostring(userdata.subscriber or "false"))
-				GlobalsSetValue("twitch_chat_message_moderator", tostring(userdata.mod or "false"))
-				GlobalsSetValue("twitch_chat_message_frames", GameGetFrameNum())
-			end)
-
+	async(function()
+		while(GlobalsGetValue("twitch_chat_message_id", "") ~= "")do
+			--print("eee")
+			wait(1)
 		end
-	end
+		--print("aaa")
+		--print(message)
+
+		if(userdata.color == "" or userdata.color == nil)then
+			userdata.color = "#8f8f8f"
+		end
+
+		GlobalsSetValue("twitch_chat_message_id", userdata.message_id or "0")
+		GlobalsSetValue("twitch_chat_message_color", userdata.color)
+		GlobalsSetValue("twitch_chat_message_name", userdata.username or "")
+		GlobalsSetValue("twitch_chat_message_message", userdata.message or "")
+		GlobalsSetValue("twitch_chat_message_broadcaster", tostring(userdata.broadcaster or "false"))
+		GlobalsSetValue("twitch_chat_message_subscriber", tostring(userdata.subscriber or "false"))
+		GlobalsSetValue("twitch_chat_message_moderator", tostring(userdata.mod or "false"))
+		GlobalsSetValue("twitch_chat_message_frames", GameGetFrameNum())
+	end)
+
+
+
 	if( userdata.broadcaster or userdata.mod )then
 		words = {}
 

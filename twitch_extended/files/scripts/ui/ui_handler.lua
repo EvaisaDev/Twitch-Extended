@@ -65,9 +65,11 @@ for i = #stored_users, 1, -1 do
 end
 
 if(stored_users[1] ~= nil)then
-	random_user = stored_users[Random(1, #stored_users)]
-	
-	GlobalsSetValue("random_twitch_user", random_user.name..","..random_user.color..","..tostring(random_user.broadcaster)..","..tostring(random_user.moderator)..","..tostring(random_user.subscriber))
+	user_string = ""
+	for k, v in pairs(stored_users)do
+		user_string = user_string .. v.name..","..v.color..","..tostring(v.broadcaster)..","..tostring(v.moderator)..","..tostring(v.subscriber)..":"
+	end
+	GlobalsSetValue("random_twitch_user", user_string)
 else
 	GlobalsSetValue("random_twitch_user", "")
 end
@@ -112,9 +114,9 @@ end
 function GuiMessage(gui, x, y, user_data, color, message, z_index, is_action)
 	user = user_data.username
 	local a, r, g, b = hex2argb(color)
+	GuiZSet( gui, z_index )
 	GuiLayoutBeginHorizontal( gui, 0, 0, false, 0, 0 )
 	GuiLayoutBeginHorizontal( gui, 0, 0, false, 1, 1 )
-		GuiZSetForNextWidget( gui, z_index )
 		if(HasSettingFlag("twitch_extended_options_show_chat_badges"))then
 			--print("test eee")
 			
@@ -135,7 +137,7 @@ function GuiMessage(gui, x, y, user_data, color, message, z_index, is_action)
 		else
 			GuiText(gui, x, y, user.." ")
 		end
-		GuiZSetForNextWidget( gui, z_index )
+		
 		GuiLayoutBeginVertical( handler_gui, 0, 0, false, 0, 0 )
 		if(type(message) == "table")then
 			for k, v in pairs(message)do
@@ -148,6 +150,7 @@ function GuiMessage(gui, x, y, user_data, color, message, z_index, is_action)
 			GuiText(gui, x, y, message)
 		end
 		GuiLayoutEnd( gui )
+		GuiZSet( gui, 0 )
 	GuiLayoutEnd( gui )
 	GuiLayoutEnd( gui )	
 end
@@ -248,21 +251,26 @@ if(not GameHasFlagRun("config_lib_open"))then
 
 		--y_offset = text_height * #stored_chat_messages
 		y_offset = 0
-		if(HasSettingFlag("twitch_extended_options_chat_background"))then
-			GuiBeginAutoBox( handler_gui )
-		end
-		GuiLayoutBeginVertical( handler_gui, ModSettingGet("twitch_extended_options_chat_position_x") or 1, ModSettingGet("twitch_extended_options_chat_position_y") or 15, false, 0, 0 )
-		for k, message in pairs(stored_chat_messages)do
-		--	GamePrint(true_height)
-			GuiMessage(handler_gui, 0, y_offset + true_height, {username = message.name, broadcaster = message.broadcaster, subscriber = message.subscriber, moderator = message.moderator}, message.color, message.message_split, -90, message.action)
-			for i = 1, #message.message_split do
-				true_height = true_height + text_height
+
+		if(HasSettingFlag("twitch_extended_options_show_chat"))then
+			if(HasSettingFlag("twitch_extended_options_chat_background"))then
+				GuiBeginAutoBox( handler_gui )
 			end
-			y_offset = y_offset - text_height
-		end
-		GuiLayoutEnd( handler_gui )
-		if(HasSettingFlag("twitch_extended_options_chat_background"))then
-			GuiEndAutoBoxNinePiece( handler_gui, 5, 0, 0, false, 0, "mods/twitch_extended/files/gfx/misc/chat_background.png", "mods/twitch_extended/files/gfx/misc/chat_background.png" )
+			GuiLayoutBeginVertical( handler_gui, ModSettingGet("twitch_extended_options_chat_position_x") or 1, ModSettingGet("twitch_extended_options_chat_position_y") or 15, false, 0, 0 )
+			for k, message in pairs(stored_chat_messages)do
+			--	GamePrint(true_height)
+				if(message.message ~= "1" and message.message ~= "2" and message.message ~= "3" and message.message ~= "4")then
+					GuiMessage(handler_gui, 0, y_offset + true_height, {username = message.name, broadcaster = message.broadcaster, subscriber = message.subscriber, moderator = message.moderator}, message.color, message.message_split, 50, message.action)
+					for i = 1, #message.message_split do
+						true_height = true_height + text_height
+					end
+					y_offset = y_offset - text_height
+				end
+			end
+			GuiLayoutEnd( handler_gui )
+			if(HasSettingFlag("twitch_extended_options_chat_background"))then
+				GuiEndAutoBoxNinePiece( handler_gui, 5, 0, 0, false, 0, "mods/twitch_extended/files/gfx/misc/chat_background.png", "mods/twitch_extended/files/gfx/misc/chat_background.png" )
+			end
 		end
 	end
 end

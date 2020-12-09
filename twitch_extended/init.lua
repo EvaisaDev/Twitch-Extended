@@ -244,22 +244,26 @@ function OnWorldPreUpdate()
 	end
 	if(ModIsEnabled( "config_lib" ))then
 		if(StreamingGetIsConnected())then
-			if(not HasSettingFlag("twitch_extended_options_perks"))then
+			--if(not HasSettingFlag("twitch_extended_options_perks"))then
 				if(is_in_mountain == false)then
 					if(BiomeMapGetName() == "$biome_holymountain" and HasSettingFlag("twitch_extended_options_pause_in_mountain") or BiomeMapGetName() == "$biome_boss_arena" and HasSettingFlag("twitch_extended_options_pause_in_boss"))then
-						StreamingSetVotingEnabled( false )
-						GameAddFlagRun("twitch_vote_paused" )
-
+						if(GlobalsGetValue("current_vote_type", "event") == "perk")then
+							GameAddFlagRun( "twitch_perk_vote_override" )
+						else
+							StreamingSetVotingEnabled( false )
+							GameAddFlagRun("twitch_vote_paused" )
+						end
 						is_in_mountain = true
 					end
 				else	
 					if(BiomeMapGetName() ~= "$biome_holymountain" and BiomeMapGetName() ~= "$biome_boss_arena")then
+						GameRemoveFlagRun( "twitch_perk_vote_override" )
 						StreamingSetVotingEnabled( true )
 						GameRemoveFlagRun("twitch_vote_paused" )
 						is_in_mountain = false
 					end
 				end
-			end
+			--end
 
 			local open = false
 			if(GameHasFlagRun("config_lib_open"))then

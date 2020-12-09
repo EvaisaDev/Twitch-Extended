@@ -28,8 +28,24 @@ getRandomViewer = function()
 
 	}
 	str = GlobalsGetValue("random_twitch_user", "")
+
+	if str == "" then 
+		return "" 
+	end
+
 	i = 1
-	for word in string.gmatch(str, '([^,]+)') do
+
+	users = {
+		
+	}
+
+	for word in string.gmatch(str, '([^%:]+)') do
+		table.insert(users, word)
+	end
+
+	user_string = users[Random(1, #users)]
+
+	for word in string.gmatch(user_string, '([^,]+)') do
 		if(i == 1)then
 			user.name = word
 		elseif(i == 2)then
@@ -54,8 +70,24 @@ getRandomViewerName = function()
 
 	}
 	str = GlobalsGetValue("random_twitch_user", "")
+
+	if str == "" then 
+		return "" 
+	end
+
 	i = 1
-	for word in string.gmatch(str, '([^,]+)') do
+
+	users = {
+		
+	}
+
+	for word in string.gmatch(str, '([^%:]+)') do
+		table.insert(users, word)
+	end
+
+	user_string = users[Random(1, #users)]
+
+	for word in string.gmatch(user_string, '([^,]+)') do
 		if(i == 1)then
 			user.name = word
 		elseif(i == 2)then

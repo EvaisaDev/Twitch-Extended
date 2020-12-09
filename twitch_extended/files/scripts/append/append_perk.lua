@@ -34,11 +34,19 @@ function perk_spawn_many( x, y )
 		GlobalsSetValue("perk_vote_count", tostring(perk_count + 1))
 
 		if(not GameHasFlagRun("twitch_vote_ongoing"))then
+			if(GameHasFlagRun("twitch_vote_paused"))then
+				GameRemoveFlagRun( "twitch_vote_paused" )
+				GameAddFlagRun( "twitch_perk_vote_override" )
+			end
 			GlobalsSetValue("current_vote_type", "perk")
 			StreamingForceNewVoting() 
 		end
 
 		if(not HasSettingFlag("twitch_extended_options_delay_perk"))then
+			if(GameHasFlagRun("twitch_vote_paused"))then
+				GameRemoveFlagRun( "twitch_vote_paused" )
+				GameAddFlagRun( "twitch_perk_vote_override" )
+			end
 			GlobalsSetValue("current_vote_type", "perk")
 			StreamingForceNewVoting() 
 		end

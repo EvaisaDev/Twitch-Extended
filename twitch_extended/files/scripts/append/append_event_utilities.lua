@@ -18,8 +18,24 @@ StreamingGetRandomViewerName = function()
 
 	}
 	str = GlobalsGetValue("random_twitch_user", "")
+
+	if str == "" then 
+		return "" 
+	end
+
 	i = 1
-	for word in string.gmatch(str, '([^,]+)') do
+
+	users = {
+		
+	}
+
+	for word in string.gmatch(str, '([^%:]+)') do
+		table.insert(users, word)
+	end
+
+	user_string = users[Random(1, #users)]
+
+	for word in string.gmatch(user_string, '([^,]+)') do
 		if(i == 1)then
 			user.name = word
 		elseif(i == 2)then
@@ -199,6 +215,13 @@ _streaming_run_event = function(id)
 						end
 					end
 					if(perk_count <= 0)then
+						if(GlobalsGetValue("current_vote_type", "event") == "perk")then
+							if(GameHasFlagRun( "twitch_perk_vote_override" ))then
+								GameAddFlagRun( "twitch_vote_paused" )
+								GameRemoveFlagRun( "twitch_perk_vote_override" )
+								StreamingSetVotingEnabled( false )
+							end
+						end
 						if(HasSettingFlag("twitch_extended_options_events"))then
 							GlobalsSetValue("current_vote_type", "event")
 							StreamingSetCustomPhaseDurations( -1, -1 )
