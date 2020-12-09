@@ -23,6 +23,7 @@ Installing from steam workshop is preferred.
 - Menu to easily link channel point rewards
 - Option to disable voting system [will still let you use channel point rewards and such]
 - Option to show chat in game
+- Option to pause votes in holy mountain and boss arena.
 - Menu to remove perks from the perk vote
 - Menu to disable individual subscription rewards
 - You can make your own mods to add new rewards to this mod, a example mod is available.
