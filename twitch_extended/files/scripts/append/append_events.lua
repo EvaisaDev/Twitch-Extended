@@ -1108,10 +1108,30 @@ append_events = {
 			if(wallet ~= nil)then
 				local money = tonumber(ComponentGetValueInt(wallet, "money"))
 				ComponentSetValue(wallet, "money", 0)
-				local count = math.floor(money / 5)
+
+				nugget_count = 100
+				nugget_value = math.floor(money / 100)
 				
-				for i = 1, count do
-				  spawn_item("mods/twitch_extended/files/entities/misc/goldnugget.xml", 50, 150)
+
+				if(money < 100)then
+					nugget_count = money
+					nugget_value = 1
+				end
+				
+
+
+				for i = 1, nugget_count do
+					nugget = spawn_item("data/entities/items/pickup/goldnugget.xml", 50, 150)
+					storage_comps = EntityGetComponent(nugget, "VariableStorageComponent")
+					lifetime = EntityGetFirstComponent(nugget, "LifetimeComponent")
+					if(lifetime ~= nil)then
+						ComponentSetValue2(lifetime, "lifetime", 1400)
+					end
+					for k, v in pairs(storage_comps)do
+						if(ComponentGetValue2(v, "name") == "gold_value")then
+							ComponentSetValue2(v, "value_int", nugget_value) 
+						end
+					end
 				end
 			end
 		end,

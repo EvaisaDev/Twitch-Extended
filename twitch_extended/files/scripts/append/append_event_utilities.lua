@@ -391,12 +391,14 @@ function _streaming_on_irc( is_userstate, sender_username, message, raw )
 --	print("IRC MESSAGE 2: "..raw)
 	local lines = ircparser.split(raw, '\r\n')
 	for _, line in pairs(lines) do
+		local data = ircparser.websocketMessage(line)
+
+		print(table.dump(data))
 		--print(line)
 		if(string.match(line, "PRIVMSG") and string.sub(line, 1, 11) == "@badge-info")then
 			if(line == nil or line == "" or line == "	" or line == " ")then
 				return
 			end
-			local data = ircparser.websocketMessage(line)
 			if(data ~= nil)then
 				local broadcaster = false
 				local mod = false
@@ -427,6 +429,7 @@ function _streaming_on_irc( is_userstate, sender_username, message, raw )
 					mod = mod,
 					subscriber = subscriber,
 					turbo = turbo,
+					bits = tonumber(data["tags"]["bits"] or 0) or 0,
 					color = data["tags"]["color"],
 					custom_reward = data["tags"]["custom-reward-id"],
 					message = message
@@ -435,6 +438,7 @@ function _streaming_on_irc( is_userstate, sender_username, message, raw )
 				--local message = data["params"][2]
 				
 				OnMessage(userdata, message)
+				OnBits(userdata, message)
 
 			end
 		elseif(string.match(line, "USERNOTICE") and string.sub(line, 1, 11) == "@badge-info")then
@@ -442,7 +446,7 @@ function _streaming_on_irc( is_userstate, sender_username, message, raw )
 				return
 			end
 			---print(raw)
-			local data = ircparser.websocketMessage(line)
+			
 			if(data ~= nil)then
 				if(data["tags"]["msg-id"] == "resub" or data["tags"]["msg-id"] == "sub")then
 					local broadcaster = false

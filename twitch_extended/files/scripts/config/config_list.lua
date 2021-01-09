@@ -13,6 +13,21 @@ twitch_config_options = {
             items_per_page = 45,
             items_per_row = 15,
             items = {
+           --[[     {
+                    flag = "text_slider",
+                    required_flag = "",
+                    name = "Text Slider",
+                    description = "e",
+                    default_number = 1,
+                    max_number = 10000,
+                    min_number = -10000,
+                    format = "$0%",
+                    type = "slider",
+                    requires_restart = false,
+                    callback = function(number)
+
+                    end
+                }, ]]
                 {
                     name = "$twitch_extended_config_category_options_description",
                     required_flag = "",
@@ -327,11 +342,11 @@ twitch_config_options = {
                     end
                 }, 
                 {
-                    flag = "chat_line_cut",
+                    flag = "chat_line_cut_limit",
                     required_flag = "",
                     name = "$twitch_extended_config_chat_char_limit",
                     description = "$twitch_extended_config_chat_char_limit_description",
-                    default_number = 50,
+                    default_number = 500,
                     max_number = 500,
                     min_number = 0,
                     format = "$0",
@@ -498,6 +513,75 @@ twitch_config_options = {
                     type = "spacer"
                 },  
                 {
+                    name = "$twitch_extended_death_counter",
+                    required_flag = "",
+                    description = "",
+                    offset_x = -4,
+                    offset_y = 0,
+                    color = "ffb5b5b5",
+                    type = "text"
+                },      
+                {
+                    required_flag = "",
+                    type = "spacer"
+                },  
+                {
+                    flag = "enable_death_counter",
+                    required_flag = "",
+                    name = "$twitch_extended_config_enable_death_counter",
+                    description = "$twitch_extended_config_enable_death_counter_description",
+                    default = false,
+                    type = "toggle",
+                    requires_restart = false,
+                    callback = function(item, enabled)
+
+                    end
+                },  
+                {
+                    flag = "death_counter_position_x",
+                    required_flag = "",
+                    name = "$twitch_extended_config_death_counter_x",
+                    description = "$twitch_extended_config_death_counter_x_description",
+                    default_number = 1,
+                    max_number = 100,
+                    min_number = 0,
+                    format = "$0%",
+                    type = "slider",
+                    requires_restart = false,
+                    callback = function(number)
+
+                    end
+                }, 
+                {
+                    flag = "death_counter_position_y",
+                    required_flag = "",
+                    name = "$twitch_extended_config_death_counter_y",
+                    description = "$twitch_extended_config_death_counter_y_description",
+                    default_number = 1,
+                    max_number = 100,
+                    min_number = 0,
+                    format = "$0%",
+                    type = "slider",
+                    requires_restart = false,
+                    callback = function(number)
+
+                    end
+                }, 
+                {
+                    name = "$twitch_extended_config_reset_death_counter",
+                    item_id = "reset_deathcounter",
+                    required_flag = "",
+                    description = "$twitch_extended_config_reset_death_counter_description",
+                    type = "button",
+                    callback = function(item)
+                        ModSettingSet("twitch_extended_death_counter", 0) 
+                    end
+                },
+                {
+                    required_flag = "",
+                    type = "spacer"
+                },  
+                {
                     name = "$twitch_extended_misc",
                     required_flag = "",
                     description = "",
@@ -510,7 +594,6 @@ twitch_config_options = {
                     required_flag = "",
                     type = "spacer"
                 },  
- 
                 {
                     flag = "reward_message",
                     required_flag = "",
@@ -668,14 +751,14 @@ twitch_config_options = {
                 },  
             }
         },
-        --[[{
+        {
             category_id = "bit_rewards",
             category = "$twitch_extended_config_category_bit_rewards",
             items_per_page = 45,
             items_per_row = 15,
             items = {
             }
-        },]]
+        },
     }
 }
 
@@ -747,6 +830,68 @@ for k, v in pairs(sub_rewards)do
                 end               
             }
             table.insert(v2.items, new_item)
+        end
+    end
+end
+
+for k, v in pairs(bit_rewards)do
+    for k2, v2 in pairs(twitch_config_options.categories)do
+        if(v2.category_id == "bit_rewards")then
+            new_item1 = {
+                name = v.reward_name,
+                required_flag = "",
+                description = v.reward_description,
+                offset_x = -4,
+                offset_y = 0,
+                color = "ffb0bfeb",
+                type = "text"
+            }  
+            new_item2 = {
+                flag = v.reward_id,
+                required_flag = "",
+                name = "Enable",
+                description = v.reward_description,
+                default = false,
+                type = "toggle",
+                requires_restart = false,
+                callback = function(item, enabled)
+                end               
+            }
+            new_item3 = {
+                flag = v.reward_id.."_exact_amount",
+                required_flag = "",
+                name = "Require exact amount",
+                description = "Does this reward require the exact amount of bits?\\nIf this is unset any amount above it until the next reward also triggers it.",
+                default = false,
+                type = "toggle",
+                requires_restart = false,
+                callback = function(item, enabled)
+                end               
+            }
+            new_item4 = {
+                flag = v.reward_id.."_bit_amount",
+                required_flag = "",
+                name = "Amount of bits: ",
+                description = "How many bits to trigger reward.",
+                default_text = "100",
+                allowed_chars = "1234567890",
+                text_max_length = 10,
+                type = "input",
+                requires_restart = true,
+                callback = function(number)
+
+                end
+            }
+            table.insert(v2.items, new_item1)
+            table.insert(v2.items, {
+                type = "spacer"
+            })
+            table.insert(v2.items, new_item2)
+            table.insert(v2.items, new_item3)
+            table.insert(v2.items, new_item4)
+            table.insert(v2.items, {
+                type = "spacer"
+            })
         end
     end
 end

@@ -1,0 +1,496 @@
+<Sprite 
+  filename="mods/twitch_extended/files/gfx/fonts/font_pixel.png" 
+  offset_x="0" 
+  offset_y="0" >
+
+  <RectAnimation name = "33" frame_height = "11" frame_width = "3" pos_x = "6" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "34" frame_height = "11" frame_width = "4" pos_x = "12" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/>
+
+  <RectAnimation name = "8221" frame_height = "11" frame_width = "4" pos_x = "12" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "8220" frame_height = "11" frame_width = "4" pos_x = "12" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "35" frame_height = "11" frame_width = "6" pos_x = "18" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "36" frame_height = "11" frame_width = "6" pos_x = "24" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "37" frame_height = "11" frame_width = "6" pos_x = "30" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "38" frame_height = "11" frame_width = "6" pos_x = "36" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "39" frame_height = "11" frame_width = "2" pos_x = "42" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "40" frame_height = "11" frame_width = "6" pos_x = "48" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "41" frame_height = "11" frame_width = "6" pos_x = "54" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "42" frame_height = "11" frame_width = "6" pos_x = "60" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "43" frame_height = "11" frame_width = "6" pos_x = "66" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "44" frame_height = "11" frame_width = "3" pos_x = "72" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "45" frame_height = "11" frame_width = "6" pos_x = "78" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "46" frame_height = "11" frame_width = "2" pos_x = "84" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "47" frame_height = "11" frame_width = "6" pos_x = "90" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "48" frame_height = "11" frame_width = "6" pos_x = "96" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "49" frame_height = "11" frame_width = "4" pos_x = "102" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "50" frame_height = "11" frame_width = "6" pos_x = "108" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "51" frame_height = "11" frame_width = "6" pos_x = "114" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "52" frame_height = "11" frame_width = "6" pos_x = "120" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "53" frame_height = "11" frame_width = "6" pos_x = "126" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "54" frame_height = "11" frame_width = "6" pos_x = "132" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "55" frame_height = "11" frame_width = "6" pos_x = "138" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "56" frame_height = "11" frame_width = "6" pos_x = "144" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "57" frame_height = "11" frame_width = "6" pos_x = "150" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "58" frame_height = "11" frame_width = "2" pos_x = "156" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "59" frame_height = "11" frame_width = "2" pos_x = "162" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "60" frame_height = "11" frame_width = "6" pos_x = "168" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "61" frame_height = "11" frame_width = "6" pos_x = "174" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "62" frame_height = "11" frame_width = "6" pos_x = "180" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "63" frame_height = "11" frame_width = "6" pos_x = "186" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "64" frame_height = "11" frame_width = "6" pos_x = "192" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "65" frame_height = "11" frame_width = "6" pos_x = "198" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "66" frame_height = "11" frame_width = "6" pos_x = "204" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "67" frame_height = "11" frame_width = "6" pos_x = "210" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "68" frame_height = "11" frame_width = "6" pos_x = "216" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "69" frame_height = "11" frame_width = "6" pos_x = "222" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "70" frame_height = "11" frame_width = "6" pos_x = "228" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "71" frame_height = "11" frame_width = "6" pos_x = "234" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "72" frame_height = "11" frame_width = "6" pos_x = "240" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "73" frame_height = "11" frame_width = "5" pos_x = "246" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "74" frame_height = "11" frame_width = "6" pos_x = "252" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "75" frame_height = "11" frame_width = "6" pos_x = "258" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "76" frame_height = "11" frame_width = "5" pos_x = "264" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "77" frame_height = "11" frame_width = "6" pos_x = "270" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "78" frame_height = "11" frame_width = "6" pos_x = "276" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "79" frame_height = "11" frame_width = "6" pos_x = "282" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "80" frame_height = "11" frame_width = "5" pos_x = "288" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "81" frame_height = "11" frame_width = "6" pos_x = "294" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "82" frame_height = "11" frame_width = "6" pos_x = "300" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "83" frame_height = "11" frame_width = "6" pos_x = "306" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "84" frame_height = "11" frame_width = "6" pos_x = "312" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "85" frame_height = "11" frame_width = "6" pos_x = "318" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "86" frame_height = "11" frame_width = "6" pos_x = "324" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "87" frame_height = "11" frame_width = "6" pos_x = "330" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "88" frame_height = "11" frame_width = "6" pos_x = "336" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "89" frame_height = "11" frame_width = "6" pos_x = "342" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "90" frame_height = "11" frame_width = "6" pos_x = "348" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "91" frame_height = "11" frame_width = "6" pos_x = "354" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "92" frame_height = "11" frame_width = "6" pos_x = "360" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "93" frame_height = "11" frame_width = "6" pos_x = "366" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "94" frame_height = "11" frame_width = "6" pos_x = "372" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "95" frame_height = "11" frame_width = "6" pos_x = "378" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "96" frame_height = "11" frame_width = "3" pos_x = "384" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "97" frame_height = "11" frame_width = "4" pos_x = "390" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "98" frame_height = "11" frame_width = "4" pos_x = "396" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "99" frame_height = "11" frame_width = "4" pos_x = "402" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "100" frame_height = "11" frame_width = "4" pos_x = "408" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "101" frame_height = "11" frame_width = "4" pos_x = "414" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "102" frame_height = "11" frame_width = "4" pos_x = "420" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "103" frame_height = "11" frame_width = "4" pos_x = "426" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "104" frame_height = "11" frame_width = "4" pos_x = "432" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "105" frame_height = "11" frame_width = "2" pos_x = "438" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "106" frame_height = "11" frame_width = "4" pos_x = "444" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "107" frame_height = "11" frame_width = "4" pos_x = "450" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "108" frame_height = "11" frame_width = "2" pos_x = "456" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "109" frame_height = "11" frame_width = "6" pos_x = "462" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "110" frame_height = "11" frame_width = "4" pos_x = "468" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "111" frame_height = "11" frame_width = "4" pos_x = "474" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "112" frame_height = "11" frame_width = "4" pos_x = "480" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "113" frame_height = "11" frame_width = "4" pos_x = "486" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "114" frame_height = "11" frame_width = "4" pos_x = "492" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "115" frame_height = "11" frame_width = "4" pos_x = "498" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "116" frame_height = "11" frame_width = "4" pos_x = "504" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "117" frame_height = "11" frame_width = "4" pos_x = "510" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "118" frame_height = "11" frame_width = "4" pos_x = "516" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "119" frame_height = "11" frame_width = "6" pos_x = "522" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "120" frame_height = "11" frame_width = "4" pos_x = "528" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "121" frame_height = "11" frame_width = "4" pos_x = "534" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "122" frame_height = "11" frame_width = "4" pos_x = "540" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "40" frame_height = "11" frame_width = "6" pos_x = "546" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "124" frame_height = "11" frame_width = "6" pos_x = "552" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "41" frame_height = "11" frame_width = "6" pos_x = "558" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "94" frame_height = "11" frame_width = "6" pos_x = "564" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "126" frame_height = "11" frame_width = "6" pos_x = "570" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "32" frame_height = "11" frame_width = "3" pos_x = "576" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "252" frame_height = "11" frame_width = "4" pos_x = "582" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "233" frame_height = "11" frame_width = "4" pos_x = "588" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "196" frame_height = "11" frame_width = "6" pos_x = "594" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "228" frame_height = "11" frame_width = "4" pos_x = "600" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "214" frame_height = "11" frame_width = "6" pos_x = "606" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "246" frame_height = "11" frame_width = "4" pos_x = "612" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "197" frame_height = "11" frame_width = "6" pos_x = "618" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "229" frame_height = "11" frame_width = "4" pos_x = "624" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "220" frame_height = "11" frame_width = "6" pos_x = "630" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "223" frame_height = "11" frame_width = "6" pos_x = "636" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "193" frame_height = "11" frame_width = "6" pos_x = "642" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "225" frame_height = "11" frame_width = "4" pos_x = "648" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "201" frame_height = "11" frame_width = "6" pos_x = "654" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "205" frame_height = "11" frame_width = "5" pos_x = "660" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "237" frame_height = "11" frame_width = "3" pos_x = "666" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "211" frame_height = "11" frame_width = "6" pos_x = "672" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "243" frame_height = "11" frame_width = "4" pos_x = "678" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "218" frame_height = "11" frame_width = "6" pos_x = "684" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "250" frame_height = "11" frame_width = "4" pos_x = "690" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "209" frame_height = "11" frame_width = "6" pos_x = "696" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "241" frame_height = "11" frame_width = "5" pos_x = "702" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "161" frame_height = "11" frame_width = "3" pos_x = "708" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "191" frame_height = "11" frame_width = "5" pos_x = "714" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "192" frame_height = "11" frame_width = "6" pos_x = "720" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "224" frame_height = "11" frame_width = "4" pos_x = "726" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "200" frame_height = "11" frame_width = "6" pos_x = "732" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "232" frame_height = "11" frame_width = "4" pos_x = "738" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "217" frame_height = "11" frame_width = "6" pos_x = "744" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "249" frame_height = "11" frame_width = "4" pos_x = "750" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "194" frame_height = "11" frame_width = "6" pos_x = "756" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "226" frame_height = "11" frame_width = "4" pos_x = "762" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "202" frame_height = "11" frame_width = "6" pos_x = "768" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "234" frame_height = "11" frame_width = "4" pos_x = "774" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "206" frame_height = "11" frame_width = "5" pos_x = "780" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "238" frame_height = "11" frame_width = "4" pos_x = "786" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "212" frame_height = "11" frame_width = "6" pos_x = "792" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "244" frame_height = "11" frame_width = "4" pos_x = "798" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "219" frame_height = "11" frame_width = "6" pos_x = "804" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "251" frame_height = "11" frame_width = "4" pos_x = "810" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "199" frame_height = "11" frame_width = "6" pos_x = "816" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "231" frame_height = "11" frame_width = "4" pos_x = "822" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "203" frame_height = "11" frame_width = "6" pos_x = "828" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "235" frame_height = "11" frame_width = "4" pos_x = "834" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "207" frame_height = "11" frame_width = "5" pos_x = "840" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "239" frame_height = "11" frame_width = "4" pos_x = "846" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "195" frame_height = "11" frame_width = "6" pos_x = "852" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "227" frame_height = "11" frame_width = "4" pos_x = "858" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "213" frame_height = "11" frame_width = "6" pos_x = "864" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "245" frame_height = "11" frame_width = "4" pos_x = "870" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "260" frame_height = "11" frame_width = "6" pos_x = "876" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "261" frame_height = "11" frame_width = "5" pos_x = "882" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "262" frame_height = "11" frame_width = "6" pos_x = "888" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "263" frame_height = "11" frame_width = "4" pos_x = "894" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "280" frame_height = "11" frame_width = "5" pos_x = "900" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "281" frame_height = "11" frame_width = "4" pos_x = "906" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "321" frame_height = "11" frame_width = "6" pos_x = "912" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "322" frame_height = "11" frame_width = "4" pos_x = "918" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "323" frame_height = "11" frame_width = "6" pos_x = "924" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "324" frame_height = "11" frame_width = "4" pos_x = "930" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "346" frame_height = "11" frame_width = "6" pos_x = "936" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "347" frame_height = "11" frame_width = "4" pos_x = "942" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "377" frame_height = "11" frame_width = "6" pos_x = "948" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "378" frame_height = "11" frame_width = "4" pos_x = "954" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "379" frame_height = "11" frame_width = "6" pos_x = "960" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "380" frame_height = "11" frame_width = "4" pos_x = "966" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "8734" frame_height = "11" frame_width = "10" pos_x = "972" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "169" frame_height = "11" frame_width = "7" pos_x = "983" pos_y = "0" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1025" frame_height = "11" frame_width = "6" pos_x = "0" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1105" frame_height = "11" frame_width = "4" pos_x = "6" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1040" frame_height = "11" frame_width = "6" pos_x = "12" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1072" frame_height = "11" frame_width = "4" pos_x = "18" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1041" frame_height = "11" frame_width = "6" pos_x = "24" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1073" frame_height = "11" frame_width = "4" pos_x = "30" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1042" frame_height = "11" frame_width = "6" pos_x = "36" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1074" frame_height = "11" frame_width = "4" pos_x = "42" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1043" frame_height = "11" frame_width = "6" pos_x = "48" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1075" frame_height = "11" frame_width = "4" pos_x = "54" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1044" frame_height = "11" frame_width = "6" pos_x = "60" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1076" frame_height = "11" frame_width = "5" pos_x = "66" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1045" frame_height = "11" frame_width = "6" pos_x = "72" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1077" frame_height = "11" frame_width = "4" pos_x = "78" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1046" frame_height = "11" frame_width = "6" pos_x = "84" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1078" frame_height = "11" frame_width = "6" pos_x = "90" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1047" frame_height = "11" frame_width = "6" pos_x = "96" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1079" frame_height = "11" frame_width = "4" pos_x = "102" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1048" frame_height = "11" frame_width = "6" pos_x = "108" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1080" frame_height = "11" frame_width = "6" pos_x = "114" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1049" frame_height = "11" frame_width = "6" pos_x = "120" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1081" frame_height = "11" frame_width = "6" pos_x = "126" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1050" frame_height = "11" frame_width = "6" pos_x = "132" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1082" frame_height = "11" frame_width = "4" pos_x = "138" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1051" frame_height = "11" frame_width = "6" pos_x = "144" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1083" frame_height = "11" frame_width = "5" pos_x = "150" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1052" frame_height = "11" frame_width = "6" pos_x = "156" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1084" frame_height = "11" frame_width = "6" pos_x = "162" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1053" frame_height = "11" frame_width = "6" pos_x = "168" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1085" frame_height = "11" frame_width = "4" pos_x = "174" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1054" frame_height = "11" frame_width = "6" pos_x = "180" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1086" frame_height = "11" frame_width = "4" pos_x = "186" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1055" frame_height = "11" frame_width = "6" pos_x = "192" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1087" frame_height = "11" frame_width = "4" pos_x = "198" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1056" frame_height = "11" frame_width = "6" pos_x = "204" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1088" frame_height = "11" frame_width = "4" pos_x = "210" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1057" frame_height = "11" frame_width = "6" pos_x = "216" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1089" frame_height = "11" frame_width = "4" pos_x = "222" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1058" frame_height = "11" frame_width = "6" pos_x = "228" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1090" frame_height = "11" frame_width = "4" pos_x = "234" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1059" frame_height = "11" frame_width = "6" pos_x = "240" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1091" frame_height = "11" frame_width = "4" pos_x = "246" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1060" frame_height = "11" frame_width = "6" pos_x = "252" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1092" frame_height = "11" frame_width = "6" pos_x = "258" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1061" frame_height = "11" frame_width = "6" pos_x = "264" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1093" frame_height = "11" frame_width = "4" pos_x = "270" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1062" frame_height = "11" frame_width = "6" pos_x = "276" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1094" frame_height = "11" frame_width = "4" pos_x = "282" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1063" frame_height = "11" frame_width = "6" pos_x = "288" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1095" frame_height = "11" frame_width = "4" pos_x = "294" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1064" frame_height = "11" frame_width = "6" pos_x = "300" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1096" frame_height = "11" frame_width = "6" pos_x = "306" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1065" frame_height = "11" frame_width = "6" pos_x = "312" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1097" frame_height = "11" frame_width = "6" pos_x = "318" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1066" frame_height = "11" frame_width = "6" pos_x = "324" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1098" frame_height = "11" frame_width = "5" pos_x = "330" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1067" frame_height = "11" frame_width = "6" pos_x = "336" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1099" frame_height = "11" frame_width = "6" pos_x = "342" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1068" frame_height = "11" frame_width = "5" pos_x = "348" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1100" frame_height = "11" frame_width = "4" pos_x = "354" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1069" frame_height = "11" frame_width = "6" pos_x = "360" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1101" frame_height = "11" frame_width = "4" pos_x = "366" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1070" frame_height = "11" frame_width = "6" pos_x = "372" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1102" frame_height = "11" frame_width = "6" pos_x = "378" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1071" frame_height = "11" frame_width = "6" pos_x = "384" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "1103" frame_height = "11" frame_width = "6" pos_x = "390" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "216" frame_height = "11" frame_width = "6" pos_x = "396" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "248" frame_height = "11" frame_width = "6" pos_x = "402" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "8211" frame_height = "11" frame_width = "6" pos_x = "408" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "8212" frame_height = "11" frame_width = "6" pos_x = "408" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "171" frame_height = "11" frame_width = "6" pos_x = "414" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "187" frame_height = "11" frame_width = "6" pos_x = "420" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "8230" frame_height = "11" frame_width = "6" pos_x = "426" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "338" frame_height = "11" frame_width = "6" pos_x = "432" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "339" frame_height = "11" frame_width = "6" pos_x = "438" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "8222" frame_height = "11" frame_width = "4" pos_x = "444" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "8217" frame_height = "11" frame_width = "2" pos_x = "450" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "172" frame_height = "11" frame_width = "6" pos_x = "456" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "204" frame_height = "11" frame_width = "3" pos_x = "463" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+
+  <RectAnimation name = "236" frame_height = "11" frame_width = "3" pos_x = "468" pos_y = "12" frame_wait="1" frame_count="1" frames_per_row="1" shrink_by_one_pixel="0"/> 
+</Sprite>
+

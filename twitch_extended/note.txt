@@ -1,21 +1,10 @@
-Instant ocean broke // done
-Teleport streamer broken(? // cannot reproduce
-Perk vote breaks when delay is enabled // probably implement a perk queue
-Add option to pause voting in holy mountain // done
-Add better in game chat // done
-Better creature nametagging // nevermind
-
-
 Sometimes random enemies are a floating nametag
-
-
-
-Perk vote gets skipped if you get to holy mountain too fast (loadout vote) // fixed
-Run modifier sometimes doesn't show a UI // wait until confirmed
-
 
 Add friendly ghost rewards
 Add spawn object 
 Add spawn Healthium rain
-Death counter
+Death counter // partially done
 Randomize wand puts 2 wands in the same slot
+Fix 2D20
+Add custom font system (because I like pain)
+Make scatter gold cluster gold together.

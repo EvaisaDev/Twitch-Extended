@@ -1,17 +1,179 @@
 -- This file has complete access to anything within the utilities.lua file of this mod.
 
---[[BitRewards = {
+bit_rewards = {
     {
-        reward_id = "bit_test_reward", -- The ID of the reward, has to be unique.
-        reward_name = "Twitch bits reward", -- The name of the reward.
-        reward_description = "", -- The description of the reward
-        bit_count = 250,
-        specific_amount = false,
+        reward_id = "emerald_tablet",
+        reward_name = "$twitch_extended_sub_rewards_emerald_tablet",
+        reward_description = "$twitch_extended_sub_rewards_emerald_tablet_description",
+        reward_image = "mods/twitch_extended/files/gfx/reward_images/emerald_tablet.png",
+        required_flag = "",
         func = function(reward, userdata)
-            GamePrint("Redeemed bit reward")
+            generate_emerald_tablet(userdata.username, userdata.message)
         end,
-    }
-}]]
+    },
+    {
+        reward_id = "lots_of_gold",
+        reward_name = "$twitch_extended_sub_rewards_lots_of_gold",
+        reward_description = "$twitch_extended_sub_rewards_lots_of_gold_description",
+        reward_image = "mods/twitch_extended/files/gfx/reward_images/lots_of_gold.png",
+        required_flag = "",
+        func = function(reward, userdata)
+            local player = get_player()
+			local wallet = EntityGetFirstComponent(player, "WalletComponent")
+			if(wallet ~= nil)then
+				local money = tonumber(ComponentGetValueInt(wallet, "money"))
+				ComponentSetValue(wallet, "money", 0)
+				local count = math.max(math.floor(money / 25), 40) + ((userdata.total_months or 1) * 10)
+                    
+                for i = 1, count do
+                    spawn_item("data/entities/items/pickup/goldnugget.xml", 50, 100)
+                end
+            end
+        end,
+    },
+    {
+        reward_id = "gold_aura",
+        reward_name = "$twitch_extended_sub_rewards_gold_aura",
+        reward_description = "$twitch_extended_sub_rewards_gold_aura_description",
+        reward_image = "mods/twitch_extended/files/gfx/reward_images/gold_aura.png",
+        required_flag = "",
+        func = function(reward, userdata)
+            for i,entity_id in pairs( get_players() ) do
+                local x, y = EntityGetTransform( entity_id )
+                
+                local effect_id = EntityLoad( "mods/twitch_extended/files/entities/misc/enemies_to_gold.xml", x, y )
+                set_lifetime( effect_id )
+                EntityAddChild( entity_id, effect_id )
+                
+                add_status_effect( effect_id, "mods/twitch_extended/files/gfx/status_effects/enemies_to_gold.png", "Gold Aura", "You turn nearby enemies to gold.", false )
+            end
+        end,
+    },
+    {
+        reward_id = "charm_enemies",
+        reward_name = "$twitch_extended_sub_rewards_charm_enemies",
+        reward_description = "$twitch_extended_sub_rewards_charm_enemies_description",
+        reward_image = "mods/twitch_extended/files/gfx/reward_images/charm_enemies.png",
+        required_flag = "",
+        func = function(reward, userdata)
+            for i,entity_id in pairs( get_players() ) do
+                local x, y, rot = EntityGetTransform( entity_id )
+                
+                for _,entity in pairs( EntityGetInRadiusWithTag( x, y, 1024, "enemy" ) or {} ) do
+                    local effect_id = EntityLoad( "data/entities/misc/effect_charm.xml", x, y )
+
+                    EntityAddChild( entity, effect_id )
+                end
+            end
+        end,
+    },
+    {
+        reward_id = "random_perk",
+        reward_name = "$twitch_extended_sub_rewards_random_perk",
+        reward_description = "$twitch_extended_sub_rewards_random_perk_description",
+        reward_image = "mods/twitch_extended/files/gfx/reward_images/random_perk.png",
+        required_flag = "",
+        func = function(reward, userdata)
+			local players = get_players()
+			
+			for i,entity_id in ipairs( players ) do
+				local x,y = EntityGetTransform( entity_id )
+				local pid = perk_spawn_random( x, y )
+				perk_pickup( pid, entity_id, "", true, false )
+			end
+        end,
+    },
+    {
+        reward_id = "healing_glitch",
+        reward_name = "$twitch_extended_sub_rewards_healing_glitch",
+        reward_description = "$twitch_extended_sub_rewards_healing_glitch_description",
+        reward_image = "mods/twitch_extended/files/gfx/reward_images/glitch.png",
+        required_flag = "",
+        func = function(reward, userdata)
+            --spawn_item("mods/twitch_extended/files/entities/animals/glitch/glitch.xml", 10, 10)
+            for i,entity_id in ipairs( get_players() ) do
+                local x,y = EntityGetTransform( entity_id )
+                local ghost = EntityLoad("mods/twitch_extended/files/entities/animals/glitch/glitch.xml", x, y)
+
+                text_above_entity(ghost, userdata.username, 0)
+
+                EntityAddComponent2(ghost, "VariableStorageComponent", {
+                    name="type",
+                    value_string="healer"
+                })
+                EntityAddChild(entity_id, ghost)
+			end
+        end,
+    },
+    {
+        reward_id = "twitchy_glitch",
+        reward_name = "$twitch_extended_sub_rewards_twitchy_glitch",
+        reward_description = "$twitch_extended_sub_rewards_twitchy_glitch_description",
+        reward_image = "mods/twitch_extended/files/gfx/reward_images/glitch.png",
+        required_flag = "",
+        func = function(reward, userdata)
+            --spawn_item("mods/twitch_extended/files/entities/animals/glitch/glitch.xml", 10, 10)
+            for i,entity_id in ipairs( get_players() ) do
+                local x,y = EntityGetTransform( entity_id )
+                local ghost = EntityLoad("mods/twitch_extended/files/entities/animals/glitch/glitch.xml", x, y)
+
+                text_above_entity(ghost, userdata.username, 0)
+
+                EntityAddComponent2(ghost, "VariableStorageComponent", {
+                    name="type",
+                    value_string="twitchy"
+                })
+                EntityAddChild(entity_id, ghost)
+			end
+        end,
+    },
+    {
+        reward_id = "damaging_glitch",
+        reward_name = "$twitch_extended_sub_rewards_fighter_glitch",
+        reward_description = "$twitch_extended_sub_rewards_fighter_glitch_description",
+        reward_image = "mods/twitch_extended/files/gfx/reward_images/glitch.png",
+        required_flag = "",
+        func = function(reward, userdata)
+            --spawn_item("mods/twitch_extended/files/entities/animals/glitch/glitch.xml", 10, 10)
+            for i,entity_id in ipairs( get_players() ) do
+                local x,y = EntityGetTransform( entity_id )
+                local ghost = EntityLoad("mods/twitch_extended/files/entities/animals/glitch/glitch.xml", x, y)
+
+                text_above_entity(ghost, userdata.username, 0)
+
+
+                EntityAddComponent2(ghost, "VariableStorageComponent", {
+                    name="type",
+                    value_string="damaging"
+                })
+                EntityAddChild(entity_id, ghost)
+			end
+        end,
+    },
+    {
+        reward_id = "support_glitch",
+        reward_name = "$twitch_extended_sub_rewards_support_glitch",
+        reward_description = "$twitch_extended_sub_rewards_fighter_support_description",
+        reward_image = "mods/twitch_extended/files/gfx/reward_images/glitch.png",
+        required_flag = "",
+        func = function(reward, userdata)
+            --spawn_item("mods/twitch_extended/files/entities/animals/glitch/glitch.xml", 10, 10)
+            for i,entity_id in ipairs( get_players() ) do
+                local x,y = EntityGetTransform( entity_id )
+                local ghost = EntityLoad("mods/twitch_extended/files/entities/animals/glitch/glitch.xml", x, y)
+
+                text_above_entity(ghost, userdata.username, 0)
+
+
+                EntityAddComponent2(ghost, "VariableStorageComponent", {
+                    name="type",
+                    value_string="support"
+                })
+                EntityAddChild(entity_id, ghost)
+			end
+        end,
+    },
+}
 
 -- Emerald tablet with username and message
 -- Charm all nearby enemies

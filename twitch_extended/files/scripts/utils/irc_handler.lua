@@ -69,6 +69,7 @@ function OnMessage(userdata, message)
 				OnSub(userdata, message)
 			end
 		end
+		
 	end
 
 	if(userdata.custom_reward ~= nil--[[ and HasSettingFlag("twitch_extended_options_channel_point_rewards")]])then
@@ -84,13 +85,16 @@ function OnMessage(userdata, message)
 		end
 
 		for k, v in pairs(enabled_channelrewards)do
-			--GamePrint(v.reward_id)
+			
 			reward_id = ModSettingGet("twitch_reward_"..v.reward_id)
 			if(v.reward_image == nil)then
 				v.reward_image = ""
 			end
 			if(reward_id ~= nil)then
+				--GamePrint(reward_id)
+				--GamePrint(userdata.custom_reward)
 				if(reward_id == userdata.custom_reward)then
+					--GamePrint(v.reward_id)
 					v.func(v, userdata)
 					if(not HasSettingFlag("twitch_extended_options_reward_message"))then
 						message = ""
@@ -118,6 +122,83 @@ function OnMessage(userdata, message)
 
 	end
 
+end
+
+function get_events_with_closest_amount(events, amount)
+	local current_amount = -1
+	local was_exact = false
+	for k, v in pairs(events)do
+		v.amount = tonumber(ModSettingGet("twitch_extended_bit_rewards_"..v.reward_id.."_bit_amount"))
+		v.exact_amount = HasSettingFlag("twitch_extended_bit_rewards_"..v.reward_id.."_exact_amount")
+		if(v.amount ~= nil)then
+			if(v.amount <= amount and v.amount > current_amount)then
+				current_amount = v.amount
+				if(v.exact_amount)then
+					was_exact = true
+				else
+					was_exact = false
+				end
+			end
+		end
+	end
+
+	if(was_exact == true)then
+		current_amount = -1
+	end
+
+	for k, v in pairs(events)do
+		if(v.amount ~= nil)then
+			if(v.exact_amount)then
+				if(v.amount == amount)then
+					current_amount = v.amount
+					break
+				end
+			end
+		end
+	end
+
+	local available_events = {}
+
+	for k, v in pairs(events)do
+		if(v.required_flag == "" or v.required_flag == nil or HasFlagPersistent(v.required_flag) or GameHasFlagRun(v.required_flag))then
+			if(v.amount ~= nil)then
+				if(v.amount == current_amount)then
+					table.insert(available_events, v)
+				end
+			end
+		end
+	end
+
+	return available_events
+end
+
+function OnBits(userdata, message)
+	
+	if(not HasSettingFlag("twitch_extended_options_reward_message"))then
+		message = ""
+	end
+	if(#bit_rewards > 0)then
+		--print("heck")
+		enabled_bit_rewards = get_events_with_closest_amount(bit_rewards, userdata.bits)
+
+		local reward = enabled_bit_rewards[Random(1,#enabled_bit_rewards)]
+
+		if(reward.reward_image == nil)then
+			reward.reward_image = ""
+		end
+
+		if(reward ~= nil)then
+
+			if(message == nil or message == "")then
+				GamePrintImportant(userdata.username.." donated "..userdata.bits.." bits and redeemed \""..GameTextGetTranslatedOrNot(reward.reward_name).."\"", GameTextGetTranslatedOrNot(reward.reward_description), reward.reward_image)
+			else
+				GamePrintImportant(userdata.username.." donated "..userdata.bits.." bits and redeemed \""..GameTextGetTranslatedOrNot(reward.reward_name).."\"", message, reward.reward_image)
+			end
+			--print(userdata.username.." has subscribed")
+			reward.func(reward, userdata)
+
+		end
+	end
 end
 
 function OnSub(userdata, message)

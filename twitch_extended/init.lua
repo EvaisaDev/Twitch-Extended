@@ -117,7 +117,8 @@ end
 
 function OnMagicNumbersAndWorldSeedInitialized()
 	if(ModIsEnabled( "config_lib" ))then
-		if(StreamingGetIsConnected())then
+		--print(tostring(StreamingGetIsConnected()))
+		--if(StreamingGetIsConnected() == 1)then
 			xml_files = get_biome_xml_files()
 			for k, v in pairs(xml_files)do
 				get_biome_scripts(v)
@@ -160,13 +161,13 @@ function OnMagicNumbersAndWorldSeedInitialized()
 			end
 
 			ModTextFileSetContent("mods/twitch_extended/virtual_files/spell_level_lookup.lua", build_spell_level_lookup_table())
-		end
+		--end
 	end
 end
   
 function OnPausePreUpdate()
 	if(ModIsEnabled( "config_lib" ))then
-		if(StreamingGetIsConnected())then
+		if(StreamingGetIsConnected() == 1 or StreamingGetIsConnected() == true)then
 			dofile_once("mods/twitch_extended/config/rewards.lua")
 			for k, v in pairs(channel_rewards)do
 				if(GlobalsGetValue("unlinking_"..v.reward_id, "false") == "true")then
@@ -219,6 +220,8 @@ is_in_mountain = false
 dofile("mods/twitch_extended/files/scripts/utils/utilities.lua")
 
 function OnWorldPreUpdate() 
+	dofile("mods/twitch_extended/files/scripts/utils/gui_utils.lua")
+
 	if(not ModIsEnabled( "config_lib" ))then
 		gui = gui or GuiCreate()
 		GuiStartFrame(gui)
@@ -243,7 +246,7 @@ function OnWorldPreUpdate()
 		GuiLayoutEnd(gui)
 	end
 	if(ModIsEnabled( "config_lib" ))then
-		if(StreamingGetIsConnected())then
+		if(StreamingGetIsConnected() == 1 or StreamingGetIsConnected() == true)then
 			--if(not HasSettingFlag("twitch_extended_options_perks"))then
 				if(is_in_mountain == false)then
 					if(BiomeMapGetName() == "$biome_holymountain" and HasSettingFlag("twitch_extended_options_pause_in_mountain") or BiomeMapGetName() == "$biome_boss_arena" and HasSettingFlag("twitch_extended_options_pause_in_boss"))then
@@ -280,6 +283,8 @@ function OnWorldPreUpdate()
 					elseif(not open and not was_recently_enabled)then
 						if( not HasSettingFlag( "twitch_extended_options_disable_voting_system" ) )then
 							StreamingSetVotingEnabled( true )
+						else
+							StreamingSetVotingEnabled( false )
 						end
 						was_recently_disabled = false
 						was_recently_enabled = true
@@ -333,10 +338,18 @@ dofile("mods/twitch_extended/lib/translations.lua")
 
 register_localizations("mods/twitch_extended/files/translations.csv")
 
+function OnPlayerDied()
+	death_count = ModSettingGet("twitch_extended_death_counter") or 0
+
+	ModSettingSet("twitch_extended_death_counter", death_count + 1) 
+	--print("yo. Eva here.")
+end
+
 function OnPlayerSpawned( player_entity )
 	if(ModIsEnabled( "config_lib" ))then
-		if(StreamingGetIsConnected())then
+		if(StreamingGetIsConnected() == 1 or StreamingGetIsConnected() == true)then
 			StreamingSetVotingEnabled(not HasSettingFlag( "twitch_extended_options_disable_voting_system" ))
+			print("The hell?")
 			if(GameHasFlagRun( "twitch_extended_new_run" ) == false)then
 				GameAddFlagRun( "twitch_extended_new_run" )
 				if(HasSettingFlag("twitch_extended_options_loadouts") and ModIsEnabled("gkbrkn_noita"))then

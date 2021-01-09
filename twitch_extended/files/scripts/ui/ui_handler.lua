@@ -1,12 +1,10 @@
 handler_gui = handler_gui or GuiCreate()
-current_id = 2
+
 stored_users = stored_users or {}
 
-
-function new_id()
-    current_id = current_id + 1
-    return current_id
-end
+local font_small = {
+	sprite_filepath = "mods/twitch_extended/files/gfx/fonts/font_pixel.xml",
+}
 
 
 GuiStartFrame(handler_gui)
@@ -27,12 +25,6 @@ function GuiText2(gui, x, y, text, z_index)
 		GuiText(gui, x, y, s)
 	end
 	GuiLayoutEnd( gui )
-end
-
-function hex2argb(hex)
-	hex = hex:gsub("#", "FF")
-	local n = tonumber(hex, 16)
-	return bit.band(bit.rshift(n, 24), 0xFF)/255, bit.band(bit.rshift(n, 16), 0xFF)/255, bit.band(bit.rshift(n, 8), 0xFF)/255, bit.band(n, 0xFF)/255
 end
 
 function splitIntoLines(inputs, len)
@@ -110,48 +102,55 @@ if world_entity_id then
 
 end
 
+--draw_text( handler_gui, font_small, "test text 1", "FFCCCC", 50, 50, 1, 1 )
+
 -- Twitch Chat
 function GuiMessage(gui, x, y, user_data, color, message, z_index, is_action)
 	user = user_data.username
 	local a, r, g, b = hex2argb(color)
 	GuiZSet( gui, z_index )
-	GuiLayoutBeginHorizontal( gui, 0, 0, false, 0, 0 )
-	GuiLayoutBeginHorizontal( gui, 0, 0, false, 1, 1 )
+	GuiLayoutBeginHorizontal( gui, 0, 0, false, 2, 2 )
+	--GuiLayoutBeginHorizontal( gui, 0, 0, false, 1, 1 )
 		if(HasSettingFlag("twitch_extended_options_show_chat_badges"))then
 			--print("test eee")
 			
 			if(user_data.broadcaster)then
-				GuiImage( gui, new_id(), x, y + 1, "mods/twitch_extended/files/gfx/chat_badges/broadcaster_badge.png", 1, 1, 0, 0, 1, "" )
+				GuiImage( gui, new_id(), x, y + 1, "mods/twitch_extended/files/gfx/chat_badges/broadcaster_badge.png", 1, 1, 1, 0, 1, "" )
 			end
 			if(user_data.moderator)then
-				GuiImage( gui, new_id(), x, y + 1, "mods/twitch_extended/files/gfx/chat_badges/mod_badge.png", 1, 1, 0, 0, 1, "" )
+				GuiImage( gui, new_id(), x, y + 1, "mods/twitch_extended/files/gfx/chat_badges/mod_badge.png", 1, 1, 1, 0, 1, "" )
 			end
 			if(user_data.subscriber)then
-				GuiImage( gui, new_id(), x, y + 1, "mods/twitch_extended/files/gfx/chat_badges/sub_badge.png", 1, 1, 0, 0, 1, "" )
+				GuiImage( gui, new_id(), x, y + 1, "mods/twitch_extended/files/gfx/chat_badges/sub_badge.png", 1, 1, 1, 0, 1, "" )
 			end
 			
 		end
 		GuiColorSetForNextWidget(gui, r, g, b, a)
+		--GuiLayoutBeginHorizontal( gui, 0, 0, false, 0, 0 )
 		if(is_action == false)then
 			GuiText(gui, x, y, user..": ")
+			--draw_text( gui, font_small, user..": ", color, x, y, 1, 1, -985, 0 )
 		else
 			GuiText(gui, x, y, user.." ")
+			--draw_text( gui, font_small, user.." ", color, x, y, 1, 1, -985, 0 )
 		end
-		
-		GuiLayoutBeginVertical( handler_gui, 0, 0, false, 0, 0 )
+		GuiLayoutBeginVertical( gui, 0, 0, false, 0, 0 )
 		if(type(message) == "table")then
 			for k, v in pairs(message)do
 				if(k > 1)then
 					y = 0
 				end
+				--draw_text( gui, font_small, v, "FFFFFF", x, y, 1, 1, -985, 0 )
 				GuiText(gui, x, y, v)
 			end
 		else
+			--draw_text( gui, font_small, message, "FFFFFF", x, y, 1, 1, -985, 0 )
 			GuiText(gui, x, y, message)
 		end
 		GuiLayoutEnd( gui )
+
 		GuiZSet( gui, 0 )
-	GuiLayoutEnd( gui )
+	--GuiLayoutEnd( gui )
 	GuiLayoutEnd( gui )	
 end
 
@@ -232,6 +231,12 @@ if(not GameHasFlagRun("config_lib_open"))then
 
 				message.message = string.trim(message.message)
 
+				message_length_limit = ModSettingGet("twitch_extended_options_chat_line_cut_limit") or 500
+
+				if(#message.message > message_length_limit)then
+					message.message = string.sub(message.message, 1, message_length_limit).."..."
+				end
+
 				if(string.sub(message.message, 1, 7) == "ACTION" and string.sub(message.message, -1) == "")then
 					message.action = true
 					message.message = string.sub(message.message, 8, #message.message - 1)--"Quack"
@@ -289,6 +294,17 @@ if GameHasFlagRun( "twitch_vote_paused" ) and not GameHasFlagRun("config_lib_ope
 	end
 	GuiZSetForNextWidget( handler_gui, -85 )
 	GuiEndAutoBoxNinePiece( handler_gui, 5, 0, 0, false, 0, "data/ui_gfx/decorations/9piece0_gray.png", "data/ui_gfx/decorations/9piece0_gray.png" )
+end
+
+-- Death counter
+if (HasSettingFlag("twitch_extended_options_enable_death_counter"))then
+	local pos_x = ModSettingGet("twitch_extended_options_death_counter_position_x") or 0
+	local pos_y = ModSettingGet("twitch_extended_options_death_counter_position_y") or 0
+	local curr_deaths = tostring(ModSettingGet("twitch_extended_death_counter") or 0)
+	GuiLayoutBeginHorizontal(handler_gui, pos_x, pos_y)
+	GuiZSetForNextWidget( handler_gui, 50 )
+	GuiText(handler_gui, 0, 0, curr_deaths.." "..GameTextGetTranslatedOrNot("$twitch_extended_deaths"))
+	GuiLayoutEnd(handler_gui)
 end
 
 

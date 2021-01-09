@@ -393,7 +393,7 @@ function text_above_entity( entity_id, text, extra_offset )
     if(entity_id ~= nil)then
 		if text ~= "" then
 			if(get_player() ~= nil and entity_id ~= get_player())then
-				EntityAddChild(get_player(), entity_id)
+				--EntityAddChild(get_player(), entity_id)
 			end
 			ent_x, ent_y = EntityGetTransform(entity_id)
 			text_holder = EntityCreateNew("text_holder")
