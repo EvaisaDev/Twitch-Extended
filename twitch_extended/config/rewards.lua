@@ -22,7 +22,8 @@ bit_rewards = {
 			local wallet = EntityGetFirstComponent(player, "WalletComponent")
 			if(wallet ~= nil)then
 				local money = tonumber(ComponentGetValueInt(wallet, "money"))
-				ComponentSetValue(wallet, "money", 0)
+				-- APP: This is setting wallet to 0 so is basically scatter gold? Removed this and now is just giving 500 gold by deault
+				--ComponentSetValue(wallet, "money", 0)
 				local count = math.max(math.floor(money / 25), 40) + ((userdata.total_months or 1) * 10)
                     
                 for i = 1, count do
