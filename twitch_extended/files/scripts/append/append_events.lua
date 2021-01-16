@@ -1535,6 +1535,7 @@ append_events = {
 					end
 				end
 			end
+
 			if base_wand ~= nil then
 				local children = EntityGetAllChildren( base_wand );
 		
@@ -1559,7 +1560,7 @@ append_events = {
 
 						if(ComponentGetTypeName(v2) == "ItemActionComponent")then
 							for o, p in pairs(ComponentGetMembers( v2 ))do
-							--	print(p)
+
 								if(allow == true)then
 									old_actions[#old_actions].spell = p
 								end
@@ -1570,12 +1571,12 @@ append_events = {
 					if(allow == true)then
 						EntityKill(v)
 					end
-
+					--[[
 					local inventory2 = EntityGetFirstComponent( player, "Inventory2Component" );
 					if inventory2 ~= nil then
 						ComponentSetValue2( inventory2, "mForceRefresh", true );
 						ComponentSetValue2( inventory2, "mActualActiveItem", 0)
-					end
+					end]]
 				end
 
 				actions = shuffle(old_actions)
@@ -1594,6 +1595,7 @@ append_events = {
 				end
 
 			end
+			
 			local inventory2 = EntityGetFirstComponent( player, "Inventory2Component" );
 			if inventory2 ~= nil then
 				ComponentSetValue2( inventory2, "mForceRefresh", true );
@@ -1690,20 +1692,14 @@ append_events = {
 						
 						-- APP: Has been replaced with EntityGetAllComponents it seems? Have to get all components and then loop through and find the ability component and then set. After that, everything looks to work normally.
 						local wandComponents = EntityGetAllComponents( base_wand );
-						print("wandComponents = " .. tostring(wandComponents))
 						local ability_component = ""
 						for index, data in ipairs(wandComponents) do
-							print("index = " .. index)
-							print("data = " .. data)
 							componentName = ComponentGetTypeName(data)
-							print("componentName = " .. componentName)
 							if componentName == "AbilityComponent" then
-								print("-- Found AbilityComponent. Setting...")
 								ability_component = data
 							end
 						end
-						print("ability_component = " .. ability_component)
-						
+
 						if ability_component ~= nil then
 							local deck_capacity = tonumber( ComponentObjectGetValue( ability_component, "gun_config", "deck_capacity" ) );
 							if(wand_in_table(base_wand) == false)then
