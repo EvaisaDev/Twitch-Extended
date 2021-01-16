@@ -1678,7 +1678,26 @@ append_events = {
 							spells = {}
 						}
 		
-						local ability_component = WandGetAbilityComponent( base_wand );
+						-- APP: This is where failure is occurring with bug. base_wand is being shown as nil. Not getting wands correctly it seems.
+						-- WandGetAbilityComponent doesn't look to exist anymore in api?
+						--local ability_component = WandGetAbilityComponent( base_wand );
+						
+						-- APP: Has been replaced with EntityGetAllComponents it seems? Have to get all components and then loop through and find the ability component and then set. After that, everything looks to work normally.
+						local wandComponents = EntityGetAllComponents( base_wand );
+						print("wandComponents = " .. tostring(wandComponents))
+						local ability_component = ""
+						for index, data in ipairs(wandComponents) do
+							print("index = " .. index)
+							print("data = " .. data)
+							componentName = ComponentGetTypeName(data)
+							print("componentName = " .. componentName)
+							if componentName == "AbilityComponent" then
+								print("-- Found AbilityComponent. Setting...")
+								ability_component = data
+							end
+						end
+						print("ability_component = " .. ability_component)
+						
 						if ability_component ~= nil then
 							local deck_capacity = tonumber( ComponentObjectGetValue( ability_component, "gun_config", "deck_capacity" ) );
 							if(wand_in_table(base_wand) == false)then
