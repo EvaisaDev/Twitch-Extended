@@ -31,7 +31,22 @@ end
 
 function run_events(table)
 	for k, v in pairs(table)do
-		v.action(v)
+		-- APP: Debug output etc.
+		print(v.id)
+		for key, value in pairs(v) do
+			print('\t', key, tostring(value))
+		end
+		
+		-- APP: Needed to add this because some events don't have an action and would not trigger/cause issues with the next event. 
+		-- Note that this doesn't trigger the timer for the events like sea of random or RAIN_HIISI and instead just spawns them in right away.
+		-- Chaotic but in a good way for 2d20/1d20
+		if v.action == nil then
+			print("action_delayed event.")
+			v.action_delayed(v)
+		else
+			print("regular action event.")
+			v.action(v)
+		end
 	end
 end
 
