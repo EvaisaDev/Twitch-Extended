@@ -131,6 +131,41 @@ else
 end
 end
 
+
+function EntityGetVariable(entity, name, type)
+	value = nil
+	variable_storages = EntityGetComponent(entity, "VariableStorageComponent")
+	if(variable_storages ~= nil)then
+		for k, v in pairs(variable_storages)do
+			name_out = ComponentGetValue2(v, "name")
+			if(name_out == name)then
+				value = ComponentGetValue2(v, "value_"..type)
+			end
+		end
+	end
+	return value
+end
+
+function EntitySetVariable(entity, name, type, value)
+	variable_storages = EntityGetComponent(entity, "VariableStorageComponent")
+	has_been_set = false
+	if(variable_storages ~= nil)then
+		for k, v in pairs(variable_storages)do
+			name_out = ComponentGetValue2(v, "name")
+			if(name_out == name)then
+				ComponentSetValue2(v, "value_"..type, value)
+				has_been_set = true
+			end
+		end
+	end
+	if(has_been_set == false)then
+		comp = {}
+		comp.name = name
+		comp["value_"..type] = value
+		EntityAddComponent2(entity, "VariableStorageComponent", comp)
+	end
+end
+
 function clamp(val, lower, upper)
 if lower > upper then lower, upper = upper, lower end -- swap if boundaries supplied the wrong way
 return math.max(lower, math.min(upper, val))

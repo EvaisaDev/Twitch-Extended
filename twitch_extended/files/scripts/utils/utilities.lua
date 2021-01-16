@@ -1031,6 +1031,11 @@ function spawn_enemy_biome(username)
 			end
 
 			enemy = enemies[Random(1, #enemies)]
+
+			if(random(0,100) <= 5)then
+				enemy = "data/entities/animals/necromancer_shop.xml"
+			end
+			
 			count = Random(1, 4)
 			for i = 1, count do
 				drone = spawn_item(enemy, 50, 80)
@@ -1137,6 +1142,11 @@ function spawn_biome_wand()
 	local eid = EntityLoad( item, x, y )
 
 	return eid
+end
+
+function sleep(seconds)
+    local start = GameGetRealWorldTimeSinceStarted()
+    repeat until GameGetRealWorldTimeSinceStarted() > start + seconds
 end
 
 

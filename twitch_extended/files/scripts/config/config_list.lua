@@ -91,10 +91,6 @@ twitch_config_options = {
                     max_number = 120,
                     min_number = 0,
                     format = "$0",
-                    increments = {
-                    1,
-                    5
-                    },
                     type = "slider",
                     requires_restart = false,
                     callback = function(number)
@@ -232,6 +228,17 @@ twitch_config_options = {
                     required_flag = "",
                     name = "$twitch_extended_config_left_side_votes",
                     description = "$twitch_extended_config_left_side_votes_description",
+                    default = false,
+                    type = "toggle",
+                    requires_restart = false,
+                    callback = function(item, enabled)
+                    end
+                },  
+                {
+                    flag = "no_event_timers",
+                    required_flag = "",
+                    name = "No Event Timers",
+                    description = "Disable any event timers that events may have.",
                     default = false,
                     type = "toggle",
                     requires_restart = false,
@@ -757,6 +764,19 @@ twitch_config_options = {
             items_per_page = 45,
             items_per_row = 15,
             items = {
+                {
+                    name = "Enable or disable bit rewards here.",
+                    required_flag = "",
+                    description = "",
+                    offset_x = -4,
+                    offset_y = 0,
+                    color = "fff5ce42",
+                    type = "text"
+                },    
+                {
+                    required_flag = "",
+                    type = "spacer"
+                },    
             }
         },
     }
@@ -775,7 +795,18 @@ for k, v in pairs(channel_rewards)do
                 prefix = GameTextGetTranslatedOrNot("$twitch_extended_config_reward_unlink")
             end
 
-            new_item = {
+            new_item1 = {
+                name = v.reward_name,
+                required_flag = "",
+                description = v.reward_description,
+                offset_x = -4,
+                offset_y = 0,
+                color = "ffb0bfeb",
+                type = "text"
+            }  
+
+
+            new_item2 = {
                 flag = "link_"..v.reward_id,
                 required_flag = "",
                 name = prefix..' "'..GameTextGetTranslatedOrNot(v.reward_name)..'"',
@@ -810,7 +841,77 @@ for k, v in pairs(channel_rewards)do
                     end
                 end               
             }
-            table.insert(v2.items, new_item)
+
+            table.insert(v2.items, new_item1)
+            table.insert(v2.items, {
+                type = "spacer"
+            })
+            table.insert(v2.items, new_item2)
+            if(v.custom_options ~= nil)then
+                for k3, option in pairs(v.custom_options)do
+                    if(option.type == "toggle")then
+                        table.insert(v2.items, {
+                            flag = v.reward_id.."_"..option.flag,
+                            required_flag = "",
+                            name = option.name,
+                            description = option.description,
+                            default = option.default,
+                            type = "toggle",
+                            requires_restart = false,
+                            callback = function(item, enabled)
+                            end               
+                        })
+                    elseif(option.type == "slider")then
+                        table.insert(v2.items, {
+                            flag = v.reward_id.."_"..option.flag,
+                            required_flag = "",
+                            name = option.name,
+                            description = option.description,
+                            default_number = option.default_number,
+                            max_number = option.max_number,
+                            min_number = option.min_number,
+                            format = option.format,
+                            type = "slider",
+                            requires_restart = false,
+                            callback = function(number)
+        
+                            end
+                        })
+                    elseif(option.type == "input")then
+                        table.insert(v2.items, {
+                            flag = v.reward_id.."_"..option.flag,
+                            required_flag = "",
+                            name = option.name,
+                            description = option.description,
+                            default_text = option.default_text,
+                            allowed_chars = option.allowed_chars,
+                            text_max_length = option.text_max_length,
+                            type = "input",
+                            requires_restart = false,
+                            callback = function(number)
+            
+                            end
+                        })
+                    elseif(option.type == "enum")then
+                        table.insert(v2.items, {
+                            flag = v.reward_id.."_"..option.flag,
+                            required_flag = "",
+                            name = option.name,
+                            description = option.description,
+                            default = option.default_enum,
+                            values = option.values,
+                            type = "enum",
+                            requires_restart = false,
+                            callback = function(item, value)
+        
+                            end
+                        })
+                    end
+                end
+            end
+            table.insert(v2.items, {
+                type = "spacer"
+            })
         end
     end
 end
@@ -818,10 +919,19 @@ end
 for k, v in pairs(sub_rewards)do
     for k2, v2 in pairs(twitch_config_options.categories)do
         if(v2.category_id == "sub_rewards")then
-            new_item = {
+            new_item1 = {
+                name = v.reward_name,
+                required_flag = "",
+                description = v.reward_description,
+                offset_x = -4,
+                offset_y = 0,
+                color = "ffb0bfeb",
+                type = "text"
+            }  
+            new_item2 = {
                 flag = v.reward_id,
                 required_flag = "",
-                name = v.reward_name,
+                name = "Enable",
                 description = v.reward_description,
                 default = true,
                 type = "toggle",
@@ -829,7 +939,76 @@ for k, v in pairs(sub_rewards)do
                 callback = function(item, enabled)
                 end               
             }
-            table.insert(v2.items, new_item)
+            table.insert(v2.items, new_item1)
+            table.insert(v2.items, {
+                type = "spacer"
+            })
+            table.insert(v2.items, new_item2)
+            if(v.custom_options ~= nil)then
+                for k3, option in pairs(v.custom_options)do
+                    if(option.type == "toggle")then
+                        table.insert(v2.items, {
+                            flag = v.reward_id.."_"..option.flag,
+                            required_flag = "",
+                            name = option.name,
+                            description = option.description,
+                            default = option.default,
+                            type = "toggle",
+                            requires_restart = false,
+                            callback = function(item, enabled)
+                            end               
+                        })
+                    elseif(option.type == "slider")then
+                        table.insert(v2.items, {
+                            flag = v.reward_id.."_"..option.flag,
+                            required_flag = "",
+                            name = option.name,
+                            description = option.description,
+                            default_number = option.default_number,
+                            max_number = option.max_number,
+                            min_number = option.min_number,
+                            format = option.format,
+                            type = "slider",
+                            requires_restart = false,
+                            callback = function(number)
+        
+                            end
+                        })
+                    elseif(option.type == "input")then
+                        table.insert(v2.items, {
+                            flag = v.reward_id.."_"..option.flag,
+                            required_flag = "",
+                            name = option.name,
+                            description = option.description,
+                            default_text = option.default_text,
+                            allowed_chars = option.allowed_chars,
+                            text_max_length = option.text_max_length,
+                            type = "input",
+                            requires_restart = false,
+                            callback = function(number)
+            
+                            end
+                        })
+                    elseif(option.type == "enum")then
+                        table.insert(v2.items, {
+                            flag = v.reward_id.."_"..option.flag,
+                            required_flag = "",
+                            name = option.name,
+                            description = option.description,
+                            default = option.default_enum,
+                            values = option.values,
+                            type = "enum",
+                            requires_restart = false,
+                            callback = function(item, value)
+        
+                            end
+                        })
+                    end
+                end
+            end
+            table.insert(v2.items, {
+                type = "spacer"
+            })
         end
     end
 end
@@ -861,7 +1040,7 @@ for k, v in pairs(bit_rewards)do
                 flag = v.reward_id.."_exact_amount",
                 required_flag = "",
                 name = "Require exact amount",
-                description = "Does this reward require the exact amount of bits?\\nIf this is unset any amount above it until the next reward also triggers it.",
+                description = "If this is unchecked any amount above it until the next reward also triggers it.",
                 default = false,
                 type = "toggle",
                 requires_restart = false,
@@ -877,7 +1056,7 @@ for k, v in pairs(bit_rewards)do
                 allowed_chars = "1234567890",
                 text_max_length = 10,
                 type = "input",
-                requires_restart = true,
+                requires_restart = false,
                 callback = function(number)
 
                 end
@@ -889,6 +1068,69 @@ for k, v in pairs(bit_rewards)do
             table.insert(v2.items, new_item2)
             table.insert(v2.items, new_item3)
             table.insert(v2.items, new_item4)
+
+            if(v.custom_options ~= nil)then
+                for k3, option in pairs(v.custom_options)do
+                    if(option.type == "toggle")then
+                        table.insert(v2.items, {
+                            flag = v.reward_id.."_"..option.flag,
+                            required_flag = "",
+                            name = option.name,
+                            description = option.description,
+                            default = option.default,
+                            type = "toggle",
+                            requires_restart = false,
+                            callback = function(item, enabled)
+                            end               
+                        })
+                    elseif(option.type == "slider")then
+                        table.insert(v2.items, {
+                            flag = v.reward_id.."_"..option.flag,
+                            required_flag = "",
+                            name = option.name,
+                            description = option.description,
+                            default_number = option.default_number,
+                            max_number = option.max_number,
+                            min_number = option.min_number,
+                            format = option.format,
+                            type = "slider",
+                            requires_restart = false,
+                            callback = function(number)
+        
+                            end
+                        })
+                    elseif(option.type == "input")then
+                        table.insert(v2.items, {
+                            flag = v.reward_id.."_"..option.flag,
+                            required_flag = "",
+                            name = option.name,
+                            description = option.description,
+                            default_text = option.default_text,
+                            allowed_chars = option.allowed_chars,
+                            text_max_length = option.text_max_length,
+                            type = "input",
+                            requires_restart = false,
+                            callback = function(number)
+            
+                            end
+                        })
+                    elseif(option.type == "enum")then
+                        table.insert(v2.items, {
+                            flag = v.reward_id.."_"..option.flag,
+                            required_flag = "",
+                            name = option.name,
+                            description = option.description,
+                            default = option.default_enum,
+                            values = option.values,
+                            type = "enum",
+                            requires_restart = false,
+                            callback = function(item, value)
+        
+                            end
+                        })
+                    end
+                end
+            end
             table.insert(v2.items, {
                 type = "spacer"
             })

@@ -13,6 +13,10 @@ local streaming_config_events_per_vote = 4
 local next_event_id = 1
 local event_weights = {}
 
+force_next_username = nil
+
+print("rawr!")
+
 timed_out_names = {}
 StreamingGetRandomViewerName = function()
 	user = {
@@ -76,11 +80,14 @@ StreamingGetRandomViewerName = function()
 		i = i + 1
 	end
 
-	table.insert(timed_out_names, {name = user.name, frame = GameGetFrameNum()})
+	if(force_next_username == nil)then
+		table.insert(timed_out_names, {name = user.name, frame = GameGetFrameNum()})
 
-	GlobalsSetValue("random_twitch_user_used", user.name or "")
+		
+		GlobalsSetValue("random_twitch_user_used", user.name or "")
+	end
 
-	return user.name or ""
+	return force_next_username or user.name or ""
 end
 
 
@@ -195,6 +202,9 @@ _streaming_run_event = function(id)
 					
 					if ( #p > 0 ) then
 						for a,b in ipairs( p ) do
+							if(HasSettingFlag("twitch_extended_options_no_event_timers"))then
+								evt.delay_timer = 0
+							end
 							add_timer_above_head( b, evt.id, evt.delay_timer, evt.timer_formatting )
 						end
 					end
@@ -438,8 +448,9 @@ function _streaming_on_irc( is_userstate, sender_username, message, raw )
 				--local message = data["params"][2]
 				
 				OnMessage(userdata, message)
-				OnBits(userdata, message)
-
+				if(userdata.bits > 0)then
+					OnBits(userdata, message)
+				end
 			end
 		elseif(string.match(line, "USERNOTICE") and string.sub(line, 1, 11) == "@badge-info")then
 			if(line == nil or line == "" or line == "	" or line == " ")then

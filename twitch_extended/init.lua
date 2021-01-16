@@ -349,7 +349,7 @@ function OnPlayerSpawned( player_entity )
 	if(ModIsEnabled( "config_lib" ))then
 		if(StreamingGetIsConnected() == 1 or StreamingGetIsConnected() == true)then
 			StreamingSetVotingEnabled(not HasSettingFlag( "twitch_extended_options_disable_voting_system" ))
-			print("The hell?")
+			--print("The hell?")
 			if(GameHasFlagRun( "twitch_extended_new_run" ) == false)then
 				GameAddFlagRun( "twitch_extended_new_run" )
 				if(HasSettingFlag("twitch_extended_options_loadouts") and ModIsEnabled("gkbrkn_noita"))then

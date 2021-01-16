@@ -30,8 +30,20 @@ end
 ]]
 
 function run_events(table)
-	for k, v in pairs(table)do
-		v.action(v)
+	for k, evt in pairs(table)do
+		if evt.action_delayed ~= nil then
+			if evt.delay_timer ~= nil then
+				local p = get_players()
+				
+				if ( #p > 0 ) then
+					for a,b in ipairs( p ) do
+						add_timer_above_head( b, evt.id, evt.delay_timer, evt.timer_formatting )
+					end
+				end
+			end
+		elseif evt.action ~= nil then	
+			evt.action(evt)
+		end
 	end
 end
 
@@ -304,17 +316,15 @@ append_events = {
 		kind = STREAMING_EVENT_BAD,
 		ui_author = "Evaisa",
 		action = function(event)
-			async(function()
-				local x, y = get_player_pos()
-				
-				x2 = -150
-				for i = 1, 60 do
-					create_hole_of_size(x + x2, y - 130, 10)
-					x2 = x2 + 5
-				end
-				wait(5)
-				EntityLoad("mods/twitch_extended/files/entities/misc/acid_trap.xml", x, y - 130)
-			end)
+			handler_entity = EntityCreateNew()
+			EntityAddComponent2(handler_entity, "LuaComponent", {
+				script_source_file="mods/twitch_extended/files/scripts/events/acid_trap.lua",
+				vm_type="ONE_PER_COMPONENT_INSTANCE",
+				execute_on_added=true,
+				execute_every_n_frame=-1,
+				execute_times=1,
+				enable_coroutines=true,
+			})
 		end,
 	},
 	{
@@ -419,20 +429,15 @@ append_events = {
 		kind = STREAMING_EVENT_BAD,
 		ui_author = "Evaisa",
 		action = function(event)
-			async(function()
-				bombs = {}
-				for i = 1, 5 do
-					bomb = spawn_item("data/entities/projectiles/bomb.xml", 20, 30)
-					damage_model = EntityGetFirstComponent(bomb, "DamageModelComponent")
-					ComponentSetValue2(damage_model, "hp", 10000)
-					table.insert(bombs, bomb)
-				end
-				wait(80)
-				for k, bomb in pairs(bombs)do
-					damage_model = EntityGetFirstComponent(bomb, "DamageModelComponent")
-					ComponentSetValue2(damage_model, "hp", 0.5)
-				end
-			end)
+			handler_entity = EntityCreateNew()
+			EntityAddComponent2(handler_entity, "LuaComponent", {
+				script_source_file="mods/twitch_extended/files/scripts/events/bomb.lua",
+				vm_type="ONE_PER_COMPONENT_INSTANCE",
+				execute_on_added=true,
+				execute_every_n_frame=-1,
+				execute_times=1,
+				enable_coroutines=true,
+			})
 		end,
 	},
 	{
@@ -653,15 +658,15 @@ append_events = {
 		weight = 1.0,
 		kind = STREAMING_EVENT_BAD,
 		action = function(event)
-			async(function()
-				local x, y = get_player_pos()
-			
-				for i = 1, 8 do
-					create_hole_of_size(x, y + (i * 8), 12)
-				end
-				wait(5)
-				EntityLoad("mods/twitch_extended/files/entities/misc/lava_pit.xml", x, y)
-			end)
+			handler_entity = EntityCreateNew()
+			EntityAddComponent2(handler_entity, "LuaComponent", {
+				script_source_file="mods/twitch_extended/files/scripts/events/lava_pit.lua",
+				vm_type="ONE_PER_COMPONENT_INSTANCE",
+				execute_on_added=true,
+				execute_every_n_frame=-1,
+				execute_times=1,
+				enable_coroutines=true,
+			})
 		end,
 	},
 	{
@@ -673,15 +678,15 @@ append_events = {
 		weight = 1.0,
 		kind = STREAMING_EVENT_BAD,
 		action = function(event)
-			async(function()
-				local x, y = get_player_pos()
-			
-				for i = 1, 8 do
-					create_hole_of_size(x, y + (i * 8), 12)
-				end
-				wait(5)
-				EntityLoad("mods/twitch_extended/files/entities/misc/poison_pit.xml", x, y)
-			end)
+			handler_entity = EntityCreateNew()
+			EntityAddComponent2(handler_entity, "LuaComponent", {
+				script_source_file="mods/twitch_extended/files/scripts/events/poison_pit.lua",
+				vm_type="ONE_PER_COMPONENT_INSTANCE",
+				execute_on_added=true,
+				execute_every_n_frame=-1,
+				execute_times=1,
+				enable_coroutines=true,
+			})
 		end,
 	},
 	{
@@ -1284,19 +1289,20 @@ append_events = {
 		action = function(event)
 			async(function()
 				for _,player_entity in pairs( get_players() ) do
-					
+					--[[
 					local px, py = EntityGetTransform(player_entity)
 					local tele = EntityLoad("mods/twitch_extended/files/entities/particles/teleport.xml", px, py)
 					EntityAddChild(player_entity, tele)
 					wait(2)
 					local x, y = get_spawn_pos(500, 1000)
 					EntityApplyTransform(player_entity, x, y)
+					]]
 
 					
-					--[[local game_effect = GetGameEffectLoadTo( player_entity, "TELEPORTATION", false );
+					local game_effect = GetGameEffectLoadTo( player_entity, "TELEPORTATION", false );
 					if game_effect ~= nil then
 						ComponentSetValue( game_effect, "frames", 60 );
-					end]]
+					end
 				end
 			end)
 		end,
@@ -1730,39 +1736,15 @@ append_events = {
 		weight = 0.9,
 		kind = STREAMING_EVENT_NEUTRAL,
 		action = function(event)
-			async(function()
-				allowed_picks = {}
-				for k, v in pairs(streaming_events)do
-					if(( v.enabled == nil ) or ( v.enabled ) and v.id ~= "TWITCH_EXTENDED_1D20" and v.id ~= "TWITCH_EXTENDED_2D20")then
-						table.insert(allowed_picks, v)
-					end
-				end
-				event = allowed_picks[Random(1, #allowed_picks)]
-				
-				--timer = append_text(get_player(), TEXT)
-
-				timer_holder, timer = text_above_entity( get_player(), GameTextGetTranslatedOrNot(event.ui_name), 0 )
-
-				previous_event = nil
-
-				for i=1, 20 do
-					wait(15)
-					index = Random(1, #allowed_picks)
-					event = allowed_picks[index]
-					if(previous_event ~= nil)then
-						table.insert(allowed_picks, previous_event)
-					end
-					previous_event = event
-					table.remove(allowed_picks,index)
-					
-					update_text( timer_holder, timer, GameTextGetTranslatedOrNot(event.ui_name) )
-					
-				end
-				wait(90)
-				EntityKill(timer_holder)
-				GamePrintImportant(GameTextGetTranslatedOrNot(event.ui_name), GameTextGetTranslatedOrNot(event.ui_description))
-				run_events({event})
-			end)
+			handler_entity = EntityCreateNew()
+			EntityAddComponent2(handler_entity, "LuaComponent", {
+				script_source_file="mods/twitch_extended/files/scripts/events/1d20.lua",
+				vm_type="ONE_PER_COMPONENT_INSTANCE",
+				execute_on_added=true,
+				execute_every_n_frame=-1,
+				execute_times=1,
+				enable_coroutines=true,
+			})
 		end,
 	},
 	{
@@ -1774,65 +1756,16 @@ append_events = {
 		weight = 0.9,
 		kind = STREAMING_EVENT_NEUTRAL,
 		action = function(event)
-			async(function()
-				allowed_picks = {}
-				for k, v in pairs(streaming_events)do
-					if(( v.enabled == nil ) or ( v.enabled ) and v.id ~= "TWITCH_EXTENDED_1D20" and v.id ~= "TWITCH_EXTENDED_2D20")then
-						table.insert(allowed_picks, v)
-					end
-				end
+			handler_entity = EntityCreateNew()
+			EntityAddComponent2(handler_entity, "LuaComponent", {
+				script_source_file="mods/twitch_extended/files/scripts/events/2d20.lua",
+				vm_type="ONE_PER_COMPONENT_INSTANCE",
+				execute_on_added=true,
+				execute_every_n_frame=-1,
+				execute_times=1,
+				enable_coroutines=true,
+			})
 
-				allowed_picks2 = {}
-				for k, v in pairs(streaming_events)do
-					if(( v.enabled == nil ) or ( v.enabled ) and v.id ~= "TWITCH_EXTENDED_1D20" and v.id ~= "TWITCH_EXTENDED_2D20")then
-						table.insert(allowed_picks2, v)
-					end
-				end
-
-				event = allowed_picks[Random(1, #allowed_picks)]
-				event2 = allowed_picks2[Random(1, #allowed_picks2)]
-				--timer = append_text(get_player(), TEXT)
-
-				timer_holder, timer = text_above_entity( get_player(), GameTextGetTranslatedOrNot(event.ui_name), 0 )
-				timer_holder2, timer2 = text_above_entity( get_player(), GameTextGetTranslatedOrNot(event2.ui_name), 10 )
-				
-				previous_event = nil
-				previous_event2 = nil
-
-				for i=1, 20 do
-					wait(15)
-					index = Random(1, #allowed_picks)
-					event = allowed_picks[index]
-
-					index2 = Random(1, #allowed_picks2)
-					event2 = allowed_picks2[index2]
-
-					if(previous_event ~= nil)then
-						table.insert(allowed_picks, previous_event)
-					end
-
-					if(previous_event2 ~= nil)then
-						table.insert(allowed_picks2, previous_event2)
-					end
-
-					previous_event = event
-					table.remove(allowed_picks,index)
-					
-					previous_event2 = event2
-					table.remove(allowed_picks2,index2)
-
-					update_text( timer_holder, timer, GameTextGetTranslatedOrNot(event.ui_name) )
-					update_text( timer_holder2, timer2, GameTextGetTranslatedOrNot(event2.ui_name) )
-				end
-				wait(90)
-				EntityKill(timer_holder)
-				EntityKill(timer_holder2)
-				GamePrintImportant(GameTextGetTranslatedOrNot(event.ui_name), GameTextGetTranslatedOrNot(event.ui_description))
-				GamePrintImportant(GameTextGetTranslatedOrNot(event2.ui_name), GameTextGetTranslatedOrNot(event2.ui_description))
-				--event.action()
-				--event2.action()
-				run_events({event, event2})
-			end)
 		end,
 	},
 	{

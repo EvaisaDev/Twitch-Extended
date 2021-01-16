@@ -4,7 +4,47 @@ table.insert(bit_rewards, {
 	reward_description = "Spawn a black hole near the player", -- The discription of the reward
 	reward_image = "mods/twitch_extended_example/files/gfx/reward_images/black_hole.png", -- The background image of the reward message
 	required_flag = "", -- A flag that is required for the reward to show up in the settings menu. (For example if it requires a specific mod to work this might be useful)
+	custom_options = { -- Optional config options for this reward.
+		{
+			type = "toggle",
+			flag = "special_flag_test_reward",
+			name = "Test toggle",
+			description = "A test toggle.",
+			default = false
+		},
+		{
+			type = "slider",
+			flag = "special_flag_test_reward2",
+			name = "Test slider",
+			description = "A test slider.",
+			default_number = 10,
+			min_number = 0,
+			max_number = 100,
+			format = "$0%",
+		},
+		{
+			type = "input",
+			flag = "special_flag_test_reward3",
+			name = "Test input",
+			description = "A test input.",
+			default_text = "100",
+			allowed_chars = "1234567890", -- Leave empty to allow any character
+			text_max_length = 50,
+		},
+		{
+			type = "enum",
+			flag = "special_flag_reward_4",
+			name = "Test enum",
+			description = "A test enum.",
+			default_enum = "option1",
+			values = {{"option1", "Option 1"},{"option2", "Option 2"},{"option3", "Option 3"}} 
+		}
+	},
+	no_display_message = false, -- if you want to use your own custom display message you can enable this. 
 	func = function(reward, userdata)
+
+		config_option = ModSettingGet("twitch_extended_bit_rewards_black_holes_special_flag_test_reward3") -- getting the custom config option, flag is a bit long. :p
+
 		-- userdata is a table containing data about the message/user
 		--[[
 			userdata.username 			- 	The username of the person that submitted the reward

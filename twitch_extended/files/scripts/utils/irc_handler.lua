@@ -99,10 +99,15 @@ function OnMessage(userdata, message)
 					if(not HasSettingFlag("twitch_extended_options_reward_message"))then
 						message = ""
 					end
-					if(message == nil or message == "")then
-						GamePrintImportant(userdata.username.." has redeemed \""..GameTextGetTranslatedOrNot(v.reward_name).."\"", GameTextGetTranslatedOrNot(v.reward_description), v.reward_image)
-					else
-						GamePrintImportant(userdata.username.." has redeemed \""..GameTextGetTranslatedOrNot(v.reward_name).."\"", message, v.reward_image)
+
+					v.no_display_message = v.no_display_message or false
+
+					if(v.no_display_message ~= true)then
+						if(message == nil or message == "")then
+							GamePrintImportant(userdata.username.." has redeemed \""..GameTextGetTranslatedOrNot(v.reward_name).."\"", GameTextGetTranslatedOrNot(v.reward_description), v.reward_image)
+						else
+							GamePrintImportant(userdata.username.." has redeemed \""..GameTextGetTranslatedOrNot(v.reward_name).."\"", message, v.reward_image)
+						end
 					end
 				end
 			end
@@ -183,16 +188,24 @@ function OnBits(userdata, message)
 
 		local reward = enabled_bit_rewards[Random(1,#enabled_bit_rewards)]
 
+		if reward == nil then
+			return
+		end
+
 		if(reward.reward_image == nil)then
 			reward.reward_image = ""
 		end
 
 		if(reward ~= nil)then
 
-			if(message == nil or message == "")then
-				GamePrintImportant(userdata.username.." donated "..userdata.bits.." bits and redeemed \""..GameTextGetTranslatedOrNot(reward.reward_name).."\"", GameTextGetTranslatedOrNot(reward.reward_description), reward.reward_image)
-			else
-				GamePrintImportant(userdata.username.." donated "..userdata.bits.." bits and redeemed \""..GameTextGetTranslatedOrNot(reward.reward_name).."\"", message, reward.reward_image)
+			reward.no_display_message = reward.no_display_message or false
+
+			if(reward.no_display_message ~= true)then
+				if(message == nil or message == "")then
+					GamePrintImportant(userdata.username.." donated "..userdata.bits.." bits and redeemed \""..GameTextGetTranslatedOrNot(reward.reward_name).."\"", GameTextGetTranslatedOrNot(reward.reward_description), reward.reward_image)
+				else
+					GamePrintImportant(userdata.username.." donated "..userdata.bits.." bits and redeemed \""..GameTextGetTranslatedOrNot(reward.reward_name).."\"", message, reward.reward_image)
+				end
 			end
 			--print(userdata.username.." has subscribed")
 			reward.func(reward, userdata)
@@ -227,18 +240,26 @@ function OnSub(userdata, message)
 		if(reward ~= nil)then
 			--print("eeeeee")
 			if(userdata.msg_id == "sub")then
-				if(message == nil or message == "")then
-					GamePrintImportant(userdata.username.." has subscribed and redeemed \""..GameTextGetTranslatedOrNot(reward.reward_name).."\"", GameTextGetTranslatedOrNot(reward.reward_description), reward.reward_image)
-				else
-					GamePrintImportant(userdata.username.." has subscribed and redeemed \""..GameTextGetTranslatedOrNot(reward.reward_name).."\"", message, reward.reward_image)
+				reward.no_display_message = reward.no_display_message or false
+
+				if(reward.no_display_message ~= true)then
+					if(message == nil or message == "")then
+						GamePrintImportant(userdata.username.." has subscribed and redeemed \""..GameTextGetTranslatedOrNot(reward.reward_name).."\"", GameTextGetTranslatedOrNot(reward.reward_description), reward.reward_image)
+					else
+						GamePrintImportant(userdata.username.." has subscribed and redeemed \""..GameTextGetTranslatedOrNot(reward.reward_name).."\"", message, reward.reward_image)
+					end
 				end
 				print(userdata.username.." has subscribed")
 				reward.func(reward, userdata)
 			elseif(userdata.msg_id == "resub")then
-				if(message == nil or message == "")then
-					GamePrintImportant(userdata.username.." has subscribed for "..tostring(userdata.total_months).." months! and redeemed \""..GameTextGetTranslatedOrNot(reward.reward_name).."\"", GameTextGetTranslatedOrNot(reward.reward_description), reward.reward_image)
-				else
-					GamePrintImportant(userdata.username.." has subscribed for "..tostring(userdata.total_months).." months! and redeemed \""..GameTextGetTranslatedOrNot(reward.reward_name).."\"", message, reward.reward_image)				
+				reward.no_display_message = reward.no_display_message or false
+
+				if(reward.no_display_message ~= true)then
+					if(message == nil or message == "")then
+						GamePrintImportant(userdata.username.." has subscribed for "..tostring(userdata.total_months).." months! and redeemed \""..GameTextGetTranslatedOrNot(reward.reward_name).."\"", GameTextGetTranslatedOrNot(reward.reward_description), reward.reward_image)
+					else
+						GamePrintImportant(userdata.username.." has subscribed for "..tostring(userdata.total_months).." months! and redeemed \""..GameTextGetTranslatedOrNot(reward.reward_name).."\"", message, reward.reward_image)				
+					end
 				end
 				print(userdata.username.." has subscribed")
 				reward.func(reward, userdata)

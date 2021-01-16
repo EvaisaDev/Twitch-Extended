@@ -173,6 +173,160 @@ bit_rewards = {
 			end
         end,
     },
+    {
+        reward_id = "spawn_perk",
+        reward_name = "$twitch_extended_channel_rewards_spawn_perk",
+        reward_description = "$twitch_extended_channel_rewards_spawn_perk_description",
+        reward_image = "mods/twitch_extended/files/gfx/reward_images/random_perk.png",
+        required_flag = "",
+        func = function(reward, userdata)
+            give_perk()
+        end,
+    },
+    {
+        reward_id = "spawn_spell",
+        reward_name = "$twitch_extended_channel_rewards_spawn_spell",
+        reward_description = "$twitch_extended_channel_rewards_spawn_spell_description",
+        reward_image = "mods/twitch_extended/files/gfx/reward_images/random_spell.png",
+        required_flag = "",
+        func = function(reward, userdata)
+            spawn_spell()
+        end,
+    },
+    {
+        reward_id = "spawn_wand",
+        reward_name = "$twitch_extended_channel_rewards_spawn_wand",
+        reward_description = "$twitch_extended_channel_rewards_spawn_wand_description",
+        reward_image = "mods/twitch_extended/files/gfx/reward_images/random_wand.png",
+        required_flag = "",
+        func = function(reward, userdata)
+            spawn_biome_wand()
+        end,
+    },
+    {
+        reward_id = "spawn_enemy",
+        reward_name = "$twitch_extended_channel_rewards_spawn_enemy",
+        reward_description = "$twitch_extended_channel_rewards_spawn_enemy_description",
+        reward_image = "mods/twitch_extended/files/gfx/reward_images/random_enemy.png",
+        required_flag = "",
+        func = function(reward, userdata)
+            spawn_enemy_biome(userdata.username)
+        end,
+    },
+    {
+        reward_id = "spawn_bomb",
+        reward_name = "$twitch_extended_channel_rewards_spawn_bomb",
+        reward_description = "$twitch_extended_channel_rewards_spawn_bomb_description",
+        reward_image = "mods/twitch_extended/files/gfx/reward_images/spawn_bomb.png",
+        required_flag = "",
+        func = function(reward, userdata)
+            spawn_bomb()
+        end,
+    },
+    {
+        reward_id = "spawn_potion",
+        reward_name = "$twitch_extended_channel_rewards_spawn_potion",
+        reward_description = "$twitch_extended_channel_rewards_spawn_potion_description",
+        reward_image = "mods/twitch_extended/files/gfx/reward_images/random_potion.png",
+        required_flag = "",
+        func = function(reward, userdata)
+            spawn_item("data/entities/items/pickup/potion.xml", 30, 50)
+        end,
+    },
+    {
+        reward_id = "spawn_chest",
+        reward_name = "$twitch_extended_channel_rewards_spawn_chest",
+        reward_description = "$twitch_extended_channel_rewards_spawn_chest_description",
+        reward_image = "mods/twitch_extended/files/gfx/reward_images/spawn_chest.png",
+        required_flag = "",
+        func = function(reward, userdata)
+           -- spawn_chest()
+           local player = get_player()
+           if(player ~= nil)then
+               local x,y = EntityGetTransform(player)
+               local chance = Random(1,100)
+               if(chance < 5)then
+                   spawn_item("data/entities/animals/chest_leggy.xml",30, 50)
+               elseif(chance < 30)then
+                   spawn_item("data/entities/animals/chest_mimic.xml",30, 50)
+               elseif(chance < 70)then
+                   spawn_item("data/entities/items/pickup/chest_random.xml", 30, 50)
+               else
+                   spawn_item("data/entities/items/pickup/chest_random_super.xml", 30, 50)
+               end
+           end
+        end,
+    },
+    {
+        reward_id = "spawn_random_homunculus",
+        reward_name = "$twitch_extended_channel_rewards_random_homunculus",
+        reward_description = "$twitch_extended_channel_rewards_random_homunculus_description",
+        reward_image = "mods/twitch_extended/files/gfx/reward_images/random_homunculus.png",
+        required_flag = "",
+        func = function(reward, userdata)
+            spawn_homunculus(userdata.username)
+        end,
+    },
+    {
+        reward_id = "spawn_normal_homunculus",
+        reward_name = "$twitch_extended_channel_rewards_normal_homunculus",
+        reward_description = "$twitch_extended_channel_rewards_normal_homunculus_description",
+        reward_image = "mods/twitch_extended/files/gfx/reward_images/normal_homunculus.png",
+        required_flag = "",
+        func = function(reward, userdata)
+            spawn_homunculus(userdata.username, "normal")
+        end,
+    },
+    {
+        reward_id = "spawn_healer_homunculus",
+        reward_name = "$twitch_extended_channel_rewards_healer_homunculus",
+        reward_description = "$twitch_extended_channel_rewards_healer_homunculus_description",
+        reward_image = "mods/twitch_extended/files/gfx/reward_images/healer_homunculus.png",
+        required_flag = "",
+        func = function(reward, userdata)
+            spawn_homunculus(userdata.username, "healer")
+        end,
+    },
+    {
+        reward_id = "spawn_slow_homunculus",
+        reward_name = "$twitch_extended_channel_rewards_slow_homunculus",
+        reward_description = "$twitch_extended_channel_rewards_slow_homunculus_description",
+        reward_image = "mods/twitch_extended/files/gfx/reward_images/slow_homunculus.png",
+        required_flag = "",
+        func = function(reward, userdata)
+            spawn_homunculus(userdata.username, "slow")
+        end,
+    },
+    {
+        reward_id = "spawn_fireball_homunculus",
+        reward_name = "$twitch_extended_channel_rewards_fireball_homunculus",
+        reward_description = "$twitch_extended_channel_rewards_fireball_homunculus_description",
+        reward_image = "mods/twitch_extended/files/gfx/reward_images/fireball_homunculus.png",
+        required_flag = "",
+        func = function(reward, userdata)
+            spawn_homunculus(userdata.username, "fireball")
+        end,
+    },
+    {
+        reward_id = "spawn_laser_homunculus",
+        reward_name = "$twitch_extended_channel_rewards_laser_homunculus",
+        reward_description = "$twitch_extended_channel_rewards_laser_homunculus_description",
+        reward_image = "mods/twitch_extended/files/gfx/reward_images/laser_homunculus.png",
+        required_flag = "",
+        func = function(reward, userdata)
+            spawn_homunculus(userdata.username, "laser")
+        end,
+    },
+    {
+        reward_id = "spawn_punch_homunculus",
+        reward_name = "$twitch_extended_channel_rewards_punch_homunculus",
+        reward_description = "$twitch_extended_channel_rewards_punch_homunculus_description",
+        reward_image = "mods/twitch_extended/files/gfx/reward_images/punch_homunculus.png",
+        required_flag = "",
+        func = function(reward, userdata)
+            spawn_homunculus(userdata.username, "punch")
+        end,
+    },
 }
 
 -- Emerald tablet with username and message
