@@ -37,6 +37,9 @@ function run_events(table)
 				
 				if ( #p > 0 ) then
 					for a,b in ipairs( p ) do
+						if(HasSettingFlag("twitch_extended_options_no_event_timers"))then
+							evt.delay_timer = 0
+						end
 						add_timer_above_head( b, evt.id, evt.delay_timer, evt.timer_formatting )
 					end
 				end

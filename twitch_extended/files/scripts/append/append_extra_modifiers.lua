@@ -17,3 +17,4 @@ end
 extra_modifiers["twitch_weightless"] = function()
     c.extra_entities = c.extra_entities .. "mods/twitch_extended/files/entities/misc/weightless_bullets.xml,"
 end
+
