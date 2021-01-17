@@ -20,6 +20,7 @@ Installing from steam workshop is preferred.
 - Miniboss naming [Requires Goki's Things]
 - Subscription rewards
 - Channel point rewards
+- Bit rewards
 - Menu to easily link channel point rewards
 - Option to disable voting system [will still let you use channel point rewards and such]
 - Option to show chat in game
