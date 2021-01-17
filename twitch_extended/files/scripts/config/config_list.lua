@@ -3,6 +3,9 @@ dofile("mods/twitch_extended/config/run_modifiers.lua")
 dofile("mods/twitch_extended/files/scripts/utils/utilities.lua")
 dofile_once( "data/scripts/perks/perk_list.lua" )
 
+VERSION = "v2.2.3"
+DATE = "January 17 2020"
+
 twitch_config_options = {
     mod_id = "twitch_extended",
     mod_name = "Twitch Extended",
@@ -237,8 +240,8 @@ twitch_config_options = {
                 {
                     flag = "no_event_timers",
                     required_flag = "",
-                    name = "No Event Timers",
-                    description = "Disable any event timers that events may have.",
+                    name = "$twitch_extended_config_no_event_timers_name",
+                    description = "$twitch_extended_config_no_event_timers_description",
                     default = false,
                     type = "toggle",
                     requires_restart = false,
@@ -636,7 +639,7 @@ twitch_config_options = {
                     callback = function(item, enabled)
 
                     end
-                },          
+                },      
                 --[[{
                     flag = "bit_rewards",
                     required_flag = "",
@@ -765,7 +768,7 @@ twitch_config_options = {
             items_per_row = 15,
             items = {
                 {
-                    name = "Enable or disable bit rewards here.",
+                    name = "$twitch_extended_config_category_bit_rewards_description",
                     required_flag = "",
                     description = "",
                     offset_x = -4,
@@ -777,6 +780,68 @@ twitch_config_options = {
                     required_flag = "",
                     type = "spacer"
                 },    
+            }
+        },
+        {
+            category_id = "info",
+            category = "$twitch_extended_info",
+            items_per_page = 45,
+            items_per_row = 15,
+            items = {
+                {
+                    name = "$twitch_extended_author",
+                    required_flag = "",
+                    description = "",
+                    offset_x = -4,
+                    offset_y = 0,
+                    color = "ff97a2a8",
+                    type = "text"
+                },    
+                {
+                    name = "Evaisa",
+                    required_flag = "",
+                    description = "",
+                    offset_x = 0,
+                    offset_y = 0,
+                    color = "ffffffff",
+                    type = "text"
+                },    
+                {
+                    name = "$twitch_extended_version",
+                    required_flag = "",
+                    description = "",
+                    offset_x = -4,
+                    offset_y = 0,
+                    color = "ff97a2a8",
+                    type = "text"
+                },    
+                {
+                    name = VERSION,
+                    required_flag = "",
+                    description = "",
+                    offset_x = 0,
+                    offset_y = 0,
+                    color = "ffffffff",
+                    type = "text"
+                },    
+                {
+                    name = "$twitch_extended_date",
+                    required_flag = "",
+                    description = "",
+                    offset_x = -4,
+                    offset_y = 0,
+                    color = "ff97a2a8",
+                    type = "text"
+                },    
+                {
+                    name = DATE,
+                    required_flag = "",
+                    description = "",
+                    offset_x = 0,
+                    offset_y = 0,
+                    color = "ffffffff",
+                    type = "text"
+                }, 
             }
         },
     }
@@ -931,7 +996,7 @@ for k, v in pairs(sub_rewards)do
             new_item2 = {
                 flag = v.reward_id,
                 required_flag = "",
-                name = "Enable",
+                name = "$twitch_extended_enable",
                 description = v.reward_description,
                 default = true,
                 type = "toggle",
@@ -1028,7 +1093,7 @@ for k, v in pairs(bit_rewards)do
             new_item2 = {
                 flag = v.reward_id,
                 required_flag = "",
-                name = "Enable",
+                name = "$twitch_extended_enable",
                 description = v.reward_description,
                 default = false,
                 type = "toggle",
