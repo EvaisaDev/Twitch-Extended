@@ -3,7 +3,7 @@ dofile("mods/twitch_extended/config/run_modifiers.lua")
 dofile("mods/twitch_extended/files/scripts/utils/utilities.lua")
 dofile_once( "data/scripts/perks/perk_list.lua" )
 
-VERSION = "v2.2.5"
+VERSION = "v2.2.6"
 DATE = "January 17 2020"
 
 twitch_config_options = {
