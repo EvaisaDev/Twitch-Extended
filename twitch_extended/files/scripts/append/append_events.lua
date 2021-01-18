@@ -416,7 +416,7 @@ append_events = {
 				local x, y = EntityGetTransform( entity_id )
 				
 				local effect_id = EntityLoad( "mods/twitch_extended/files/entities/misc/blindness.xml", x, y )
-				set_lifetime( effect_id )
+				--set_lifetime( effect_id )
 				EntityAddChild( entity_id, effect_id )
 				
 				add_icon_in_hud( effect_id, "mods/twitch_extended/files/gfx/status_effects/blindness.png", event )
@@ -456,7 +456,7 @@ append_events = {
                 local x, y = EntityGetTransform( entity_id )
                 
                 local effect_id = EntityLoad( "mods/twitch_extended/files/entities/misc/bomb_curse.xml", x, y )
-                set_lifetime( effect_id )
+                --set_lifetime( effect_id )
                 EntityAddChild( entity_id, effect_id )
                 
                 add_icon_in_hud( effect_id, "mods/twitch_extended/files/gfx/status_effects/bomb_curse.png", event )
@@ -525,7 +525,7 @@ append_events = {
                 local x, y = EntityGetTransform( entity_id )
                 
                 local effect_id = EntityLoad( "mods/twitch_extended/files/entities/misc/duck_projectiles.xml", x, y )
-                set_lifetime( effect_id )
+               -- set_lifetime( effect_id )
                 EntityAddChild( entity_id, effect_id )
                 
                 add_icon_in_hud( effect_id, "mods/twitch_extended/files/gfx/status_effects/duck_projectiles.png", event )
@@ -645,7 +645,7 @@ append_events = {
                 local x, y = EntityGetTransform( entity_id )
                 
                 local effect_id = EntityLoad( "mods/twitch_extended/files/entities/misc/confusion.xml", x, y )
-                set_lifetime( effect_id )
+                --set_lifetime( effect_id )
                 EntityAddChild( entity_id, effect_id )
                 
                 add_icon_in_hud( effect_id, "data/ui_gfx/status_indicators/confusion.png", event )
@@ -802,12 +802,12 @@ append_events = {
 				
 				for i = 1, 4 do
 					effect = EntityLoad( "mods/twitch_extended/files/entities/misc/infinite_mana.xml", x, y )
-					set_lifetime( effect )
+					--set_lifetime( effect )
                 	EntityAddChild( entity_id, effect )
 				end
 				
                 local effect_id = EntityLoad( "mods/twitch_extended/files/entities/misc/infinite_mana.xml", x, y )
-                set_lifetime( effect_id )
+                --set_lifetime( effect_id )
                 EntityAddChild( entity_id, effect_id )
                 
                 add_icon_in_hud( effect_id, "data/ui_gfx/status_indicators/mana_regeneration.png", event )
@@ -860,12 +860,12 @@ append_events = {
 				
 				for i = 1, 2 do
 					effect = EntityLoad( "mods/twitch_extended/files/entities/misc/more_gold.xml", x, y )
-					set_lifetime( effect )
+					--set_lifetime( effect )
                 	EntityAddChild( entity_id, effect )
 				end
 				
                 local effect_id = EntityLoad( "mods/twitch_extended/files/entities/misc/more_gold.xml", x, y )
-                set_lifetime( effect_id )
+               -- set_lifetime( effect_id )
                 EntityAddChild( entity_id, effect_id )
                 
                 add_icon_in_hud( effect_id, "mods/twitch_extended/files/gfx/status_effects/more_gold.png", event )
@@ -905,7 +905,7 @@ append_events = {
                 local x, y = EntityGetTransform( entity_id )
 
                 local effect_id = EntityLoad( "mods/twitch_extended/files/entities/misc/projectile_attraction.xml", x, y )
-                set_lifetime( effect_id )
+               -- set_lifetime( effect_id )
                 EntityAddChild( entity_id, effect_id )
                 
 				--add_icon_in_hud( effect_id, "mods/twitch_extended/files/gfx/status_effects/projectile_attraction.png", event )
@@ -1052,7 +1052,7 @@ append_events = {
                 local x, y = EntityGetTransform( entity_id )
 				
                 local effect_id = EntityLoad( "mods/twitch_extended/files/entities/misc/reflect_melee.xml", x, y )
-                set_lifetime( effect_id )
+               -- set_lifetime( effect_id )
                 EntityAddChild( entity_id, effect_id )
                 
                 add_icon_in_hud( effect_id, "mods/twitch_extended/files/gfx/status_effects/reflect_melee.png", event )
@@ -1259,7 +1259,7 @@ append_events = {
 				local x, y = EntityGetTransform( entity_id )
 				
 				local effect_id = EntityLoad( "mods/twitch_extended/files/entities/misc/strength.xml", x, y )
-				set_lifetime( effect_id )
+				--set_lifetime( effect_id )
 				EntityAddChild( entity_id, effect_id )
 				
 				add_icon_in_hud( effect_id, "mods/twitch_extended/files/gfx/status_effects/super_damage.png", event )
@@ -1394,7 +1394,7 @@ append_events = {
 				local x, y = EntityGetTransform( entity_id )
 				
 				local effect_id = EntityLoad( "mods/twitch_extended/files/entities/misc/wind.xml", x, y )
-				set_lifetime( effect_id )
+				--set_lifetime( effect_id )
 				EntityAddChild( entity_id, effect_id )
 				
 				add_icon_in_hud( effect_id, "mods/twitch_extended/files/gfx/status_effects/windy.png", event )
@@ -1799,7 +1799,7 @@ append_events = {
 				local x, y = EntityGetTransform( entity_id )
 				
 				local effect_id = EntityLoad( "mods/twitch_extended/files/entities/misc/gold_hurts.xml", x, y )
-				set_lifetime( effect_id )
+				--set_lifetime( effect_id )
 				EntityAddChild( entity_id, effect_id )
 				
 				add_icon_in_hud( effect_id, "mods/twitch_extended/files/gfx/status_effects/gold_hurts.png", event )
@@ -1839,7 +1839,7 @@ append_events = {
 				local x, y = EntityGetTransform( entity_id )
 				
 				local effect_id = EntityLoad( "mods/twitch_extended/files/entities/misc/water_to_alcohol.xml", x, y )
-				set_lifetime( effect_id )
+				--set_lifetime( effect_id )
 				EntityAddChild( entity_id, effect_id )
 				
 				add_icon_in_hud( effect_id, "mods/twitch_extended/files/gfx/status_effects/liquid_to_alcohol.png", event )

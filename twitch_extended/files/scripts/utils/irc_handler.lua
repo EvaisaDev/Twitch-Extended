@@ -101,8 +101,10 @@ function OnMessage(userdata, message)
 					end
 
 					v.no_display_message = v.no_display_message or false
+					
+					
 
-					if(v.no_display_message ~= true)then
+					if(v.no_display_message ~= true and HasSettingFlag("twitch_extended_link_rewards_"..v.reward_id.."_no_message") == false)then
 						if(message == nil or message == "")then
 							GamePrintImportant(userdata.username.." has redeemed \""..GameTextGetTranslatedOrNot(v.reward_name).."\"", GameTextGetTranslatedOrNot(v.reward_description), v.reward_image)
 						else
@@ -184,7 +186,18 @@ function OnBits(userdata, message)
 	end
 	if(#bit_rewards > 0)then
 		--print("heck")
-		enabled_bit_rewards = get_events_with_closest_amount(bit_rewards, userdata.bits)
+
+		enabled_bitrewards = {}
+
+		for k, v in pairs(bit_rewards)do
+			if(v.required_flag == "" or v.required_flag == nil or HasFlagPersistent(v.required_flag) or GameHasFlagRun(v.required_flag))then
+				if(HasSettingFlag("twitch_extended_bit_rewards_"..v.reward_id))then
+					table.insert(enabled_bitrewards, v)
+				end
+			end
+		end
+
+		enabled_bit_rewards = get_events_with_closest_amount(enabled_bitrewards, userdata.bits)
 
 		local reward = enabled_bit_rewards[Random(1,#enabled_bit_rewards)]
 

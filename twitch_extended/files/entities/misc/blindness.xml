@@ -4,7 +4,7 @@
     
     <GameEffectComponent 
         effect="BLINDNESS"
-        frames="900"
+        frames="1200"
     >
 	</GameEffectComponent>
 

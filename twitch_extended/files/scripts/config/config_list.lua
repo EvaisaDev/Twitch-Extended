@@ -3,7 +3,7 @@ dofile("mods/twitch_extended/config/run_modifiers.lua")
 dofile("mods/twitch_extended/files/scripts/utils/utilities.lua")
 dofile_once( "data/scripts/perks/perk_list.lua" )
 
-VERSION = "v2.2.3"
+VERSION = "v2.2.5"
 DATE = "January 17 2020"
 
 twitch_config_options = {
@@ -912,6 +912,17 @@ for k, v in pairs(channel_rewards)do
                 type = "spacer"
             })
             table.insert(v2.items, new_item2)
+            table.insert(v2.items, {
+                flag = v.reward_id.."_no_message",
+                required_flag = "",
+                name = "No redeem message",
+                description = "Do not show a redeem message.",
+                default = false,
+                type = "toggle",
+                requires_restart = false,
+                callback = function(item, enabled)
+                end               
+            })
             if(v.custom_options ~= nil)then
                 for k3, option in pairs(v.custom_options)do
                     if(option.type == "toggle")then
