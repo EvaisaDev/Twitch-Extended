@@ -67,6 +67,12 @@ function OnMessage(userdata, message)
 				userdata.msg_id = "sub"
 				
 				OnSub(userdata, message)
+			elseif(words[1] == "!bits")then
+				if(words[2] ~= nil)then
+					if(tonumber(words[2]) ~= nil)then
+						userdata.bits = tonumber(words[2])
+					end
+				end
 			end
 		end
 		
@@ -213,7 +219,7 @@ function OnBits(userdata, message)
 
 			reward.no_display_message = reward.no_display_message or false
 
-			if(reward.no_display_message ~= true)then
+			if(reward.no_display_message ~= true and HasSettingFlag("twitch_extended_bit_rewards_"..reward.reward_id.."_no_message") == false)then
 				if(message == nil or message == "")then
 					GamePrintImportant(userdata.username.." donated "..userdata.bits.." bits and redeemed \""..GameTextGetTranslatedOrNot(reward.reward_name).."\"", GameTextGetTranslatedOrNot(reward.reward_description), reward.reward_image)
 				else
@@ -255,7 +261,7 @@ function OnSub(userdata, message)
 			if(userdata.msg_id == "sub")then
 				reward.no_display_message = reward.no_display_message or false
 
-				if(reward.no_display_message ~= true)then
+				if(reward.no_display_message ~= true and HasSettingFlag("twitch_extended_sub_rewards_"..reward.reward_id.."_no_message") == false)then
 					if(message == nil or message == "")then
 						GamePrintImportant(userdata.username.." has subscribed and redeemed \""..GameTextGetTranslatedOrNot(reward.reward_name).."\"", GameTextGetTranslatedOrNot(reward.reward_description), reward.reward_image)
 					else
@@ -267,7 +273,7 @@ function OnSub(userdata, message)
 			elseif(userdata.msg_id == "resub")then
 				reward.no_display_message = reward.no_display_message or false
 
-				if(reward.no_display_message ~= true)then
+				if(reward.no_display_message ~= true and HasSettingFlag("twitch_extended_sub_rewards_"..reward.reward_id.."_no_message") == false)then
 					if(message == nil or message == "")then
 						GamePrintImportant(userdata.username.." has subscribed for "..tostring(userdata.total_months).." months! and redeemed \""..GameTextGetTranslatedOrNot(reward.reward_name).."\"", GameTextGetTranslatedOrNot(reward.reward_description), reward.reward_image)
 					else

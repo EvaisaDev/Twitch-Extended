@@ -3,8 +3,8 @@ dofile("mods/twitch_extended/config/run_modifiers.lua")
 dofile("mods/twitch_extended/files/scripts/utils/utilities.lua")
 dofile_once( "data/scripts/perks/perk_list.lua" )
 
-VERSION = "v2.2.6"
-DATE = "January 17 2020"
+VERSION = "v2.2.7"
+DATE = "January 19 2020"
 
 twitch_config_options = {
     mod_id = "twitch_extended",
@@ -915,8 +915,8 @@ for k, v in pairs(channel_rewards)do
             table.insert(v2.items, {
                 flag = v.reward_id.."_no_message",
                 required_flag = "",
-                name = "No redeem message",
-                description = "Do not show a redeem message.",
+                name = "$twitch_extended_no_redeem_message_name",
+                description = "$twitch_extended_no_redeem_message_description",
                 default = false,
                 type = "toggle",
                 requires_restart = false,
@@ -1020,6 +1020,17 @@ for k, v in pairs(sub_rewards)do
                 type = "spacer"
             })
             table.insert(v2.items, new_item2)
+            table.insert(v2.items, {
+                flag = v.reward_id.."_no_message",
+                required_flag = "",
+                name = "$twitch_extended_no_redeem_message_name",
+                description = "$twitch_extended_no_redeem_message_description",
+                default = false,
+                type = "toggle",
+                requires_restart = false,
+                callback = function(item, enabled)
+                end               
+            })
             if(v.custom_options ~= nil)then
                 for k3, option in pairs(v.custom_options)do
                     if(option.type == "toggle")then
@@ -1115,8 +1126,8 @@ for k, v in pairs(bit_rewards)do
             new_item3 = {
                 flag = v.reward_id.."_exact_amount",
                 required_flag = "",
-                name = "Require exact amount",
-                description = "If this is unchecked any amount above it until the next reward also triggers it.",
+                name = "$twitch_extended_bit_exact_amount_name",
+                description = "$twitch_extended_bit_exact_amount_description",
                 default = false,
                 type = "toggle",
                 requires_restart = false,
@@ -1126,8 +1137,8 @@ for k, v in pairs(bit_rewards)do
             new_item4 = {
                 flag = v.reward_id.."_bit_amount",
                 required_flag = "",
-                name = "Amount of bits: ",
-                description = "How many bits to trigger reward.",
+                name = "$twitch_extended_bit_amount_amount_name",
+                description = "$twitch_extended_bit_amount_amount_description",
                 default_text = "100",
                 allowed_chars = "1234567890",
                 text_max_length = 10,
@@ -1144,7 +1155,17 @@ for k, v in pairs(bit_rewards)do
             table.insert(v2.items, new_item2)
             table.insert(v2.items, new_item3)
             table.insert(v2.items, new_item4)
-
+            table.insert(v2.items, {
+                flag = v.reward_id.."_no_message",
+                required_flag = "",
+                name = "$twitch_extended_no_redeem_message_name",
+                description = "$twitch_extended_no_redeem_message_description",
+                default = false,
+                type = "toggle",
+                requires_restart = false,
+                callback = function(item, enabled)
+                end               
+            })
             if(v.custom_options ~= nil)then
                 for k3, option in pairs(v.custom_options)do
                     if(option.type == "toggle")then
