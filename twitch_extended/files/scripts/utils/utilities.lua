@@ -22,6 +22,9 @@ if(twitch_extended_biome_scripts ~= "none" and twitch_extended_biome_names ~= "n
 end
 
 ]]
+
+
+
 timed_out_names = {}
 getRandomViewer = function()
 	user = {
@@ -627,6 +630,23 @@ function spawn_wand(username,message)
 			EntityLoad( "data/entities/items/wand_unshuffle_06.xml", x + Random(-10,10), y - 4 + Random(-10,10) )
 		end
 	end
+end
+
+function give_extra_modifier(entity, modifier, frames)
+	local x, y = EntityGetTransform( entity )
+				
+	local effect_id = EntityCreateNew()
+	EntityAddChild( entity, effect_id )
+
+	EntityAddComponent(effect_id, "InheritTransformComponent")
+	EntityAddComponent2(effect_id, "ShotEffectComponent", {
+		extra_modifier = modifier
+	})
+	EntityAddComponent2(effect_id, "LifetimeComponent", {
+		lifetime = frames
+	})
+	
+	return effect_id
 end
 
 function give_perk()
@@ -1373,9 +1393,12 @@ function spawn_item(path, min_range, max_range, spawn_blackhole)
 end
 ]]
 
-function get_spawn_pos(min_range, max_range)
+function get_spawn_pos(min_range, max_range, x, y)
 
-        local x, y = get_player_pos()
+		local x2, y2 =  get_player_pos()
+		
+		x = x or x2 or 0
+		y = y or y2 or 0
 		
 		local spawn_points = {}
 		
@@ -1426,14 +1449,20 @@ function get_spawn_pos(min_range, max_range)
 end
 
 
-function spawn_item(entity_path, min_range, max_range, black_hole, ignore_bad_spawns, hole_size)
+function spawn_item(entity_path, min_range, max_range, black_hole, ignore_bad_spawns, hole_size, x, y)
+	min_range = min_range or 0
+	max_range = max_range or 0
 	ignore_bad_spawns = ignore_bad_spawns or false
 	hole_size = hole_size or 12
 	black_hole = black_hole or false
 	if(not ignore_bad_spawns)then
-        local x, y = get_player_pos()
+
+		local x2, y2 = get_player_pos()
 		
-		spawn_x, spawn_y = get_spawn_pos(min_range, max_range)
+		x = x or x2 or 0
+		y = y or y2 or 0
+		
+		spawn_x, spawn_y = get_spawn_pos(min_range, max_range, x, y)
 
 		if black_hole then
 			--EntityLoad("mods/twitch_extended/files/entities/short_blackhole.xml", spawn_x, spawn_y)
@@ -1443,7 +1472,10 @@ function spawn_item(entity_path, min_range, max_range, black_hole, ignore_bad_sp
 		return EntityLoad(entity_path, spawn_x, spawn_y)
 
 	else
-		local x, y = get_player_pos()
+		local x2, y2 = get_player_pos()
+		
+		x = x or x2 or 0
+		y = y or y2 or 0
 		  
 		local angle = Random()*math.pi*2;
 		  

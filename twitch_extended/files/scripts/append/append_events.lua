@@ -287,6 +287,24 @@ for k, v in pairs(streaming_events)do
 		v.ui_description = "$twitch_extended_farts_description"
 	elseif(v.id == "SEA_OF_WATER")then
 		table.remove(streaming_events, k)
+	elseif(v.id == "PORTAL_EAST")then
+		v.action = function(event)
+			local effect_id = spawn_item("mods/twitch_extended/files/entities/misc/portal_east.xml", 50, 100, true, false, 50)
+			set_lifetime( effect_id )		
+			local pos_x, pos_y = EntityGetTransform( effect_id )
+			pos_x = pos_x + 512 * 70
+			
+		end
+	elseif(v.id == "PORTAL_BEGINNING")then
+		v.action = function(event)
+			local effect_id = spawn_item("data/scripts/streaming_integration/entities/portal_beginning.xml", 50, 100, true, false, 50)
+			set_lifetime( effect_id )	
+		end
+	elseif(v.id == "PORTAL_RANDOM")then
+		v.action = function(event)
+			local effect_id = spawn_item("data/scripts/streaming_integration/entities/portal_random.xml", 50, 100, true, false, 50)
+			set_lifetime( effect_id )	
+		end
 	end
 end
 

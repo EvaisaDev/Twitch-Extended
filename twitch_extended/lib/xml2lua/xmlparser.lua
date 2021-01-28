@@ -363,6 +363,9 @@ end
 --- Get next tag (first pass - fix exceptions below).
 --@return true if the next tag could be got, false otherwise
 local function getNextTag(self, xml, f)
+    if(xml == nil)then
+        err(self, self._errstr.xmlErr, f.pos)
+    end
   f.match, f.endMatch, f.text, f.endt1, f.tagstr, f.endt2 = string.find(xml, self._XML, f.pos)
   if not f.match then 
       if string.find(xml, self._WS, f.pos) then

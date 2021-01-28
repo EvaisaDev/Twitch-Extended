@@ -1,4 +1,5 @@
 dofile_once("mods/twitch_extended/files/scripts/utils/utilities.lua")
+dofile_once("mods/twitch_extended/files/scripts/utils/utils.lua")
 
 material_names = {}
 
@@ -43,16 +44,15 @@ blacklist = {
 	"glass_broken_molten",
 	"steel_molten",
 	"wax_molten",
---[[	"slush",
-	"vomit",
-	"moss",
-	"cement",
-	"water_swamp",
-	"swamp",]]
 	"concrete_sand",
 	"sodium_unstable",
 	"gunpowder_unstable",
+	"monster_powder_test",
+	"rat_powder",
+	"orb_powder",
+	"gunpowder_unstable_boss_limbs",
 }
+
 
 function add_materials_file(materials_file)
 
@@ -90,50 +90,54 @@ end
 
 add_materials_file("data/materials.xml")
 
+
 local mod_ids = ModGetActiveModIDs()
 
 for _, id in pairs(mod_ids)do
 	if(id ~= "twitch_extended")then
-		local content = ModTextFileGetContent("mods/"..id.."/init.lua")
-		if(content == nil)then
-			return
-		end
-		content = string.gsub(content, "%-%-%[%[[^%[%]]*%]%]", "")
+		if(file_exists("mods/"..id.."/init.lua"))then
+			local content = ModTextFileGetContent("mods/"..id.."/init.lua")
+			if(content == nil)then
+				return
+			end
+			content = string.gsub(content, "%-%-%[%[[^%[%]]*%]%]", "")
 
-		lines = {}
-		for s in content:gmatch("[^\r\n]+") do
-			table.insert(lines, s)
-		end
-		
-		content = ""
+			lines = {}
+			for s in content:gmatch("[^\r\n]+") do
+				table.insert(lines, s)
+			end
+			
+			content = ""
 
-		for i, line in ipairs(lines) do
-			--if string.match(line, "%s*%-%-") == nil then
-			  -- Not a commented out line
-		--	end
+			for i, line in ipairs(lines) do
+				--if string.match(line, "%s*%-%-") == nil then
+				-- Not a commented out line
+			--	end
 
-			line = string.gsub(line, "%-%-(.*)", "")
+				line = string.gsub(line, "%-%-(.*)", "")
 
-			content = content..line..string.char(10)
-		end
+				content = content..line..string.char(10)
+			end
 
-		local arguments = string.gmatch(content, "ModMaterialsFileAdd%(%s*\"([^()]+)\"%s*%)")
+			local arguments = string.gmatch(content, "ModMaterialsFileAdd%(%s*\"([^()]+)\"%s*%)")
 
-		for argument in arguments do
+			for argument in arguments do
 
-			add_materials_file(argument)
+				if(not string.find(argument, "..") and not string.find(argument, "("))then
+					add_materials_file(argument)
+				end
+			end
 		end
 	end
 end
 
-
-
 local barrel_script = "local materials = {"
 
 for k, v in pairs(material_names)do
+	
     barrel_script = barrel_script..'"'..v..'",'
 end
 
 barrel_script = barrel_script.."}"..string.char(10)..ModTextFileGetContent("mods/twitch_extended/files/scripts/events/liquid_transformation.lua")
-
+--print(barrel_script)
 ModTextFileSetContent("mods/twitch_extended/files/scripts/events/liquid_transformation.lua", barrel_script)

@@ -3,7 +3,7 @@ dofile_once("data/scripts/lib/utilities.lua")
 if(ModIsEnabled( "config_lib" ))then
 	dofile_once("mods/twitch_extended/lib/persistent_store.lua")
 	dofile_once("mods/config_lib/files/utilities.lua")
-	dofile("mods/twitch_extended/files/scripts/utils/liquid_transformation_store.lua")
+	
 
 	ModLuaFileAppend("mods/config_lib/files/config_list.lua", "mods/twitch_extended/files/scripts/config/config_list.lua")
 
@@ -117,6 +117,8 @@ end
 
 function OnMagicNumbersAndWorldSeedInitialized()
 	if(ModIsEnabled( "config_lib" ))then
+
+		dofile("mods/twitch_extended/files/scripts/utils/liquid_transformation_store.lua")
 		--print(tostring(StreamingGetIsConnected()))
 		--if(StreamingGetIsConnected() == 1)then
 			xml_files = get_biome_xml_files()

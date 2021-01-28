@@ -7,6 +7,11 @@ function table_shuffle(t) -- This same function seems to have a bug in data/scri
 	end
 end
 
+function file_exists(filename)
+	local func, err = loadfile(filename)
+	return not err or err:sub(1, 45) ~= "Error loading lua script - file doesn't exist"
+end
+
 function table_get_key_count(t)
 local count = 0
 for _ in pairs(t) do count = count + 1 end
