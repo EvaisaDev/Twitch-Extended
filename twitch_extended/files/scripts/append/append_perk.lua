@@ -2,9 +2,13 @@ dofile_once("data/scripts/lib/utilities.lua")
 dofile_once( "data/scripts/perks/perk_list.lua" )
 dofile_once("mods/config_lib/files/utilities.lua")
 dofile_once("mods/twitch_extended/files/scripts/utils/utilities.lua")
-old_perk_spawn = perk_spawn
-function perk_spawn( x, y, perk_id )
-	local entity = old_perk_spawn( x, y, perk_id )
+if(ModIsEnabled("twitch_lib"))then
+	dofile_once("mods/twitch_lib/files/twitch_overwrites.lua")
+end
+
+local old_perk_spawn = perk_spawn
+function perk_spawn( x, y, perk_id, dont_remove_other_perks )
+	local entity = old_perk_spawn( x, y, perk_id, dont_remove_other_perks )
 	if(GameHasFlagRun("hidden_perks"))then
 		local sprite = EntityGetFirstComponent(entity, "SpriteComponent")
 		local UIInfo = EntityGetFirstComponent(entity, "UIInfoComponent")
@@ -21,8 +25,8 @@ function perk_spawn( x, y, perk_id )
 	return entity
 end
 
-old_perk_spawn_many = perk_spawn_many
-function perk_spawn_many( x, y )
+local old_perk_spawn_many = perk_spawn_many
+function perk_spawn_many( x, y, dont_remove_others, ignore_these )
 	if(HasSettingFlag("twitch_extended_options_perks") == true)then
 		--EntityLoad("mods/twitch_extended/files/entities/misc/perk_vote_starter.xml", x, y)
 		if not HasSettingFlag( "twitch_extended_options_disable_voting_system" ) then
@@ -40,6 +44,7 @@ function perk_spawn_many( x, y )
 			end
 			if(not GameHasFlagRun("perk_vote") and GlobalsGetValue("current_vote_type", "event") == "event")then
 				GlobalsSetValue("current_vote_type", "perk")
+				GlobalsSetValue("twitch_lib_force_outcome_type", "random")
 				StreamingForceNewVoting() 
 			end
 		end
@@ -51,11 +56,12 @@ function perk_spawn_many( x, y )
 			end
 			if(not GameHasFlagRun("perk_vote") and GlobalsGetValue("current_vote_type", "event") == "event")then
 				GlobalsSetValue("current_vote_type", "perk")
+				GlobalsSetValue("twitch_lib_force_outcome_type", "random")
 				StreamingForceNewVoting() 
 			end
 		end
 	else
-		old_perk_spawn_many( x, y )
+		old_perk_spawn_many( x, y, dont_remove_others, ignore_these )
 	end
 end
 
@@ -68,6 +74,7 @@ function perk_reroll_perks()
 			GlobalsSetValue( "TEMPLE_PERK_REROLL_COUNT", tostring( perk_reroll_count ) )
 			GameAddFlagRun( "reroll_vote" )
 			GlobalsSetValue("current_vote_type", "perk")
+			GlobalsSetValue("twitch_lib_force_outcome_type", "random")
 			StreamingForceNewVoting() 
 		end
 	else
@@ -75,8 +82,8 @@ function perk_reroll_perks()
 	end
 end
 
-old_pickup = perk_pickup
-function perk_pickup( entity_item, entity_who_picked, item_name, do_cosmetic_fx, kill_other_perks )
+local old_pickup = perk_pickup
+function perk_pickup( entity_item, entity_who_picked, item_name, do_cosmetic_fx, kill_other_perks, no_perk_entity )
 	if(GameHasFlagRun("hidden_perks"))then
 		item_name = EntityGetVariable(entity_id, "item_name", "string")
 		--item_description = EntityGetVariable(entity_id, "item_description", "string")
@@ -85,5 +92,5 @@ function perk_pickup( entity_item, entity_who_picked, item_name, do_cosmetic_fx,
 
 		ComponentSetValue(ItemComponent, "item_name", item_name)
 	end
-	old_pickup( entity_item, entity_who_picked, item_name, do_cosmetic_fx, kill_other_perks )
+	old_pickup( entity_item, entity_who_picked, item_name, do_cosmetic_fx, kill_other_perks, no_perk_entity )
 end

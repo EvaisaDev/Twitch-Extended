@@ -19,5 +19,5 @@ function item_pickup( entity_item, entity_who_picked, item_name )
 		end
 	end
 
-	perk_pickup2( entity_item, entity_who_picked, item_name, true, kill_other_perks )
+	perk_pickup( entity_item, entity_who_picked, item_name, true, kill_other_perks )
 end

@@ -966,14 +966,15 @@ append_events = {
 				emission_interval_min_frames=1,
 				emission_interval_max_frames=1,
 				emit_cosmetic_particles=false,
-				image_animation_file="mods/twitch_extended/files/gfx/circle_10.png",
-				image_animation_speed=1,
+				image_animation_file="data/particles/image_emitters/circle_reverse_64.png",
+				image_animation_speed=10,
 				image_animation_loop=false,
-				image_animation_raytrace_from_center=false,
+				image_animation_raytrace_from_center=true,
+				set_magic_creation=true,
 				is_emitting=true,
 			});
 			EntityAddComponent(liquid, "LifetimeComponent", {
-				lifetime="60",
+				lifetime="120",
 			});	
 		end,
 	},

@@ -193,6 +193,11 @@ _streaming_on_vote_start = function()
 	end
 end
 
+
+if(ModIsEnabled("twitch_lib"))then
+	dofile_once("mods/twitch_lib/files/twitch_overwrites.lua")
+end
+
 _streaming_run_event = function(id)
 	for i,evt in ipairs(streaming_events) do
 		if evt.id == id then
@@ -223,6 +228,7 @@ _streaming_run_event = function(id)
 			if(GlobalsGetValue("current_vote_type", "event") == "loadout")then
 				if(HasSettingFlag("twitch_extended_options_artifacts"))then
 					GlobalsSetValue("current_vote_type", "artifact")
+					GlobalsSetValue("twitch_lib_force_outcome_type", "random")
 					StreamingForceNewVoting() 
 				else
 					if(perk_count <= 0)then
@@ -234,11 +240,13 @@ _streaming_run_event = function(id)
 						else
 							StreamingSetCustomPhaseDurations( -1, -1 )
 							StreamingSetVotingEnabled(false)
+							GlobalsSetValue("current_vote_type", "event")
 							GameRemoveFlagRun("perk_vote")
 							print("Disabled voting.")
 						end
 					else
 						GlobalsSetValue("current_vote_type", "perk")
+						GlobalsSetValue("twitch_lib_force_outcome_type", "random")
 						StreamingForceNewVoting()
 					end
 				end
@@ -257,6 +265,7 @@ _streaming_run_event = function(id)
 								GameAddFlagRun( "twitch_vote_paused" )
 								GameRemoveFlagRun( "twitch_perk_vote_override" )
 								StreamingSetVotingEnabled( false )
+								GlobalsSetValue("current_vote_type", "event")
 							end
 						end
 						if(HasSettingFlag("twitch_extended_options_events"))then
@@ -267,16 +276,19 @@ _streaming_run_event = function(id)
 						else
 							StreamingSetCustomPhaseDurations( -1, -1 )
 							StreamingSetVotingEnabled(false)
+							GlobalsSetValue("current_vote_type", "event")
 							GameRemoveFlagRun("perk_vote")
 							print("Disabled voting.")
 						end
 					else
 						GlobalsSetValue("current_vote_type", "perk")
+						GlobalsSetValue("twitch_lib_force_outcome_type", "random")
 						StreamingForceNewVoting()
 					end
 				else
 					if(perk_count > 0)then
 						GlobalsSetValue("current_vote_type", "perk")
+						GlobalsSetValue("twitch_lib_force_outcome_type", "random")
 						StreamingForceNewVoting()
 					end
 				end
@@ -396,14 +408,14 @@ dofile_once("mods/twitch_extended/files/scripts/utils/irc_handler.lua")
 
 ircparser = dofile("mods/twitch_extended/lib/ircparser.lua")
 
-old_streaming_on_irc = _streaming_on_irc
+local old_streaming_on_irc = _streaming_on_irc
 function _streaming_on_irc( is_userstate, sender_username, message, raw )
 --	print("IRC MESSAGE 2: "..raw)
 	local lines = ircparser.split(raw, '\r\n')
 	for _, line in pairs(lines) do
 		local data = ircparser.websocketMessage(line)
 
-		print(table.dump(data))
+	--	print(table.dump(data))
 		--print(line)
 		if(string.match(line, "PRIVMSG") and string.sub(line, 1, 11) == "@badge-info")then
 			if(line == nil or line == "" or line == "	" or line == " ")then
@@ -456,7 +468,7 @@ function _streaming_on_irc( is_userstate, sender_username, message, raw )
 			if(line == nil or line == "" or line == "	" or line == " ")then
 				return
 			end
-			---print(raw)
+			--print(raw)
 			
 			if(data ~= nil)then
 				if(data["tags"]["msg-id"] == "resub" or data["tags"]["msg-id"] == "sub")then

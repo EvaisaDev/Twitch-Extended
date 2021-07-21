@@ -1,6 +1,9 @@
 dofile_once("data/scripts/streaming_integration/event_utilities.lua")
 dofile( "data/scripts/perks/perk.lua" )
 dofile( "data/scripts/game_helpers.lua" )
+if(ModIsEnabled("twitch_lib"))then
+	dofile_once("mods/twitch_lib/files/twitch_overwrites.lua")
+end
 
 
 function OnMessage(userdata, message)
@@ -75,7 +78,6 @@ function OnMessage(userdata, message)
 				end
 			end
 		end
-		
 	end
 
 	if(userdata.custom_reward ~= nil--[[ and HasSettingFlag("twitch_extended_options_channel_point_rewards")]])then
@@ -257,7 +259,8 @@ function OnSub(userdata, message)
 		end
 
 		if(reward ~= nil)then
-			--print("eeeeee")
+			print(table.dump(userdata))
+
 			if(userdata.msg_id == "sub")then
 				reward.no_display_message = reward.no_display_message or false
 
@@ -270,7 +273,7 @@ function OnSub(userdata, message)
 				end
 				print(userdata.username.." has subscribed")
 				reward.func(reward, userdata)
-			elseif(userdata.msg_id == "resub")then
+			elseif(userdata.msg_id == "resub" and false)then
 				reward.no_display_message = reward.no_display_message or false
 
 				if(reward.no_display_message ~= true and HasSettingFlag("twitch_extended_sub_rewards_"..reward.reward_id.."_no_message") == false)then

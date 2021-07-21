@@ -1,4 +1,4 @@
-old_item_pickup = item_pickup
+local old_item_pickup = item_pickup
 item_pickup = function( entity_item, entity_who_picked, item_name )
     if(GameHasFlagRun( "gold_hurts" ))then
         x, y = EntityGetTransform(entity_who_picked)

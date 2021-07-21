@@ -1,5 +1,14 @@
 dofile_once("data/scripts/lib/coroutines.lua")
 dofile_once("data/scripts/lib/utilities.lua")
+
+
+
+
+
+if(ModIsEnabled("twitch_lib"))then
+	dofile_once("mods/twitch_lib/files/twitch_overwrites.lua")
+end
+
 if(ModIsEnabled( "config_lib" ))then
 	dofile_once("mods/twitch_extended/lib/persistent_store.lua")
 	dofile_once("mods/config_lib/files/utilities.lua")
@@ -169,7 +178,7 @@ end
   
 function OnPausePreUpdate()
 	if(ModIsEnabled( "config_lib" ))then
-		if(StreamingGetIsConnected() == 1 or StreamingGetIsConnected() == true)then
+		if(StreamingGetIsConnected() == 1 or type(StreamingGetIsConnected()) == "boolean" and StreamingGetIsConnected())then
 			dofile_once("mods/twitch_extended/config/rewards.lua")
 			for k, v in pairs(channel_rewards)do
 				if(GlobalsGetValue("unlinking_"..v.reward_id, "false") == "true")then
@@ -224,6 +233,8 @@ dofile("mods/twitch_extended/files/scripts/utils/utilities.lua")
 function OnWorldPreUpdate() 
 	dofile("mods/twitch_extended/files/scripts/utils/gui_utils.lua")
 
+
+
 	if(not ModIsEnabled( "config_lib" ))then
 		gui = gui or GuiCreate()
 		GuiStartFrame(gui)
@@ -248,7 +259,7 @@ function OnWorldPreUpdate()
 		GuiLayoutEnd(gui)
 	end
 	if(ModIsEnabled( "config_lib" ))then
-		if(StreamingGetIsConnected() == 1 or StreamingGetIsConnected() == true)then
+		if(StreamingGetIsConnected() == 1 or type(StreamingGetIsConnected()) == "boolean" and StreamingGetIsConnected())then
 			--if(not HasSettingFlag("twitch_extended_options_perks"))then
 				if(is_in_mountain == false)then
 					if(BiomeMapGetName() == "$biome_holymountain" and HasSettingFlag("twitch_extended_options_pause_in_mountain") or BiomeMapGetName() == "$biome_boss_arena" and HasSettingFlag("twitch_extended_options_pause_in_boss"))then
@@ -259,11 +270,30 @@ function OnWorldPreUpdate()
 							GameAddFlagRun("twitch_vote_paused" )
 						end
 						is_in_mountain = true
+					else
+
+						if( not HasSettingFlag( "twitch_extended_options_disable_voting_system" ) )then
+							if((GlobalsGetValue("current_vote_type", "event") == "event" and HasSettingFlag("twitch_extended_options_events")) or (GlobalsGetValue("current_vote_type", "event") == "artifact" and HasSettingFlag("twitch_extended_options_artifacts")) or (GlobalsGetValue("current_vote_type", "event") == "perk" and HasSettingFlag("twitch_extended_options_perks")) or (GlobalsGetValue("current_vote_type", "event") == "loadout" and HasSettingFlag("twitch_extended_options_loadouts")))then
+								StreamingSetVotingEnabled( true )
+							else
+								StreamingSetVotingEnabled( false )
+							end
+						else
+							StreamingSetVotingEnabled( false )
+						end
 					end
 				else	
-					if(BiomeMapGetName() ~= "$biome_holymountain" and BiomeMapGetName() ~= "$biome_boss_arena")then
+					if(BiomeMapGetName() ~= "$biome_holymountain" and BiomeMapGetName() ~= "$biome_boss_arena" and GameHasFlagRun("twitch_vote_paused" ))then
 						GameRemoveFlagRun( "twitch_perk_vote_override" )
-						StreamingSetVotingEnabled( true )
+						if( not HasSettingFlag( "twitch_extended_options_disable_voting_system" ) )then
+							if((GlobalsGetValue("current_vote_type", "event") == "event" and HasSettingFlag("twitch_extended_options_events")) or (GlobalsGetValue("current_vote_type", "event") == "artifact" and HasSettingFlag("twitch_extended_options_artifacts")) or (GlobalsGetValue("current_vote_type", "event") == "perk" and HasSettingFlag("twitch_extended_options_perks")) or (GlobalsGetValue("current_vote_type", "event") == "loadout" and HasSettingFlag("twitch_extended_options_loadouts")))then
+								StreamingSetVotingEnabled( true )
+							else
+								StreamingSetVotingEnabled( false )
+							end
+						else
+							StreamingSetVotingEnabled( false )
+						end
 						GameRemoveFlagRun("twitch_vote_paused" )
 						is_in_mountain = false
 					end
@@ -284,7 +314,11 @@ function OnWorldPreUpdate()
 						was_recently_enabled = false
 					elseif(not open and not was_recently_enabled)then
 						if( not HasSettingFlag( "twitch_extended_options_disable_voting_system" ) )then
-							StreamingSetVotingEnabled( true )
+							if((GlobalsGetValue("current_vote_type", "event") == "event" and HasSettingFlag("twitch_extended_options_events")) or (GlobalsGetValue("current_vote_type", "event") == "artifact" and HasSettingFlag("twitch_extended_options_artifacts")) or (GlobalsGetValue("current_vote_type", "event") == "perk" and HasSettingFlag("twitch_extended_options_perks")) or (GlobalsGetValue("current_vote_type", "event") == "loadout" and HasSettingFlag("twitch_extended_options_loadouts")))then
+								StreamingSetVotingEnabled( true )
+							else
+								StreamingSetVotingEnabled( false )
+							end
 						else
 							StreamingSetVotingEnabled( false )
 						end
@@ -311,9 +345,11 @@ function OnWorldPreUpdate()
 					GameAddFlagRun( "twitch_extended_new_run2" )
 					if(HasSettingFlag("twitch_extended_options_loadouts") and ModIsEnabled("gkbrkn_noita"))then
 						GlobalsSetValue("current_vote_type", "loadout")
+						GlobalsSetValue("twitch_lib_force_outcome_type", "random")
 						StreamingForceNewVoting() 
 					elseif(HasSettingFlag("twitch_extended_options_artifacts"))then
 						GlobalsSetValue("current_vote_type", "artifact")
+						GlobalsSetValue("twitch_lib_force_outcome_type", "random")
 						StreamingForceNewVoting() 
 					else
 						--current_vote_type = "event"
@@ -346,19 +382,25 @@ function OnPlayerDied()
 	ModSettingSet("twitch_extended_death_counter", death_count + 1) 
 	--print("yo. Eva here.")
 end
-
+-- wabaaa
 function OnPlayerSpawned( player_entity )
 	if(ModIsEnabled( "config_lib" ))then
-		if(StreamingGetIsConnected() == 1 or StreamingGetIsConnected() == true)then
+		--print("Fucks going on in miami bruh?")
+
+		print(tostring(StreamingGetIsConnected()))
+		if(StreamingGetIsConnected() == 1 or type(StreamingGetIsConnected()) == "boolean" and StreamingGetIsConnected())then
+			--print("Ohhhh shit just disappeared ")
 			StreamingSetVotingEnabled(not HasSettingFlag( "twitch_extended_options_disable_voting_system" ))
 			--print("The hell?")
 			if(GameHasFlagRun( "twitch_extended_new_run" ) == false)then
 				GameAddFlagRun( "twitch_extended_new_run" )
 				if(HasSettingFlag("twitch_extended_options_loadouts") and ModIsEnabled("gkbrkn_noita"))then
 					GlobalsSetValue("current_vote_type", "loadout")
+					GlobalsSetValue("twitch_lib_force_outcome_type", "random")
 					StreamingForceNewVoting() 
 				elseif(HasSettingFlag("twitch_extended_options_artifacts"))then
 					GlobalsSetValue("current_vote_type", "artifact")
+					GlobalsSetValue("twitch_lib_force_outcome_type", "random")
 					StreamingForceNewVoting() 
 				else
 					--current_vote_type = "event"
@@ -372,6 +414,7 @@ function OnPlayerSpawned( player_entity )
 			if(ModIsEnabled("gkbrkn_noita"))then
 			--	print("add run flag")
 				GameAddFlagRun("gokis_things_enabled")
+				print("[Twitch Extended] Found Goki's Things!")
 				EntityAddComponent( player_entity, "LuaComponent", 
 				{ 
 					script_source_file = "mods/twitch_extended/files/scripts/misc/handle_goki_naming.lua",
@@ -381,7 +424,7 @@ function OnPlayerSpawned( player_entity )
 		end
 	end
 end
-
+-- aaa
 if(ModIsEnabled( "config_lib" ))then
 	ModLuaFileAppend( "data/scripts/streaming_integration/event_utilities.lua", "mods/twitch_extended/files/scripts/append/append_event_utilities.lua")
 	ModLuaFileAppend( "data/scripts/streaming_integration/event_list.lua", "mods/twitch_extended/files/scripts/append/append_events.lua")

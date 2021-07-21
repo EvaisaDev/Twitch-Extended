@@ -1,49 +1,4 @@
 <Entity tags="hittable,mortal">
-	<!--<LuaComponent 
-		script_source_file="data/scripts/animals/heal_ghost_shoot.lua"
-		execute_every_n_frame="70"
-		>
-	</LuaComponent>-->
-<!--
-	<DamageModelComponent 
-		hp="2.0"
-		ragdoll_material="meat"
-		ragdoll_filenames_file=""
-		air_needed="0"
-		falling_damages="0"
-		>
-		<damage_multipliers
-			fire="0.5" 
-			slice="0.5"
-			melee="0.5"
-			projectile="0.5"
-			explosion="0.5"
-			>
-		</damage_multipliers>
-	</DamageModelComponent>
-
-	<SpriteComponent 
-		image_file="mods/twitch_extended/files/gfx/enemy_gfx/glitch.png"
-		offset_x="0"
-		offset_y="0">
-	</SpriteComponent>
-
-	<GenomeDataComponent 
-		herd_id="player"
-		food_chain_rank="6"
-		is_predator="0"
-		berserk_dont_attack_friends="1" >
-	</GenomeDataComponent>
-
-	<HitboxComponent 
-		_enabled="1" 
-		aabb_min_x="-4.5" 
-		aabb_max_x="4.5" 
-		aabb_min_y="-10" 
-		aabb_max_y="3" 
-		>
-	</HitboxComponent>
--->
 
 	<AnimalAIComponent 
 		_enabled="1" 

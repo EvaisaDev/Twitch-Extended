@@ -2,6 +2,7 @@ users = {}
 original_gravity = nil
 
 dofile_once("mods/twitch_extended/files/scripts/utils/utils.lua")
+dofile_once("data/scripts/perks/perk.lua")
 --[[
 twitch_extended_biome_scripts = GlobalsGetValue("twitch_extended_biome_scripts", "none")
 twitch_extended_biome_names = GlobalsGetValue("twitch_extended_biome_names", "none")
@@ -449,98 +450,6 @@ function update_text( entity_id, component, text )
     end
 end
 
-
-
-function perk_pickup2( entity_item, entity_who_picked, item_name, do_cosmetic_fx, kill_other_perks )
-	-- fetch perk info ---------------------------------------------------
-
-	local pos_x, pos_y = EntityGetTransform( entity_item )
-	
-	local perk_name = "PERK_NAME_NOT_DEFINED"
-	local perk_desc = "PERK_DESCRIPTION_NOT_DEFINED"
-	
-	edit_component( entity_item, "ItemComponent", function(comp,vars)
-		perk_name = ComponentGetValue( comp, "item_name")
-		perk_desc = ComponentGetValue( comp, "ui_description")
-	end)
-
-	local perk_id = ""
-	edit_component( entity_item, "VariableStorageComponent", function(comp,vars)
-		perk_id = ComponentGetValue( comp, "value_string" )
-	end)
-
-	local perk_data = get_perk_with_id( perk_list, perk_id )
-	if perk_data == nil then
-		return
-	end
-
-	-- load perk for entity_who_picked -----------------------------------
-
-	local flag_name = get_perk_picked_flag_name( perk_id )
-	local flag_name_persistent = string.lower( flag_name )
-	if ( HasSettingFlag( flag_name_persistent ) == false ) then
-		GameAddFlagRun( "new_" .. flag_name_persistent )
-	end
-	GameAddFlagRun( flag_name )
-	AddFlagPersistent( flag_name_persistent )
-
-	-- add game effect
-	if perk_data.game_effect ~= nil then
-		local game_effect_comp = GetGameEffectLoadTo( entity_who_picked, perk_data.game_effect, true )
-		if game_effect_comp ~= nil then
-			ComponentSetValue( game_effect_comp, "frames", "-1" )
-		end
-	end
-
-	if perk_data.func ~= nil then
-		perk_data.func( entity_item, entity_who_picked, item_name )
-	end
-
-	-- add ui icon etc
-	local entity_ui = EntityCreateNew( "" )
-	EntityAddComponent( entity_ui, "UIIconComponent", 
-	{ 
-		name = perk_data.ui_name,
-		description = perk_data.ui_description,
-		icon_sprite_file = perk_data.ui_icon
-	})
-	EntityAddChild( entity_who_picked, entity_ui )
-
-	-- cosmetic fx -------------------------------------------------------
-	if do_cosmetic_fx then
-		local enemies_killed = tonumber( StatsBiomeGetValue("enemies_killed") )
-		
-		if( enemies_killed ~= 0 ) then
-			EntityLoad( "data/entities/particles/image_emitters/perk_effect.xml", pos_x, pos_y )
-		else
-			EntityLoad( "data/entities/particles/image_emitters/perk_effect_pacifist.xml", pos_x, pos_y )
-		end
-		
-		GamePrintImportant( GameTextGet( "$log_pickedup_perk", GameTextGetTranslatedOrNot( perk_name ) ), perk_desc )
-	end
-	
-	-- remove all perk items (also this one!) ----------------------------
-	--[[if kill_other_perks then
-		local perk_destroy_chance = tonumber( GlobalsGetValue( "TEMPLE_PERK_DESTROY_CHANCE", "100" ) )
-		SetRandomSeed( pos_x, pos_y )
-
-		if( Random( 1, 100 ) <= perk_destroy_chance ) then
-			-- removes all the perks
-			local all_perks = EntityGetWithTag( "perk" )
-		
-			if ( #all_perks > 0 ) then
-				for i,entity_perk in ipairs(all_perks) do
-					if entity_perk ~= entity_item then
-						EntityKill( entity_perk )
-					end
-				end
-			end
-		end
-	end]]
-
-	EntityKill( entity_item ) -- entity item should always be killed, hence we don't kill it in the above loop
-end
-
  -- spawns one perk
 function perk_spawn2( x, y, perk_id )
 	local perk_data = get_perk_with_id( perk_list, perk_id )
@@ -662,7 +571,7 @@ function give_perk()
 			if players == nil then return end
 			for i, player in ipairs(players) do
 				-- last argument set to false, so you dont kill others perks if triggered inside the shop
-				perk_pickup2(perk_entity, player, nil, true, false)
+				perk_pickup(perk_entity, player, nil, true, false)
 			end
 		end
     end
@@ -1297,24 +1206,18 @@ function spawn_bomb()
 end
 
 function get_wands()
-    local childs = EntityGetAllChildren(get_player())
-    local inven = nil
-    if childs ~= nil then
-        for _, child in ipairs(childs) do
-            if EntityGetName(child) == "inventory_quick" then
-                inven = child
-            end
-        end
-    end
-    local wands = {}
-    if inven ~= nil then
-        local items = EntityGetAllChildren(inven)
-        for _, child_item in ipairs(items) do
-            if EntityHasTag(child_item, "wand") then
-                wands[_] = child_item
-            end
-        end
-    end
+	local wands = {}
+	if(get_player() ~= 0)then
+		local childs = EntityGetAllChildren(get_player())
+		
+		if childs ~= nil then
+			for _, child in ipairs(childs) do
+				if EntityGetName(child) == "inventory_quick" then
+					wands = EntityGetChildrenWithTag( child, "wand" );
+				end
+			end
+		end
+	end
 
     return wands or nil
 end
@@ -1426,7 +1329,12 @@ function get_spawn_pos(min_range, max_range, x, y)
 			end
 		end
 
-		local spawn_index = Random(1, table.getn(spawn_points))
+		if(#spawn_points == 0)then
+			return x, y
+		end
+		local spawn_index = Random(1, #spawn_points)
+
+
 		
 		local spawn_x = spawn_points[spawn_index].x
 		local spawn_y = spawn_points[spawn_index].y
