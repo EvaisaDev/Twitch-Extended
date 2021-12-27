@@ -665,4 +665,25 @@ channel_rewards = {
             spawn_homunculus(userdata.username, "punch")
         end,
     },
+	{
+		reward_id = "spawn_boss",
+        reward_name = "Spawn Boss",
+        reward_description = "Spawn Boss",
+        reward_image = "mods/twitch_extended/files/gfx/reward_images/random_boss.png",
+        required_flag = "",
+		func = function(reward, userdata)
+			
+			bosses = {
+				"data/entities/animals/boss_dragon.xml",
+				"data/entities/animals/boss_limbs/boss_limbs.xml",
+				"data/entities/animals/boss_alchemist/boss_alchemist.xml",
+				"data/entities/animals/boss_pit/boss_pit.xml",
+				"data/entities/buildings/wizardcave_gate_monster_spawner.xml",
+				"data/entities/animals/boss_wizard/boss_wizard.xml",
+				"data/entities/animals/boss_ghost/boss_ghost.xml",
+				"data/entities/animals/boss_robot/boss_robot.xml",
+			}
+			spawn_item(bosses[Random(1, #bosses)], 50, 150, true, false, 100)
+		end
+	}
 }

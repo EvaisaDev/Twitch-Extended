@@ -1,4 +1,4 @@
-<Entity tags="zombie,mortal,hittable" name="$animal_duck">
+<Entity tags="zombie,mortal,hittable,dont_bless" name="$animal_duck">
  	<LuaComponent
 		script_source_file="mods/twitch_extended/files/entities/animals/ducks/duck_companions/set_home_on_player.lua"
 		execute_on_added="1"

@@ -1,0 +1,114 @@
+<Entity tags="hourglass_effect" >
+      
+  <LuaComponent
+		script_source_file="mods/twitch_extended/files/scripts/misc/convert_increase_radius.lua"
+    execute_every_n_frame="2"
+    execute_on_added="1"
+    >
+	</LuaComponent>
+
+	<VelocityComponent
+		gravity_y="0"
+		mass="0.07"
+		>
+	</VelocityComponent> 
+
+  <LifetimeComponent lifetime="1000">
+  </LifetimeComponent>
+  
+	<MagicConvertMaterialComponent
+      kill_when_finished="0"
+      from_material_tag="[liquid]"
+      steps_per_frame="32"
+      to_material="smoke"
+      clean_stains="0"
+      is_circle="1"
+      radius="2" 
+	    loop="1"
+	  >
+  </MagicConvertMaterialComponent>
+
+	<MagicConvertMaterialComponent
+      kill_when_finished="0"
+      from_material_tag="[sand_other]"
+      steps_per_frame="32"
+      to_material="smoke"
+      clean_stains="0"
+      is_circle="1"
+      radius="2" 
+	    loop="1"
+	  >
+  </MagicConvertMaterialComponent>
+
+  	<MagicConvertMaterialComponent
+      kill_when_finished="0"
+      from_material_tag="[sand_ground]"
+      steps_per_frame="32"
+      to_material="smoke"
+      clean_stains="0"
+      is_circle="1"
+      radius="2" 
+	    loop="1"
+	  >
+  </MagicConvertMaterialComponent>
+
+	<MagicConvertMaterialComponent
+      kill_when_finished="0"
+      from_material_tag="[solid]"
+      steps_per_frame="32"
+      to_material="rock_static_cursed"
+      clean_stains="0"
+      is_circle="1"
+      radius="2" 
+	    loop="1"
+	  >
+  </MagicConvertMaterialComponent>
+
+    <ParticleEmitterComponent 
+        emitted_material_name="spark"
+        gravity.y="0.0"
+        lifetime_min="0.1"
+        lifetime_max="0.5"
+        count_min="30"
+        count_max="80"
+        render_on_grid="1"
+        fade_based_on_lifetime="1"
+        area_circle_radius.max="450"
+        cosmetic_force_create="0"
+        airflow_force="0.1"
+        airflow_time="0.01"
+        airflow_scale="0.05"
+        emission_interval_min_frames="0"
+        emission_interval_max_frames="0"
+        emit_cosmetic_particles="1"
+        is_emitting="1" >
+    </ParticleEmitterComponent>
+
+    <ParticleEmitterComponent 
+        emitted_material_name="spark"
+        gravity.y="0.0"
+        lifetime_min="0.1"
+        lifetime_max="0.1"
+        count_min="200"
+        count_max="200"
+        render_on_grid="1"
+        fade_based_on_lifetime="1"
+        area_circle_radius.min="450"
+        area_circle_radius.max="450"
+        cosmetic_force_create="0"
+        airflow_force="0.3"
+        airflow_time="0.01"
+        airflow_scale="0.05"
+        emission_interval_min_frames="0"
+        emission_interval_max_frames="0"
+        emit_cosmetic_particles="1"
+        is_emitting="1" >
+    </ParticleEmitterComponent>
+
+  <AudioLoopComponent
+      file="data/audio/Desktop/projectiles.snd"
+      event_name="player_projectiles/field/loop"
+      auto_play="1" >
+  </AudioLoopComponent>
+
+</Entity>

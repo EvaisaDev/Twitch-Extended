@@ -1,10 +1,11 @@
 dofile("mods/twitch_extended/config/rewards.lua")
 dofile("mods/twitch_extended/config/run_modifiers.lua")
+dofile("mods/twitch_extended/config/loadouts.lua")
 dofile("mods/twitch_extended/files/scripts/utils/utilities.lua")
 dofile_once( "data/scripts/perks/perk_list.lua" )
 
-VERSION = "v2.2.9"
-DATE = "February 23 2020"
+VERSION = "v2.4.0"
+DATE = "December 17 2021"
 
 twitch_config_options = {
     mod_id = "twitch_extended",
@@ -75,7 +76,7 @@ twitch_config_options = {
                 },  
                 {
                     flag = "loadouts",
-                    required_flag = "gokis_things_enabled",
+                    required_flag = "",
                     name = "$twitch_extended_config_loadouts",
                     description = "$twitch_extended_config_loadouts_description",
                     default = false,
@@ -85,9 +86,45 @@ twitch_config_options = {
 
                     end
                 },  
+				{
+                    flag = "custom_cape_color",
+                    required_flag = "",
+                    name = "$twitch_extended_config_custom_cape_color",
+                    description = "$twitch_extended_config_custom_cape_color_description",
+                    default = true,
+                    type = "toggle",
+                    requires_restart = true,
+                    callback = function(item, enabled)
+
+                    end
+                },  
+				{
+                    flag = "unlock_spells",
+                    required_flag = "",
+                    name = "$twitch_extended_config_unlock_spells",
+                    description = "$twitch_extended_config_unlock_spells_description",
+                    default = false,
+                    type = "toggle",
+                    requires_restart = true,
+                    callback = function(item, enabled)
+
+                    end
+                },  
+				{
+                    flag = "custom_sprites",
+                    required_flag = "",
+                    name = "$twitch_extended_config_custom_sprites",
+                    description = "$twitch_extended_config_custom_sprites_description",
+                    default = true,
+                    type = "toggle",
+                    requires_restart = true,
+                    callback = function(item, enabled)
+
+                    end
+                },  
                 {
                     flag = "loadout_vote_length",
-                    required_flag = "gokis_things_enabled",
+                    required_flag = "",
                     name = "$twitch_extended_config_loadout_vote_length",
                     description = "$twitch_extended_config_loadout_vote_length_description",
                     default_number = 30,
@@ -419,9 +456,36 @@ twitch_config_options = {
                 },  
                 {
                     flag = "champion_percentage",
-                    required_flag = "",
+                    required_flag = "gokis_things_enabled",
                     name = "$twitch_extended_config_champion_percentage",
                     description = "$twitch_extended_config_champion_percentage_description",
+                    default_number = 20,
+                    max_number = 100,
+                    min_number = 1,
+                    format = "$0%",
+                    type = "slider",
+                    requires_restart = false,
+                    callback = function(number)
+
+                    end
+                }, 
+				{
+                    flag = "blessed_beast_naming",
+                    required_flag = "blessed_beasts_enabled",
+                    name = "$twitch_extended_config_blessed_beast_naming",
+                    description = "$twitch_extended_config_blessed_beast_naming_description",
+                    default = false,
+                    type = "toggle",
+                    requires_restart = false,
+                    callback = function(item, enabled)
+
+                    end
+                },  
+                {
+                    flag = "blessed_beast_percentage",
+                    required_flag = "blessed_beasts_enabled",
+                    name = "$twitch_extended_config_blessed_beast_percentage",
+                    description = "$twitch_extended_config_blessed_beast_percentage_description",
                     default_number = 20,
                     max_number = 100,
                     min_number = 1,
@@ -446,9 +510,36 @@ twitch_config_options = {
                 },
                 {
                     flag = "miniboss_percentage",
-                    required_flag = "",
+                    required_flag = "gokis_things_enabled",
                     name = "$twitch_extended_config_miniboss_percentage",
                     description = "$twitch_extended_config_miniboss_percentage_description",
+                    default_number = 20,
+                    max_number = 100,
+                    min_number = 1,
+                    format = "$0%",
+                    type = "slider",
+                    requires_restart = false,
+                    callback = function(number)
+
+                    end
+                },
+				{
+                    flag = "blessed_miniboss_naming",
+                    required_flag = "blessed_beasts_enabled",
+                    name = "$twitch_extended_config_blessed_miniboss_naming",
+                    description = "$twitch_extended_config_blessed_miniboss_naming_description",
+                    default = false,
+                    type = "toggle",
+                    requires_restart = false,
+                    callback = function(item, enabled)
+
+                    end
+                },
+                {
+                    flag = "blessed_miniboss_percentage",
+                    required_flag = "blessed_beasts_enabled",
+                    name = "$twitch_extended_config_blessed_miniboss_percentage",
+                    description = "$twitch_extended_config_blessed_miniboss_percentage_description",
                     default_number = 20,
                     max_number = 100,
                     min_number = 1,
@@ -666,6 +757,27 @@ twitch_config_options = {
 
                     end
                 },]]               
+            }
+        },
+		{
+            category_id = "loadouts",
+            category = "$twitch_extended_config_category_loadouts",
+            items_per_page = 45,
+            items_per_row = 15,
+            items = {
+                {
+                    name = "$twitch_extended_config_category_loadouts_description",
+                    required_flag = "",
+                    description = "",
+                    offset_x = -4,
+                    offset_y = 0,
+                    color = "fff5ce42",
+                    type = "text"
+                },    
+                {
+                    required_flag = "",
+                    type = "spacer"
+                },    
             }
         },
         {
@@ -985,7 +1097,32 @@ for k, v in pairs(channel_rewards)do
                     end
                 end
             end
-            table.insert(v2.items, {
+			table.insert(v2.items, {
+				name = "Run Reward",
+				item_id = "run_reward_"..v.reward_id,
+				required_flag = "",
+				description = "Run the reward for testing purposes.",
+				type = "button",
+				callback = function(item)
+					v.func(v, {
+						username = "test",
+						user_id = "NaN",
+						broadcaster = false,
+						mod = false,
+						subscriber = false,
+						turbo = false,
+						custom_reward = "NaN",
+						message = "This is a test.",
+						bits = 0,
+						total_months = 0,
+						streak = 0
+					})
+
+					GamePrintImportant(GameTextGetTranslatedOrNot(v.reward_name), GameTextGetTranslatedOrNot(v.reward_description))
+
+				end
+			})
+			table.insert(v2.items, {
                 type = "spacer"
             })
         end
@@ -1093,7 +1230,30 @@ for k, v in pairs(sub_rewards)do
                     end
                 end
             end
-            table.insert(v2.items, {
+			table.insert(v2.items, {
+				name = "Run Reward",
+				item_id = "run_reward_"..v.reward_id,
+				required_flag = "",
+				description = "Run the reward for testing purposes.",
+				type = "button",
+				callback = function(item)
+					v.func(v, {
+						username = "test",
+						user_id = "NaN",
+						broadcaster = false,
+						mod = false,
+						subscriber = false,
+						turbo = false,
+						custom_reward = "NaN",
+						message = "This is a test.",
+						bits = 0,
+						total_months = 0,
+						streak = 0
+					})
+					GamePrintImportant(GameTextGetTranslatedOrNot(v.reward_name), GameTextGetTranslatedOrNot(v.reward_description))
+				end
+			})
+			table.insert(v2.items, {
                 type = "spacer"
             })
         end
@@ -1228,7 +1388,30 @@ for k, v in pairs(bit_rewards)do
                     end
                 end
             end
-            table.insert(v2.items, {
+			table.insert(v2.items, {
+				name = "Run Reward",
+				item_id = "run_reward_"..v.reward_id,
+				required_flag = "",
+				description = "Run the reward for testing purposes.",
+				type = "button",
+				callback = function(item)
+					v.func(v, {
+						username = "test",
+						user_id = "NaN",
+						broadcaster = false,
+						mod = false,
+						subscriber = false,
+						turbo = false,
+						custom_reward = "NaN",
+						message = "This is a test.",
+						bits = 0,
+						total_months = 0,
+						streak = 0
+					})
+					GamePrintImportant(GameTextGetTranslatedOrNot(v.reward_name), GameTextGetTranslatedOrNot(v.reward_description))
+				end
+			})
+			table.insert(v2.items, {
                 type = "spacer"
             })
         end
@@ -1283,6 +1466,29 @@ for k, v in pairs(run_modifiers)do
                 required_flag = v.required_flag,
                 name = v.ui_name,
                 description = v.ui_description,
+                default = true,
+                type = "toggle",
+                requires_restart = true,
+                callback = function(item, enabled)
+                end               
+            }
+            table.insert(v2.items, new_item)
+        end
+    end
+end
+
+for k, v in pairs(twitch_loadouts)do
+    for k2, v2 in pairs(twitch_config_options.categories)do
+        if(v2.category_id == "loadouts")then
+			local append_requires = ""
+			if(v.required_flag == "spellbound_enabled")then
+				append_requires = ", Requires Spellbound Bundle"
+			end
+            new_item = {
+                flag = v.id,
+                required_flag = "",
+                name = v.name:gsub( " TYPE", "" ),
+                description = --[[v.description .. ]]"by "..v.author..append_requires,
                 default = true,
                 type = "toggle",
                 requires_restart = true,

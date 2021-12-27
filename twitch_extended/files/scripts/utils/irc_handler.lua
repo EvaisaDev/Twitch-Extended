@@ -259,7 +259,7 @@ function OnSub(userdata, message)
 		end
 
 		if(reward ~= nil)then
-			print(table.dump(userdata))
+			--print(table.dump(userdata))
 
 			if(userdata.msg_id == "sub")then
 				reward.no_display_message = reward.no_display_message or false

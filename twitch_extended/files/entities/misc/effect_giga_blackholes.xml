@@ -1,0 +1,15 @@
+<Entity >
+	<InheritTransformComponent />
+   
+	<LuaComponent
+		script_source_file="mods/twitch_extended/files/scripts/events/effect_giga_blackholes.lua"
+		execute_every_n_frame="3"
+		>
+	</LuaComponent>
+	
+	<LifetimeComponent
+		lifetime="1800"
+		>
+	</LifetimeComponent>
+  
+</Entity>

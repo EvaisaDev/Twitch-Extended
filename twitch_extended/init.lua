@@ -1,7 +1,11 @@
 dofile_once("data/scripts/lib/coroutines.lua")
 dofile_once("data/scripts/lib/utilities.lua")
 
+dofile("mods/twitch_extended/files/scripts/misc/initial_compat.lua")
 
+if(ModIsEnabled("spellbound_bundle"))then
+	GameAddFlagRun("spellbound_enabled")
+end
 
 
 
@@ -15,6 +19,7 @@ if(ModIsEnabled( "config_lib" ))then
 	
 
 	ModLuaFileAppend("mods/config_lib/files/config_list.lua", "mods/twitch_extended/files/scripts/config/config_list.lua")
+
 
 	get_content = ModTextFileGetContent
 	set_content = ModTextFileSetContent	
@@ -124,7 +129,125 @@ if(ModIsEnabled( "config_lib" ))then
 	end
 end
 
+dofile("data/scripts/gun/gun_enums.lua")
+dofile("data/scripts/gun/gun_actions.lua")
+
+dofile("mods/twitch_extended/files/scripts/utils/special_utils.lua")
+
+dofile("data/scripts/gun/gun.lua")
+dofile("data/scripts/gun/gunaction_generated.lua")
+dofile("data/scripts/gun/gunshoteffects_generated.lua")
+
+oldEntityLoad = EntityLoad
+EntityLoad = function() end
+Reflection_RegisterProjectile = function() end
+BeginProjectile = function() end
+EndProjectile = function() end
+RegisterProjectile = function() end
+RegisterGunAction = function() end
+RegisterGunShotEffects = function() end
+BeginTriggerTimer = function() end
+BeginTriggerHitWorld = function() end
+BeginTriggerDeath = function() end
+EndTrigger = function() end
+SetProjectileConfigs = function() end
+StartReload = function() end
+ActionUsesRemainingChanged = function() end
+ActionUsed = function() end
+LogAction = function() end
+OnActionPlayed = function() end
+OnNotEnoughManaForAction = function() end
+draw_actions = function() end
+draw_action = function() end
 function OnMagicNumbersAndWorldSeedInitialized()
+	
+	local xml2lua = dofile("mods/twitch_extended/lib/xml2lua/xml2lua.lua")
+	local handler = dofile("mods/twitch_extended/lib/xml2lua/xmlhandler/tree.lua")
+
+
+	local parser = xml2lua.parser(handler)
+	local modifier_base = ModTextFileGetContent("mods/twitch_extended/files/entities/misc/base_modifier_effect.xml")
+	for k, v in pairs(actions)do
+		if(v.type == ACTION_TYPE_MODIFIER)then
+			--extra_modifiers["POTENT_POTIONS_"..v.id] = v.action
+
+			shot_effects = {}
+			c = {}
+			ConfigGunActionInfo_Init(c)
+			ConfigGunShotEffects_Init(shot_effects)
+
+			c_defaults = {}
+			ConfigGunActionInfo_Init(c_defaults)
+
+			dont_draw_actions = true
+			reflecting = true
+			
+			v.action( 1, 1 )
+
+			reflecting = false
+			dont_draw_actions = false
+
+
+
+		
+			
+		
+			parser:parse(modifier_base)
+
+
+			for i, p in pairs(handler.root.Entity) do
+				if(i == "GameEffectComponent")then
+					if(p._attr == nil)then
+						p._attr = {}
+					end
+					if(p._attr ~= nil)then
+						p._attr.custom_effect_id = "TWITCH_EXTENDED_"..v.id
+					end
+				elseif(i == "ShotEffectComponent")then
+					if(p._attr == nil)then
+						p._attr = {}
+					end
+					if(p._attr ~= nil)then
+						p._attr.extra_modifier = "base_modifier_"..v.id
+					end
+				end
+			end
+
+
+			
+			handler.root.Entity.VariableStorageComponent = {
+
+			}
+
+			handler.root.Entity._attr = {
+				name = "TWITCH_EXTENDED_"..v.id
+			}
+
+			for k, v in pairs(c)do
+				--if(v ~= c_defaults[k])then
+					table.insert(handler.root.Entity.VariableStorageComponent, {
+						_attr = {
+							name = tostring(k),
+							value_string = tostring(v)
+						}
+					})
+				--end
+			end
+			
+
+			local file_content = xml2lua.toXml(handler.root, "Entity", 0)
+
+			--print(file_content)
+
+			ModTextFileSetContent("mods/twitch_extended/files/entities/misc/TWITCH_EXTENDED_"..v.id..".xml", file_content)
+
+			--print(ModTextFileGetContent("mods/modifier_potions/files/entities/status_entities/POTENT_POTIONS_"..v.id..".xml"))
+			
+		end
+		
+	end
+	
+
 	if(ModIsEnabled( "config_lib" ))then
 
 		dofile("mods/twitch_extended/files/scripts/utils/liquid_transformation_store.lua")
@@ -245,15 +368,14 @@ function OnWorldPreUpdate()
 		end
 
 		-- Menu toggle button
-		GuiLayoutBeginVertical(gui, 50, 0)
+		GuiLayoutBeginVertical(gui, 50, 60)
 		GuiBeginAutoBox( gui )
-		GuiZSet( gui, -800 ) 
-		for i = 1, 100 do
-			local r, g, b = HSL( color, .5, .5 )
-			GuiOptionsAddForNextWidget( gui, GUI_OPTION.Align_HorizontalCenter )
-			GuiColorSetForNextWidget(gui, r, g, b, 1)
-			GuiText(gui, 0, 0, GameTextGetTranslatedOrNot("$twitch_extended_config_lib_required"))
-		end
+		GuiZSet( gui, -8000 ) 
+
+		GuiOptionsAddForNextWidget( gui, GUI_OPTION.Align_HorizontalCenter )
+		GuiColorSetForNextWidget(gui, 1, 1, 1, 1)
+		GuiText(gui, 0, 0, GameTextGetTranslatedOrNot("$twitch_extended_config_lib_required"))
+
 		GuiZSetForNextWidget( gui, -700 )
 		GuiEndAutoBoxNinePiece( gui, 5, 0, 0, false, 0, "data/ui_gfx/decorations/9piece0_gray.png", "data/ui_gfx/decorations/9piece0_gray.png" )
 		GuiLayoutEnd(gui)
@@ -339,30 +461,69 @@ function OnWorldPreUpdate()
 				end
 			end
 
-			if(GameGetFrameNum() > 30)then
-				dofile("mods/twitch_extended/files/scripts/ui/ui_handler.lua")
-				if(GameHasFlagRun( "twitch_extended_new_run2" ) == false)then
-					GameAddFlagRun( "twitch_extended_new_run2" )
-					if(HasSettingFlag("twitch_extended_options_loadouts") and ModIsEnabled("gkbrkn_noita"))then
-						GlobalsSetValue("current_vote_type", "loadout")
-						GlobalsSetValue("twitch_lib_force_outcome_type", "random")
-						StreamingForceNewVoting() 
-					elseif(HasSettingFlag("twitch_extended_options_artifacts"))then
-						GlobalsSetValue("current_vote_type", "artifact")
-						GlobalsSetValue("twitch_lib_force_outcome_type", "random")
-						StreamingForceNewVoting() 
-					else
-						--current_vote_type = "event"
-						GlobalsSetValue("current_vote_type", "event")
-					end
+
+			dofile("mods/twitch_extended/files/scripts/ui/ui_handler.lua")
+			if(not GameHasFlagRun("first_vote_has_ran"))then
+
+				print("Setup first voting.")
+
+				if(HasSettingFlag("twitch_extended_options_loadouts"))then
+					GlobalsSetValue("current_vote_type", "loadout")
+					GlobalsSetValue("twitch_lib_force_outcome_type", "random")
+					StreamingForceNewVoting() 
+				elseif(HasSettingFlag("twitch_extended_options_artifacts"))then
+					GlobalsSetValue("current_vote_type", "artifact")
+					GlobalsSetValue("twitch_lib_force_outcome_type", "random")
+					StreamingForceNewVoting() 
+				else
+					--current_vote_type = "event"
+					GlobalsSetValue("current_vote_type", "event")
 					if(HasSettingFlag("twitch_extended_options_no_vote_delay"))then
 						StreamingForceNewVoting() 
 					end
 				end
+
+				--[[
+				async(function()
+					
+					if(HasSettingFlag("twitch_extended_options_no_vote_delay"))then
+						StreamingForceNewVoting() 
+					end
+					wait(20)
+					if(HasSettingFlag("twitch_extended_options_no_vote_delay"))then
+						StreamingForceNewVoting() 
+					end
+				end)
+				]]
 			end
+			if(not GameHasFlagRun("initialized_namers"))then
+				GameAddFlagRun("initialized_namers")
+
+				player_entity = get_player()
+
+				if(player_entity ~= nil)then
+					if(ModIsEnabled("gkbrkn_noita"))then
+					--	print("add run flag")
+						EntityAddComponent( player_entity, "LuaComponent", 
+						{ 
+							script_source_file = "mods/twitch_extended/files/scripts/misc/handle_goki_naming.lua",
+							execute_every_n_frame = "20",
+						})
+					end
+					if(ModIsEnabled("blessed_beasts"))then
+						EntityAddComponent( player_entity, "LuaComponent", 
+						{ 
+							script_source_file = "mods/twitch_extended/files/scripts/misc/handle_beast_naming.lua",
+							execute_every_n_frame = "20",
+						})
+					end
+				end
+			end
+	
 			wake_up_waiting_threads(1) 
 		end
 	end
+
 end
 
 if(ModIsEnabled( "config_lib" ))then
@@ -380,21 +541,33 @@ function OnPlayerDied()
 	death_count = ModSettingGet("twitch_extended_death_counter") or 0
 
 	ModSettingSet("twitch_extended_death_counter", death_count + 1) 
-	--print("yo. Eva here.")
 end
+
+
+
+--[[
+function OnWorldInitialized()
+	if(StreamingGetIsConnected() == 1 or type(StreamingGetIsConnected()) == "boolean" and StreamingGetIsConnected())then
+		if(ModIsEnabled("thematic_random_starts"))then
+			print("Disabled thematic random starts.")
+			GameAddFlagRun("start_loadouts_init_done")
+		end
+	end
+end
+]]
+
 -- wabaaa
 function OnPlayerSpawned( player_entity )
+	--print("Streaming enabled? "..tostring(MagicNumbersGetValue("STREAMING_ENABLED")))
 	if(ModIsEnabled( "config_lib" ))then
-		--print("Fucks going on in miami bruh?")
-
-		print(tostring(StreamingGetIsConnected()))
+		--[[
 		if(StreamingGetIsConnected() == 1 or type(StreamingGetIsConnected()) == "boolean" and StreamingGetIsConnected())then
 			--print("Ohhhh shit just disappeared ")
 			StreamingSetVotingEnabled(not HasSettingFlag( "twitch_extended_options_disable_voting_system" ))
 			--print("The hell?")
 			if(GameHasFlagRun( "twitch_extended_new_run" ) == false)then
 				GameAddFlagRun( "twitch_extended_new_run" )
-				if(HasSettingFlag("twitch_extended_options_loadouts") and ModIsEnabled("gkbrkn_noita"))then
+				if(HasSettingFlag("twitch_extended_options_loadouts"))then
 					GlobalsSetValue("current_vote_type", "loadout")
 					GlobalsSetValue("twitch_lib_force_outcome_type", "random")
 					StreamingForceNewVoting() 
@@ -409,23 +582,29 @@ function OnPlayerSpawned( player_entity )
 				if(HasSettingFlag("twitch_extended_options_no_vote_delay"))then
 					StreamingForceNewVoting() 
 				end
+				async(function()
+				
+					if(HasSettingFlag("twitch_extended_options_no_vote_delay"))then
+						StreamingForceNewVoting() 
+					end
+				end)
 			end
-
-			if(ModIsEnabled("gkbrkn_noita"))then
-			--	print("add run flag")
-				GameAddFlagRun("gokis_things_enabled")
-				print("[Twitch Extended] Found Goki's Things!")
-				EntityAddComponent( player_entity, "LuaComponent", 
-				{ 
-					script_source_file = "mods/twitch_extended/files/scripts/misc/handle_goki_naming.lua",
-					execute_every_n_frame = "20",
-				})
-			end
+		end
+		]]
+		if(ModIsEnabled("gkbrkn_noita"))then
+		--	print("add run flag")
+			GameAddFlagRun("gokis_things_enabled")
+			print("[Twitch Extended] Found Goki's Things!")
+		end
+		if(ModIsEnabled("blessed_beasts"))then
+			GameAddFlagRun("blessed_beasts_enabled")
+			print("[Twitch Extended] Found Blessed Beasts!")
 		end
 	end
 end
 -- aaa
 if(ModIsEnabled( "config_lib" ))then
+	ModLuaFileAppend( "data/scripts/lib/utilities.lua", "mods/twitch_extended/files/scripts/append/append_utilities.lua" );
 	ModLuaFileAppend( "data/scripts/streaming_integration/event_utilities.lua", "mods/twitch_extended/files/scripts/append/append_event_utilities.lua")
 	ModLuaFileAppend( "data/scripts/streaming_integration/event_list.lua", "mods/twitch_extended/files/scripts/append/append_events.lua")
 	ModLuaFileAppend( "data/scripts/items/gold_pickup.lua", "mods/twitch_extended/files/scripts/append/append_gold_pickup.lua")
@@ -434,4 +613,5 @@ if(ModIsEnabled( "config_lib" ))then
 	ModLuaFileAppend( "data/scripts/perks/perk.lua", "mods/twitch_extended/files/scripts/append/append_perk.lua")
 	ModMaterialsFileAdd( "mods/twitch_extended/files/scripts/append/append_materials.xml" )
 	ModLuaFileAppend( "data/scripts/items/generate_shop_item.lua", "mods/twitch_extended/files/scripts/append/append_shop.lua" );
+	ModLuaFileAppend( "data/scripts/status_effects/status_list.lua", "mods/twitch_extended/files/scripts/append/status_effects.lua" );
 end

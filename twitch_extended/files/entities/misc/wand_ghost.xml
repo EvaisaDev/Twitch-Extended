@@ -1,0 +1,59 @@
+<Entity tags="mortal,hittable,homing_target,wand_ghost" name="$animal_wand_ghost">
+ 	<LuaComponent
+		script_source_file="mods/twitch_extended/files/entities/animals/ducks/duck_companions/set_home_on_player.lua"
+		execute_on_added="1"
+		execute_every_n_frame="40"
+		execute_times="-1" >
+	</LuaComponent>
+	
+	<Base file="data/entities/base_wand_ghost.xml" >
+		<CameraBoundComponent
+			_enabled="0"
+			max_count="30"
+			distance="160000">
+		</CameraBoundComponent>
+
+		<GenomeDataComponent 
+			herd_id="player"
+			food_chain_rank="7"
+			is_predator="1" 
+			berserk_dont_attack_friends="1">
+		</GenomeDataComponent>
+
+		<AnimalAIComponent 
+			_enabled="1" 
+			preferred_job="JobDefault"
+			attack_ranged_min_distance="0"
+			attack_ranged_max_distance="50"
+			creature_detection_range_x="300"
+			creature_detection_range_y="300"
+			attack_ranged_action_frame="3"
+			attack_melee_action_frame="3"
+			sense_creatures="1"
+			attack_ranged_enabled="1"
+			attack_melee_enabled="0"
+			can_fly="1"  
+			attack_ranged_entity_file="data/entities/projectiles/orb_pink.xml"
+			attack_ranged_frames_between="10" 
+			eye_offset_y="-5"
+			attack_ranged_offset_y="-5"
+			max_distance_to_move_from_home="150"
+			dont_counter_attack_own_herd="1"
+			>
+		</AnimalAIComponent>
+	</Base>
+
+	<LuaComponent 
+		_enabled="1"
+		remove_after_executed="1"
+		script_source_file="data/scripts/animals/wand_ghost.lua" >
+	</LuaComponent>
+
+	<AudioLoopComponent
+		file="data/audio/Desktop/animals.bank"
+		event_name="animals/ghost/movement_loop"
+		set_speed_parameter="1"
+		auto_play="1">
+	</AudioLoopComponent>
+
+</Entity>

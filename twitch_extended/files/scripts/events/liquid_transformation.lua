@@ -12,7 +12,7 @@ end]]
 
 for i = 1, 200, 40 do
     local convert_material = random_from_array( materials )
-    print("Added components")
+    --print("Added components")
     EntityAddComponent2(entity_id, "MagicConvertMaterialComponent", {
         kill_when_finished=true,
         from_material_tag="[liquid]",

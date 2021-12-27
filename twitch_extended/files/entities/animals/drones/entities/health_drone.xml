@@ -1,4 +1,4 @@
-<Entity  tags="teleportable,drone_friendly" >
+<Entity  tags="teleportable,drone_friendly,dont_bless" >
 	
   <SpriteParticleEmitterComponent
 	sprite_file="data/particles/heal.xml"

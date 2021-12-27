@@ -1,4 +1,4 @@
-<Entity  tags="teleportable,drone_friendly" >	
+<Entity  tags="teleportable,drone_friendly,dont_bless" >	
 	
 	<LuaComponent
 		script_source_file="mods/twitch_extended/files/entities/animals/drones/scripts/sethomeposition.lua"

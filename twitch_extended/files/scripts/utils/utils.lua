@@ -139,7 +139,7 @@ end
 
 function EntityGetVariable(entity, name, type)
 	value = nil
-	variable_storages = EntityGetComponent(entity, "VariableStorageComponent")
+	variable_storages = EntityGetComponentIncludingDisabled(entity, "VariableStorageComponent")
 	if(variable_storages ~= nil)then
 		for k, v in pairs(variable_storages)do
 			name_out = ComponentGetValue2(v, "name")
@@ -152,7 +152,7 @@ function EntityGetVariable(entity, name, type)
 end
 
 function EntitySetVariable(entity, name, type, value)
-	variable_storages = EntityGetComponent(entity, "VariableStorageComponent")
+	variable_storages = EntityGetComponentIncludingDisabled(entity, "VariableStorageComponent")
 	has_been_set = false
 	if(variable_storages ~= nil)then
 		for k, v in pairs(variable_storages)do
@@ -169,6 +169,56 @@ function EntitySetVariable(entity, name, type, value)
 		comp["value_"..type] = value
 		EntityAddComponent2(entity, "VariableStorageComponent", comp)
 	end
+end
+
+function EntityAdjustVariable( entity, name, type, default, callback )
+    local new_value = callback( EntityGetVariable( entity, name, type ) or default );
+    EntitySetVariable( entity, name, type, new_value );
+    return new_value;
+end
+
+function ComponentAdjustValue( component, member, callback )
+    local new_value = callback( ComponentGetValue2( component, member ) );
+    ComponentSetValue2( component, member, new_value );
+    return new_value;
+end
+
+function ComponentSetValues( component, member_value_table )
+    for member,new_value in pairs(member_value_table) do
+        ComponentSetValue2( component, member, new_value );
+    end
+end
+
+function ComponentAdjustValues( component, member_callback_table )
+    for member,callback in pairs( member_callback_table ) do
+        ComponentSetValue2( component, member, callback( ComponentGetValue2( component, member ) ) );
+    end
+end
+
+function ComponentObjectSetValues( component, object, member_value_table )
+    for member,new_value in pairs(member_value_table) do
+        ComponentObjectSetValue2( component, object, member, new_value );
+    end
+end
+
+function ComponentObjectAdjustValues( component, object, member_callback_table )
+    for member,callback in pairs(member_callback_table) do
+        ComponentObjectSetValue2( component, object, member, callback( ComponentObjectGetValue2( component, object, member ) ) );
+    end
+end
+
+function ComponentSetValues( component, member_value_table )
+    for member,new_value in pairs(member_value_table) do
+        ComponentSetValue2( component, member, new_value );
+    end
+end
+
+function ComponentAdjustMetaCustoms( component, member_callback_table )
+    for member,callback in pairs(member_callback_table) do
+        local current_value = ComponentGetValue2( component, member );
+        local new_value = callback( current_value );
+        ComponentSetValue2( component, member, new_value );
+    end
 end
 
 function clamp(val, lower, upper)

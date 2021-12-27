@@ -898,7 +898,7 @@ function spawn_enemy_biome(username)
 						local enemy = enemies[Random(1,#enemies)]
 						local our_x, our_y = get_spawn_pos(50, 80)
 						--spawn_with_limited_random(enemies,our_x,our_y,0,0,{}, username)
-						print(table.dump(enemy))
+						--print(table.dump(enemy))
 
 							--entity_load_camera_bound(enemy, our_x, our_y, 0, 0, username)
 
@@ -1095,7 +1095,9 @@ function spawn_drone_companion(username)
 		local drone = spawn_item(drones[Random(1,table.getn(drones))], 0, 5)
 		text_above_entity(drone, username, 0)
 
+		EntityAddTag( drone, "dont_bless" )
 		EntityAddTag( drone, "has_nametag")
+		EntityRemoveTag( drone, "enemy" )
 
 		local damagemodels = EntityGetComponent( drone, "DamageModelComponent" )
 		if( damagemodels ~= nil ) then
@@ -1133,13 +1135,9 @@ function spawn_companion(username)
 	if(player ~= nil)then
 		local duck = spawn_item("mods/twitch_extended/files/entities/animals/ducks/duck_companions/duck_companion.xml", 0, 10)
 		text_above_entity(duck, username, 0)
-		if(duck_elite == "false" and duck_force_elite == "false")then
-			EntityAddTag( duck, "gkbrkn_no_champion")
-		end
-		if(duck_force_elite == "true")then
-			EntityAddTag( duck, "gkbrkn_force_champion")
-		end
 		EntityAddTag( duck, "has_nametag")
+		EntityAddTag( duck, "dont_bless" )
+		EntityRemoveTag( duck, "enemy" )
 		
 		local damagemodels = EntityGetComponent( duck, "DamageModelComponent" )
 		if( damagemodels ~= nil ) then
@@ -1174,13 +1172,9 @@ function spawn_companion_gold(username)
 	if(player ~= nil)then
 		local duck = spawn_item("mods/twitch_extended/files/entities/animals/ducks/duck_companions/golden_duck.xml", 0, 10)
 		text_above_entity(duck, username, 0)	
-		if(duck_elite == "false" and duck_force_elite == "false")then
-			EntityAddTag( duck, "gkbrkn_no_champion")
-		end
-		if(duck_force_elite == "true")then
-			EntityAddTag( duck, "gkbrkn_force_champion")
-		end
 		EntityAddTag( duck, "has_nametag")
+		EntityAddTag( duck, "dont_bless" )
+		EntityRemoveTag( duck, "enemy" )
 		
 		local damagemodels = EntityGetComponent( duck, "DamageModelComponent" )
 		if( damagemodels ~= nil ) then

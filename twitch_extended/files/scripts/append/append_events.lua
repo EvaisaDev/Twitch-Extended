@@ -3,10 +3,8 @@ dofile_once("data/scripts/lib/coroutines.lua")
 dofile_once("data/scripts/streaming_integration/event_utilities.lua")
 dofile_once("mods/twitch_extended/files/scripts/utils/utilities.lua")
 dofile_once("mods/twitch_extended/files/scripts/utils/wand_utils.lua")
-if(ModIsEnabled("gkbrkn_noita"))then
-	dofile_once( "mods/gkbrkn_noita/files/gkbrkn/misc/loadouts/helper.lua" );
-	dofile_once( "mods/gkbrkn_noita/files/gkbrkn/content/loadouts.lua" );
-end
+dofile_once("mods/twitch_extended/config/loadouts.lua")
+dofile_once("mods/twitch_extended/files/scripts/utils/loadout_utils.lua")
 
 
 dofile_once("data/scripts/gun/procedural/wands.lua")
@@ -360,13 +358,13 @@ append_events = {
 			local wands = get_wands()
 			if wands == nil then return end
 			local wand = wands[Random(1,table.getn(wands))]
-	
+
 			local player = get_player()
 			local x, y = EntityGetTransform(player)
-			
+
 			AddGunActionPermanent( wand, GetRandomAction( x, y, 6, 666))
-			
-	
+
+
 			local ability = EntityGetAllComponents(wand)
 			for _, c in ipairs(ability) do
 				if ComponentGetTypeName(c) == "AbilityComponent" then
@@ -1947,7 +1945,698 @@ append_events = {
 			spawn_item("mods/twitch_extended/files/entities/misc/tentacle_orb.xml", 100, 200)
 		end,
 	},
+	-- New Events
+	{
+		id = "TWITCH_EXTENDED_FOOD",
+		ui_name = "Overeating",
+		ui_description = "You are stuffed with food.",
+		ui_icon = "data/ui_gfx/streaming_event_icons/health_plus.png",
+		ui_author = "Evaisa",
+		weight = 1.0,
+		kind = STREAMING_EVENT_BAD,
+		action = function(event)
+			local players = get_players()
 
+			for i,entity_id in ipairs( players ) do
+				IngestionComps = EntityGetComponent(entity_id, "IngestionComponent")
+
+				for k, v in pairs(IngestionComps)do
+					ComponentSetValue2(v, "ingestion_size", 9000)
+				end
+			end
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_CHAOTIC_POLYMORPH_ENEMIES",
+		ui_name = "Chaotic Polymorph Creatures",
+		ui_description = "Apply chaotic polymorph to all creatures in range",
+		ui_icon = "data/ui_gfx/streaming_event_icons/polymorph_enemies.png",
+		ui_author = "Evaisa",
+		weight = 1.0,
+		kind = STREAMING_EVENT_BAD,
+		action = function(event)
+			local t = GameGetFrameNum()
+			for id,enemy in pairs(get_enemies_in_radius(400)) do
+				local game_effect_comp,game_effect_entity = GetGameEffectLoadTo( enemy, "POLYMORPH_RANDOM", false )
+				local icon = "polymorph_random"
+				
+				if (game_effect_comp ~= nil) and (game_effect_entity ~= nil) and (icon ~= nil) then
+					ComponentSetValue2( game_effect_comp, "frames", get_lifetime() )
+					add_icon_above_head( game_effect_entity, "data/ui_gfx/status_indicators/" .. icon .. ".png", event )
+				end
+			end
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_SUPER_CHEST",
+		ui_name = "Spawn Super Chest",
+		ui_description = "A super chest has been spawned!",
+		ui_icon = "data/ui_gfx/streaming_event_icons/polymorph_enemies.png",
+		ui_author = "Evaisa",
+		weight = 1.0,
+		kind = STREAMING_EVENT_GOOD,
+		action = function(event)
+			spawn_item("data/entities/items/pickup/chest_random_super.xml", 10, 15)
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_RANDOM_MASTER",
+		ui_name = "Random Masters",
+		ui_description = "Spawn random masters.",
+		ui_icon = "data/ui_gfx/streaming_event_icons/health_plus.png",
+		ui_author = "Evaisa",
+		weight = 1.0,
+		kind = STREAMING_EVENT_BAD,
+		delay_timer = 300,
+		action_delayed = function(event)
+			local players = get_players()
+			
+			local pool = {
+				"wizard_dark",
+				"wizard_hearty",
+				"wizard_neutral",
+				"wizard_poly",
+				"wizard_returner",
+				"wizard_swapper",
+				"wizard_tele",
+				"wizard_twitchy",
+				"wizard_weaken",
+				"wizard_wither",
+			}
+
+			for i,entity_id in ipairs( players ) do
+				for i = 1, 3 do
+					spawn_item("data/entities/animals/"..pool[Random(1, #pool)]..".xml", 80, 180, false)
+				end
+			end
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_RANDOM_MAGE",
+		ui_name = "Random Mages",
+		ui_description = "Spawn random mages",
+		ui_icon = "data/ui_gfx/streaming_event_icons/health_plus.png",
+		ui_author = "Evaisa",
+		weight = 1.0,
+		kind = STREAMING_EVENT_BAD,
+		delay_timer = 300,
+		action_delayed = function(event)
+			local players = get_players()
+			
+			local pool = {
+				"thundermage",
+				"firemage",
+				"firemage_weak",
+			}
+
+			for i,entity_id in ipairs( players ) do
+				for i = 1, 3 do
+					spawn_item("data/entities/animals/"..pool[Random(1, #pool)]..".xml", 80, 180, false)
+				end
+			end
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_CHAOS_DIE",
+		ui_name = "Chaos Die",
+		ui_description = "Spawns a chaos die",
+		ui_icon = "data/ui_gfx/streaming_event_icons/health_plus.png",
+		ui_author = "Evaisa",
+		weight = 1.0,
+		kind = STREAMING_EVENT_NEUTRAL,
+		action = function(event)
+			local players = get_players()
+
+			for i,entity_id in ipairs( players ) do
+				
+				local x, y = EntityGetTransform(entity_id)
+				die = spawn_item( "data/entities/items/pickup/physics_die.xml", 50, 80, false)
+				x_vel = Random(200, 300)
+				if(Random(0,100) >= 50)then
+					x_vel = -x_vel
+				end
+				PhysicsApplyForce( die, x_vel, Random(100, 200) )
+				PhysicsApplyTorque( die, x_vel / 2 )
+
+				local variablestorages = EntityGetComponent( die, "VariableStorageComponent" )
+				if ( variablestorages ~= nil ) then
+					for j,storage_id in ipairs(variablestorages) do
+						local var_name = ComponentGetValue( storage_id, "name" )
+						if ( var_name == "rolling" ) then
+							if ( ComponentGetValue2( storage_id, "value_int" ) == 0 ) then
+								local players = EntityGetInRadiusWithTag( pos_x, pos_y, 480, "player_unit" )
+								
+								if ( #players > 0 ) then
+									GamePrint( "$item_die_roll" )
+								end
+							end
+							
+							ComponentSetValue2( storage_id, "value_int", 1 )
+							
+							edit_component2( die, "SpriteComponent", function(comp,vars)
+								ComponentSetValue2( comp, "rect_animation", "roll")
+							end)
+						end
+					end
+				end
+			end
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_SAFE_HAVEN",
+		ui_name = "Safe Haven",
+		ui_description = "Summon a cozy hut",
+		ui_icon = "data/ui_gfx/streaming_event_icons/health_plus.png",
+		ui_author = "Evaisa",
+		weight = 1.0,
+		kind = STREAMING_EVENT_GOOD,
+		action = function(event)
+			local players = get_players()
+
+			for i,entity_id in ipairs( players ) do
+				
+				local pos_x, pos_y = EntityGetTransform(entity_id)
+
+				GamePlaySound( "data/audio/Desktop/event_cues.bank", "event_cues/heart_fullhp/create", pos_x, pos_y )
+				EntityLoad("data/entities/buildings/safe_haven_building.xml", pos_x, pos_y)
+				
+				local hp = 4.0
+				local player = entity_id
+				if player ~= nil then
+					component_read( EntityGetFirstComponent(player, "DamageModelComponent"), { max_hp = 4.0 }, function(comp)
+						hp = comp.max_hp
+					end)
+				end
+
+				-- spawn healing projectiles
+				local storage_comp = get_variable_storage_component(entity_id, "player_hp")
+				local hp = hp * 0.6 -- max 60% healing
+				local projectile_count = math.floor(math.min(20, hp * 3)) -- limit shots for performance reasons
+				--print("total heal: " .. hp .. ". projectile amount " .. projectile_count)
+				hp = hp / projectile_count -- hp per shot
+				--print("heal per projectile: " .. hp)
+				for i=1,projectile_count do
+					local x = pos_x + ProceduralRandom(pos_x, pos_y - i, -10, 10)
+					local y = pos_y + ProceduralRandom(pos_x + i, pos_y * 0.63, -8, 8) - 10
+					local e = EntityLoad("data/entities/projectiles/healshot_safe_haven.xml", x, y)
+					-- scale healing power of shots
+					comp = EntityGetFirstComponent(e, "ProjectileComponent")
+					ComponentObjectSetValue2(comp, "damage_by_type", "healing", -hp)
+				end
+			
+				-- props
+				EntityLoad("data/entities/props/physics/lantern_small.xml", pos_x - 1, pos_y - 32)
+				EntityLoad("data/entities/props/furniture_bed.xml", pos_x - 36, pos_y - 8)
+				EntityLoad("data/entities/props/furniture_wood_table.xml", pos_x + 41, pos_y - 8)
+				EntityLoad("data/entities/props/physics_box_explosive.xml", pos_x + 46, pos_y - 12)
+				
+			end
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_GREED_CURSE",
+		ui_name = "Greed Curse",
+		ui_description = "30 seconds of greed curse.",
+		ui_icon = "data/ui_gfx/streaming_event_icons/health_plus.png",
+		ui_author = "Evaisa",
+		weight = 1.0,
+		kind = STREAMING_EVENT_BAD,
+		action = function(event)
+			for i,entity_id in pairs( get_players() ) do
+				local x, y = EntityGetTransform( entity_id )
+				
+				local effect_id = EntityLoad( "mods/twitch_extended/files/entities/misc/greed_curse.xml", x, y )
+				
+				EntityAddChild( entity_id, effect_id )
+				add_icon_in_hud( effect_id, "data/ui_gfx/status_indicators/greed_curse.png", event )
+				
+			end
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_HAMIS",
+		ui_name = "Revenge Of Hamïs",
+		ui_description = "They have arrived to claim your life.",
+		ui_icon = "",
+		ui_author = "Evaisa",
+		weight = 1.0,
+		kind = STREAMING_EVENT_BAD,
+		action = function(event)
+			for i=1, 15 do
+				spawn_item("data/entities/animals/longleg.xml", 20, 80, false, true)
+			end	
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_CIRCLE_OF_LIFE",
+		ui_name = "Circle Of Life",
+		ui_description = "It's.. It's a healing circle.",
+		ui_icon = "",
+		ui_author = "Evaisa",
+		weight = 1.0,
+		kind = STREAMING_EVENT_BAD,
+		action = function(event)
+			spawn_item("mods/twitch_extended/files/entities/misc/circle_life.xml", 0, 0)
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_SPAWN_KAKKAKIKKARE",
+		ui_name = "Summon Kakkakikkare",
+		ui_description = "A poop stone is summoned.",
+		ui_icon = "",
+		ui_author = "Evaisa",
+		weight = 1.0,
+		kind = STREAMING_EVENT_BAD,
+		action = function(event)
+			spawn_item("data/entities/items/pickup/poopstone.xml", 10, 20)
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_FART",
+		ui_name = "Greater Fart",
+		ui_description = "Feeling a little gassy are we?",
+		ui_icon = "data/ui_gfx/streaming_event_icons/health_plus.png",
+		ui_author = "Evaisa",
+		weight = 1.0,
+		kind = STREAMING_EVENT_BAD,
+		action = function(event)
+			local players = get_players()
+			
+			for i,entity_id in ipairs( players ) do
+				local x, y = EntityGetTransform(entity_id)
+
+				EntityLoad("mods/twitch_extended/files/entities/misc/fart.xml", x, y)
+			end
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_SUMMON_TAIKASAUVA",
+		ui_name = "Summon Taikasauva",
+		ui_description = "A magic wand comes to aid!",
+		ui_icon = "data/ui_gfx/streaming_event_icons/health_plus.png",
+		ui_author = "Evaisa",
+		weight = 1.0,
+		kind = STREAMING_EVENT_BAD,
+		action = function(event)
+			spawn_item("mods/twitch_extended/files/entities/misc/wand_ghost.xml", 5, 10)
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_LIQUID_BARRIER",
+		ui_name = "Barrier Liquid",
+		ui_description = "Liquid is now barriers.",
+		ui_icon = "data/ui_gfx/streaming_event_icons/health_plus.png",
+		ui_author = "Evaisa",
+		weight = 1.0,
+		kind = STREAMING_EVENT_BAD,
+		action = function(event)
+			local players = get_players()
+			
+			for i,entity_id in ipairs( players ) do
+				local x, y = EntityGetTransform(entity_id)
+
+				EntityLoad("mods/twitch_extended/files/entities/misc/materials_to_barrier.xml", x, y)
+			end
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_TRANSFORM_BOMBS",
+		ui_name = "Spells To Bombs",
+		ui_description = "Spells are converted to bombs.",
+		ui_icon = "data/ui_gfx/streaming_event_icons/protect_enemies.png",
+		ui_author = "Evaisa",
+		weight = 0.1,
+		kind = STREAMING_EVENT_BAD,
+		delay_timer = 180,
+		action_delayed = function(event)
+			for i,entity_id in pairs( get_players() ) do
+				local x, y = EntityGetTransform( entity_id )
+				
+				local effect_id = EntityLoad( "mods/twitch_extended/files/entities/misc/effect_bombs.xml", x, y )
+				EntityAddChild( entity_id, effect_id )
+				
+				add_icon_in_hud( effect_id, "mods/twitch_extended/files/gfx/status_effects/bomb.png", event )
+			end
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_TRANSFORM_BLACKHOLES",
+		ui_name = "Spells To Blackholes",
+		ui_description = "Spells are converted to black holes.",
+		ui_icon = "data/ui_gfx/streaming_event_icons/protect_enemies.png",
+		ui_author = "Evaisa",
+		weight = 0.1,
+		kind = STREAMING_EVENT_BAD,
+		delay_timer = 180,
+		action_delayed = function(event)
+			for i,entity_id in pairs( get_players() ) do
+				local x, y = EntityGetTransform( entity_id )
+				
+				local effect_id = EntityLoad( "mods/twitch_extended/files/entities/misc/effect_blackholes.xml", x, y )
+				EntityAddChild( entity_id, effect_id )
+				
+				add_icon_in_hud( effect_id, "mods/twitch_extended/files/gfx/status_effects/blackhole.png", event )
+			end
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_TRANSFORM_GIGA_BLACKHOLES",
+		ui_name = "Spells To Giga Blackholes",
+		ui_description = "Spells are converted to giga blackholes.",
+		ui_icon = "data/ui_gfx/streaming_event_icons/protect_enemies.png",
+		ui_author = "Evaisa",
+		weight = 0.1,
+		kind = STREAMING_EVENT_BAD,
+		delay_timer = 180,
+		action_delayed = function(event)
+			for i,entity_id in pairs( get_players() ) do
+				local x, y = EntityGetTransform( entity_id )
+				
+				local effect_id = EntityLoad( "mods/twitch_extended/files/entities/misc/effect_giga_blackholes.xml", x, y )
+				EntityAddChild( entity_id, effect_id )
+				
+				add_icon_in_hud( effect_id, "mods/twitch_extended/files/gfx/status_effects/blackhole_big.png", event )
+			end
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_CIRCLE_OF_ACID",
+		ui_name = "Circle Of Acid",
+		ui_description = "A circle of acid has appeared, you better run..",
+		ui_icon = "",
+		ui_author = "Evaisa",
+		weight = 1.0,
+		kind = STREAMING_EVENT_BAD,
+		delay_timer = 180,
+		action_delayed = function(event)
+			spawn_item("mods/twitch_extended/files/entities/misc/circle_acid.xml", 150, 200, true, false, 50)
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_ENEMIES_EXPLODE",
+		ui_name = "Explode Enemies",
+		ui_description = "All nearby enemies explode.",
+		ui_icon = "",
+		ui_author = "Evaisa",
+		weight = 1.0,
+		kind = STREAMING_EVENT_NEUTRAL,
+		action = function(event)
+			for _,player_entity in pairs( get_players() ) do
+				local x, y = EntityGetTransform( player_entity );
+				for _,entity in pairs( EntityGetInRadiusWithTag( x, y, 2000, "enemy" ) or {} ) do
+					attach_bomb(entity, 30, 5, 1)
+				end
+			end
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_CURSED_ROCK",
+		ui_name = "Cursed Rock",
+		ui_description = "Slowly turn the area into cursed rock.",
+		ui_icon = "",
+		ui_author = "Evaisa",
+		weight = 1.0,
+		kind = STREAMING_EVENT_BAD,
+		action = function(event)
+
+			spawn_item("mods/twitch_extended/files/entities/misc/cursed_rock.xml", 50, 80, false, true)
+
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_SPAWN_SPELL",
+		ui_name = "Spawn Spell",
+		ui_description = "Spawn a random spell.",
+		ui_icon = "data/ui_gfx/streaming_event_icons/health_plus.png",
+		ui_author = "Evaisa",
+		weight = 1.0,
+		kind = STREAMING_EVENT_BAD,
+		action = function(event)			
+			spawn_spell()
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_HASTIUM",
+		ui_name = "Hastium",
+		ui_description = "100 seconds of hastium.",
+		ui_icon = "data/ui_gfx/streaming_event_icons/health_plus.png",
+		ui_author = "Evaisa",
+		weight = 1.0,
+		kind = STREAMING_EVENT_BAD,
+		action = function(event)			
+			for _,enemy in pairs(get_players()) do
+				local game_effect_comp,game_effect_entity = GetGameEffectLoadTo( enemy, "MOVEMENT_FASTER_2X", false )
+				if game_effect_comp ~= nil then
+					ComponentSetValue2( game_effect_comp, "frames", 6000 )
+					add_icon_in_hud( game_effect_entity, "data/ui_gfx/status_indicators/movement_faster.png", event )
+				end
+
+				game_effect_comp,game_effect_entity = GetGameEffectLoadTo( enemy, "FASTER_LEVITATION", false )
+				if game_effect_comp ~= nil then
+					ComponentSetValue2( game_effect_comp, "frames", 6000 )
+					add_icon_in_hud( game_effect_entity, "data/ui_gfx/status_indicators/faster_levitation.png", event )
+				end
+			end
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_WORM_VISOR",
+		ui_name = "Worm Visor",
+		ui_description = "200 seconds of worm vision",
+		ui_icon = "data/ui_gfx/streaming_event_icons/health_plus.png",
+		ui_author = "Evaisa",
+		weight = 1.0,
+		kind = STREAMING_EVENT_BAD,
+		action = function(event)	
+			for i,entity_id in pairs( get_players() ) do
+				local x, y = EntityGetTransform( entity_id )
+				
+				local effect_id = EntityLoad( "data/entities/misc/effect_nightvision.xml", x, y )
+				
+				local effect_comp = EntityGetFirstComponentIncludingDisabled(effect_id, "GameEffectComponent")
+
+				ComponentSetValue2( effect_comp, "frames", 12000 )
+
+				EntityAddChild( entity_id, effect_id )
+				add_icon_in_hud( effect_id, "data/ui_gfx/status_indicators/nightvision.png", event )
+				
+			end		
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_RANDOM_LETTER",
+		ui_name = "Random Letter",
+		ui_description = "Random Letter Modifier",
+		ui_icon = "data/ui_gfx/streaming_event_icons/protect_enemies.png",
+		ui_author = "Evaisa",
+		weight = 1,
+		kind = STREAMING_EVENT_NEUTRAL,
+		--no_message = true,
+		action = function(event)
+
+			modifiers = {
+				{
+					icon = "data/ui_gfx/gun_actions/alpha.png",
+					id = "twitch_projectile_alpha",
+					name = "$action_alpha",
+					description = "$actiondesc_alpha",
+				},
+				{
+					icon = "data/ui_gfx/gun_actions/gamma.png",
+					id = "twitch_projectile_gamma",
+					name = "$action_gamma",
+					description = "$actiondesc_delta",
+				},
+				{
+					icon = "data/ui_gfx/gun_actions/tau.png",
+					id = "twitch_projectile_tau",
+					name = "$action_tau",
+					description = "$actiondesc_tau",
+				},
+				{
+					icon = "data/ui_gfx/gun_actions/omega.png",
+					id = "twitch_projectile_omega",
+					name = "$action_omega",
+					description = "$actiondesc_omega",
+				},
+				{
+					icon = "data/ui_gfx/gun_actions/mu.png",
+					id = "twitch_projectile_mu",
+					name = "$action_mu",
+					description = "$actiondesc_mu",
+				},
+				{
+					icon = "data/ui_gfx/gun_actions/phi.png",
+					id = "twitch_projectile_phi",
+					name = "$action_phi",
+					description = "$actiondesc_phi",
+				},
+				{
+					icon = "data/ui_gfx/gun_actions/sigma.png",
+					id = "twitch_projectile_sigma",
+					name = "$action_sigma",
+					description = "$actiondesc_sigma",
+				},
+				{
+					icon = "data/ui_gfx/gun_actions/zeta.png",
+					id = "twitch_projectile_zeta",
+					name = "$action_zeta",
+					description = "$actiondesc_zeta",
+				},
+			}
+
+			for i,entity_id in pairs( get_players() ) do
+				local x, y = EntityGetTransform( entity_id )
+				
+				modifier = modifiers[Random(1, #modifiers)]
+				
+				local effect_id = give_extra_modifier(entity_id, modifier.id, 3600 )
+
+				
+				add_icon_in_hud( effect_id, modifier.icon, {ui_name = modifier.name, ui_description = modifier.description} )
+				
+			end
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_RANDOM_MODIFIER",
+		ui_name = "Random Modifier",
+		ui_description = "You got a random modifier for 60 seconds",
+		ui_icon = "data/ui_gfx/streaming_event_icons/protect_enemies.png",
+		ui_author = "Evaisa",
+		weight = 1,
+		kind = STREAMING_EVENT_NEUTRAL,
+		--no_message = true,
+		action = function(event)
+			dofile("data/scripts/gun/gun_actions.lua")
+			dofile("data/scripts/gun/gun_enums.lua")
+			modifiers = {
+			}
+
+			for k, v in pairs(actions)do
+				if(v.type == ACTION_TYPE_MODIFIER)then
+					table.insert(modifiers, {
+						icon = v.sprite,
+						id = "base_modifier_"..v.id,
+						name = v.name,
+						description = v.description
+					})
+				end
+			end
+
+			for i,entity_id in pairs( get_players() ) do
+				local x, y = EntityGetTransform( entity_id )
+				
+				modifier = modifiers[Random(1, #modifiers)]
+				
+				local effect_id = give_extra_modifier(entity_id, modifier.id, 3600 )
+
+				
+				add_icon_in_hud( effect_id, modifier.icon, {ui_name = modifier.name, ui_description = modifier.description} )
+				
+			end
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_CHEESE_CHEST",
+		ui_name = "Cheese Chest",
+		ui_description = "Chat loves this.",
+		ui_icon = "data/ui_gfx/streaming_event_icons/protect_enemies.png",
+		ui_author = "Evaisa",
+		weight = 1,
+		kind = STREAMING_EVENT_NEUTRAL,
+		--no_message = true,
+		action = function(event)
+			spawn_item("mods/twitch_extended/files/entities/misc/cheese_chest.xml", 15, 20)
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_GOLD_DECAY",
+		ui_name = "Gold Decay",
+		ui_description = "Gold decay has been released upon the world.",
+		ui_icon = "data/ui_gfx/streaming_event_icons/health_plus.png",
+		ui_author = "Evaisa",
+		weight = 0.2,
+		kind = STREAMING_EVENT_AWFUL,
+		action = function(event)
+			spawn_item("mods/twitch_extended/files/entities/misc/corrupted_gold_spawn.xml", 10, 100, true, false, 50)
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_RANDOM_MODIFIER_ENEMIES",
+		ui_name = "Random Modifiers For Enemies",
+		ui_description = "All nearby enemies get a random modifier for 60 seconds",
+		ui_icon = "data/ui_gfx/streaming_event_icons/protect_enemies.png",
+		ui_author = "Evaisa",
+		weight = 1,
+		kind = STREAMING_EVENT_NEUTRAL,
+		--no_message = true,
+		action = function(event)
+			dofile("data/scripts/gun/gun_actions.lua")
+			dofile("data/scripts/gun/gun_enums.lua")
+			modifiers = {
+			}
+
+			for k, v in pairs(actions)do
+				if(v.type == ACTION_TYPE_MODIFIER)then
+					table.insert(modifiers, {
+						icon = v.sprite,
+						id = v.id,
+						name = v.name,
+						description = v.description
+					})
+				end
+			end
+
+			local enemies = EntityGetWithTag( "enemy" )
+			for k, entity_id in pairs(enemies) do 
+				local x, y = EntityGetTransform( entity_id )
+				
+				modifier = modifiers[Random(1, #modifiers)]
+				
+				local effect_id = LoadGameEffectEntityTo( entity_id, "mods/twitch_extended/files/entities/misc/TWITCH_EXTENDED_"..modifier.id..".xml" )
+
+				
+				add_icon_above_head( effect_id, modifier.icon, {ui_name = modifier.name, ui_description = modifier.description} )
+				
+			end
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_FUNGAL_SHIFT",
+		ui_name = "Fungal Shift",
+		ui_description = "Things aren't what they seem anymore.",
+		ui_icon = "data/ui_gfx/streaming_event_icons/health_plus.png",
+		ui_author = "Evaisa",
+		weight = 1.0,
+		kind = STREAMING_EVENT_AWFUL,
+		action = function(event)
+			dofile("data/scripts/magic/fungal_shift.lua")
+			for i,entity_id in pairs( get_players() ) do
+				local x, y = EntityGetTransform( entity_id )
+				fungal_shift( entity_id, x, y, true )
+			end
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_ORBITAL_LASER",
+		ui_name = "Orbital Laser",
+		ui_description = "Jarvis, end the run.",
+		ui_icon = "data/ui_gfx/streaming_event_icons/health_plus.png",
+		ui_author = "Evaisa",
+		weight = 0.8,
+		kind = STREAMING_EVENT_AWFUL,
+		delay_timer = 300,
+		action_delayed = function(event)
+
+			for i,entity_id in pairs( get_players() ) do
+				local x, y = EntityGetTransform( entity_id )
+				GamePlaySound( "data/audio/Desktop/misc.bank", "misc/beam_from_sky_kick", x, y )
+				EntityLoad( "data/entities/particles/beamstone_kick.xml", x, y )
+				EntityLoad( "mods/twitch_extended/files/entities/misc/beam_from_sky.xml", x, y )
+			end
+		end,
+	},
 }
 
 dofile("mods/twitch_extended/config/run_modifiers.lua")
@@ -2015,42 +2704,70 @@ for k, v in pairs(perk_list)do
 	table.insert(perk_events, perk_event)
 end
 
-if(ModIsEnabled("gkbrkn_noita"))then
-	local seed = StatsGetValue("world_seed")
-	SetRandomSeed(seed, seed)
-	for k, loadout in pairs(loadouts)do
-		
-		
-		local spellcaster_types = string_split( GameTextGetTranslatedOrNot("$loadout_spellcaster_types"), "," );
-		local spellcaster_types_rnd = Random( 1, #spellcaster_types );
-		local loadout_name = loadout.name;
-		if(loadout_name ~= nil and spellcaster_types[1] ~= nil)then
-			loadout_name2 = GameTextGetTranslatedOrNot(loadout_name):gsub( "TYPE", spellcaster_types[spellcaster_types_rnd] );
-			local note = "";
-			if loadout.author ~= nil then
-				note = "By "..GameTextGetTranslatedOrNot(loadout.author);
-			end
-			--GamePrintImportant( string.format( GameTextGetTranslatedOrNot("$loadout_message_format"), loadout_name ), note );
-
+--if(ModIsEnabled("gkbrkn_noita"))then
+local seed = MagicNumbersGetValue("WORLD_SEED")
+SetRandomSeed(seed, seed)
+for k, loadout in pairs(twitch_loadouts)do
+	if(HasSettingFlag("twitch_extended_loadouts_"..loadout.id) and (loadout.required_flag == "" or GameHasFlagRun(loadout.required_flag)))then
+		if(loadout.extension_type == "thematic_random_starts")then
+			local description_index = #loadout.description > 0 and Random(1, #loadout.description) or nil
+			local description = description_index and loadout.description[description_index] or ""
 			loadout_event = {
 				loadout_data = loadout,
 				id = "loadout_"..loadout.id,
-				ui_name = loadout_name2,
+				ui_name = loadout.name,
 				ui_icon = "",
-				ui_description = note,
+				ui_description = description,
 				weight = 1.0,
 				kind = STREAMING_EVENT_GOOD,
 				ui_author = loadout.author,
 				action = function(event)
+					dofile_once("mods/twitch_extended/files/flags.lua")
 					player = get_player()
-					handle_loadout( player, event.loadout_data );
+					dofile_once("mods/thematic_random_starts/init.lua")
+					SetPlayerLoadout( player, loadout.special_id, HasSettingFlag( FLAGS.Loadouts.CustomSprites ), false)
 				end,
 			}
 
 			table.insert(loadout_events, loadout_event)
+
+		else
+			local spellcaster_types = string_split( GameTextGetTranslatedOrNot("$twitch_extended_loadout_spellcaster_types"), "," );
+			local spellcaster_types_rnd = Random( 1, #spellcaster_types );
+			local loadout_name = loadout.name;
+			if(loadout_name ~= nil and spellcaster_types[1] ~= nil)then
+				loadout_name2 = GameTextGetTranslatedOrNot(loadout_name):gsub( "TYPE", spellcaster_types[spellcaster_types_rnd] );
+				local note = "";
+				if loadout.author ~= nil then
+					note = "By "..GameTextGetTranslatedOrNot(loadout.author);
+				end
+				--GamePrintImportant( string.format( GameTextGetTranslatedOrNot("$loadout_message_format"), loadout_name ), note );
+
+				-- print the loadout id and the loadout name
+				--print( "loadout_id: "..loadout.id.." loadout_name: "..loadout_name2);
+				
+				loadout_event = {
+					loadout_data = loadout,
+					id = "loadout_"..loadout.id,
+					ui_name = loadout_name2,
+					ui_icon = "",
+					ui_description = note,
+					weight = 1.0,
+					kind = STREAMING_EVENT_GOOD,
+					ui_author = loadout.author,
+					action = function(event)
+						player = get_player()
+						handle_loadout( player, event.loadout_data );
+					end,
+				}
+
+				table.insert(loadout_events, loadout_event)
+			end
 		end
+
 	end
 end
+--end
 
 --[[
 for i,it in ipairs(loadout_events) do

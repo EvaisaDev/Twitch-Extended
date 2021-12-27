@@ -6,3 +6,7 @@ local theEntity = GetUpdatedEntityID()
 if(EntityHasTag( theEntity, "homing_target" ))then
     EntityRemoveTag( theEntity, "homing_target")
 end
+
+if EntityHasTag( theEntity, "enemy" ) then
+	EntityRemoveTag( theEntity, "enemy" )
+end

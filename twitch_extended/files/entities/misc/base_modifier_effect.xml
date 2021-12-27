@@ -1,0 +1,20 @@
+<Entity tags="modifier_potion_effect">
+	<InheritTransformComponent>
+	</InheritTransformComponent>
+
+	<GameEffectComponent 
+		effect="CUSTOM"
+		custom_effect_id=""
+		frames="3600">
+	</GameEffectComponent> 
+
+	<ShotEffectComponent>
+	</ShotEffectComponent>
+
+	<LuaComponent
+		script_source_file="mods/twitch_extended/files/scripts/misc/enemy_handler.lua"
+		execute_every_n_frame="1"
+		>
+	</LuaComponent>
+	
+</Entity>

@@ -1,0 +1,28 @@
+<Entity>
+	<Base file="data/entities/particles/heal.xml" >
+		<SpriteParticleEmitterComponent
+    		emission_interval_min_frames="10"
+    		emission_interval_max_frames="20"
+			randomize_position_inside_hitbox="1"  >
+		</SpriteParticleEmitterComponent>
+	</Base>
+	
+	<InheritTransformComponent 
+		_enabled="1" >
+    </InheritTransformComponent>	
+    
+	<GameEffectComponent 
+		effect="CUSTOM"
+		custom_effect_id="TWITCH_HEAL"
+		frames="3">
+	</GameEffectComponent> 
+
+	<LuaComponent
+		_tags="enabled_in_world,enabled_in_hand"
+		script_source_file="mods/twitch_extended/files/scripts/misc/heal.lua"
+		execute_every_n_frame="2"
+		execute_times="1"
+		>
+	</LuaComponent>
+
+</Entity>

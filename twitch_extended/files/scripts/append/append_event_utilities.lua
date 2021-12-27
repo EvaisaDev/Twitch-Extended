@@ -15,7 +15,8 @@ local event_weights = {}
 
 force_next_username = nil
 
-print("rawr!")
+--print("rawr!")
+
 
 timed_out_names = {}
 StreamingGetRandomViewerName = function()
@@ -158,6 +159,9 @@ add_timer_above_head = function( entity_id, event_id, event_timer, event_formatt
 end
 
 _streaming_on_vote_start = function()
+	if(not GameHasFlagRun("first_vote_has_ran"))then
+		GameAddFlagRun( "first_vote_has_ran" )
+	end
 	for i,w in pairs( event_weights ) do
 		local weight_change = w
 		
@@ -199,6 +203,7 @@ if(ModIsEnabled("twitch_lib"))then
 end
 
 _streaming_run_event = function(id)
+
 	for i,evt in ipairs(streaming_events) do
 		if evt.id == id then
 			if evt.action_delayed ~= nil then
@@ -221,7 +226,7 @@ _streaming_run_event = function(id)
 			event_weights[i] = -1.0
 
 			perk_count = tonumber(GlobalsGetValue("perk_vote_count", "0"))
-			print("Current perk count = "..tostring(perk_count))
+			--print("Current perk count = "..tostring(perk_count))
 
 			GameRemoveFlagRun("twitch_vote_ongoing")
 			
@@ -236,13 +241,13 @@ _streaming_run_event = function(id)
 							GlobalsSetValue("current_vote_type", "event")
 							StreamingSetCustomPhaseDurations( -1, -1 )
 							GameRemoveFlagRun("perk_vote")
-							print("Switched to event vote.")
+							--print("Switched to event vote.")
 						else
 							StreamingSetCustomPhaseDurations( -1, -1 )
 							StreamingSetVotingEnabled(false)
 							GlobalsSetValue("current_vote_type", "event")
 							GameRemoveFlagRun("perk_vote")
-							print("Disabled voting.")
+							--print("Disabled voting.")
 						end
 					else
 						GlobalsSetValue("current_vote_type", "perk")
@@ -272,13 +277,13 @@ _streaming_run_event = function(id)
 							GlobalsSetValue("current_vote_type", "event")
 							StreamingSetCustomPhaseDurations( -1, -1 )
 							GameRemoveFlagRun("perk_vote")
-							print("Switched to event vote.")
+							--print("Switched to event vote.")
 						else
 							StreamingSetCustomPhaseDurations( -1, -1 )
 							StreamingSetVotingEnabled(false)
 							GlobalsSetValue("current_vote_type", "event")
 							GameRemoveFlagRun("perk_vote")
-							print("Disabled voting.")
+							--print("Disabled voting.")
 						end
 					else
 						GlobalsSetValue("current_vote_type", "perk")
@@ -347,7 +352,7 @@ _streaming_get_event_for_vote = function()
 	
 	-- If no valid events were found, do search again but ignore cooldown
 	if ( #weighted_list == 0 ) then
-		print( "No valid events, ignoring cooldown" )
+		--print( "No valid events, ignoring cooldown" )
 		
 		total_weight = 0
 		
@@ -367,7 +372,7 @@ _streaming_get_event_for_vote = function()
 	
 	-- If still no valid events were found, use NOTHING
 	if ( #weighted_list == 0 ) then
-		print( "No valid events!!" )
+		--print( "No valid events!!" )
 		return "HEALTH_PLUS", "$streamingevent_health_plus", "$streamingeventdesc_health_plus", "data/ui_gfx/streaming_event_icons/health_plus.png"
 	end
 	
@@ -390,7 +395,7 @@ _streaming_get_event_for_vote = function()
 				event_weights[id] = event_weights[id] - 0.5
 			end
 			
-			print( "Picked " .. event.id .. " with weight of " .. tostring( v[3] ) .. " out of a total of " .. tostring( total_weight ) )
+			--print( "Picked " .. event.id .. " with weight of " .. tostring( v[3] ) .. " out of a total of " .. tostring( total_weight ) )
 			
 			break
 		else
