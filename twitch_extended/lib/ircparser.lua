@@ -137,12 +137,12 @@ websocketMessage = function(data)
 
     message.prefix = data:sub(position + 1, nextspace - 1)
     position = nextspace + 1
-	
-	-- Use Twitch username as fallback when the display name consists entirely of special characters
-	-- E.g. when display name is Japanese, Chinese or Korean
-	if message.tags["display-name"] == '' then
-		message.tags["display-name"] = message.prefix:sub(0, message.prefix:find("!") - 1)
-	end
+    
+    -- Use Twitch username as fallback when the display name consists entirely of special characters
+    -- E.g. when display name is Japanese, Chinese or Korean
+    if message.tags["display-name"] == '' then
+        message.tags["display-name"] = message.prefix:sub(0, message.prefix:find("!") - 1)
+    end
 
     while data:sub(position, position) == ' ' do
         position = position + 1
