@@ -4,8 +4,8 @@ dofile("mods/twitch_extended/config/loadouts.lua")
 dofile("mods/twitch_extended/files/scripts/utils/utilities.lua")
 dofile_once( "data/scripts/perks/perk_list.lua" )
 
-VERSION = "v2.4.0"
-DATE = "December 17 2021"
+VERSION = "v2.5.0"
+DATE = "December 27 2021"
 
 twitch_config_options = {
     mod_id = "twitch_extended",
