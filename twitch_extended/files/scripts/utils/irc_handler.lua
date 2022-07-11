@@ -51,6 +51,9 @@ function OnMessage(userdata, message)
 		GlobalsSetValue("twitch_chat_message_frames", GameGetFrameNum())
 	end)
 
+	--if(userdata.custom_reward)then
+	--	print("Reward redeemed by ["..userdata.username.."]:"..tostring(userdata.custom_reward))
+	--end
 
 
 	if( userdata.broadcaster or userdata.mod )then
@@ -242,6 +245,9 @@ function OnSub(userdata, message)
 	end
 	if(#sub_rewards > 0 and HasSettingFlag("twitch_extended_options_subscription_rewards"))then
 		--print("heck")
+		
+		
+
 		enabled_subrewards = {}
 
 		for k, v in pairs(sub_rewards)do

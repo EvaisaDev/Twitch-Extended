@@ -7,7 +7,9 @@ if(ModIsEnabled("spellbound_bundle"))then
 	GameAddFlagRun("spellbound_enabled")
 end
 
-
+if(ModIsEnabled("noita-together"))then
+	ModLuaFileAppend("noita-together/files/ws/events.lua", "mods/twitch_extended/files/scripts/append/noitatogether_events.lua")
+end
 
 if(ModIsEnabled("twitch_lib"))then
 	dofile_once("mods/twitch_lib/files/twitch_overwrites.lua")
@@ -159,8 +161,14 @@ OnActionPlayed = function() end
 OnNotEnoughManaForAction = function() end
 draw_actions = function() end
 draw_action = function() end
+
+function literalize(str)
+    return str:gsub("[%(%)%.%%%+%-%*%?%[%]%^%$]", function(c) return "%" .. c end)
+end
+
+
 function OnMagicNumbersAndWorldSeedInitialized()
-	
+
 	local xml2lua = dofile("mods/twitch_extended/lib/xml2lua/xml2lua.lua")
 	local handler = dofile("mods/twitch_extended/lib/xml2lua/xmlhandler/tree.lua")
 
@@ -465,7 +473,7 @@ function OnWorldPreUpdate()
 			dofile("mods/twitch_extended/files/scripts/ui/ui_handler.lua")
 			if(not GameHasFlagRun("first_vote_has_ran"))then
 
-				print("Setup first voting.")
+				--print("Setup first voting.")
 
 				if(HasSettingFlag("twitch_extended_options_loadouts"))then
 					GlobalsSetValue("current_vote_type", "loadout")
@@ -558,6 +566,10 @@ end
 
 -- wabaaa
 function OnPlayerSpawned( player_entity )
+	if(ModIsEnabled("noita-together"))then
+		GameAddFlagRun("noita_together_enabled")
+	end	
+
 	--print("Streaming enabled? "..tostring(MagicNumbersGetValue("STREAMING_ENABLED")))
 	if(ModIsEnabled( "config_lib" ))then
 		--[[
@@ -615,3 +627,4 @@ if(ModIsEnabled( "config_lib" ))then
 	ModLuaFileAppend( "data/scripts/items/generate_shop_item.lua", "mods/twitch_extended/files/scripts/append/append_shop.lua" );
 	ModLuaFileAppend( "data/scripts/status_effects/status_list.lua", "mods/twitch_extended/files/scripts/append/status_effects.lua" );
 end
+

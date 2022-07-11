@@ -1,0 +1,18 @@
+<Entity>
+	<InheritTransformComponent>
+    </InheritTransformComponent>
+
+  <LifetimeComponent lifetime="20">
+  </LifetimeComponent>
+	<MagicConvertMaterialComponent
+		kill_when_finished=""
+		from_material_tag="[liquid]"
+		steps_per_frame="32"
+		to_material="twitch_extended_pop_rocks"
+		clean_stains="false"
+		is_circle="1"
+		radius="256"
+		loop="0"
+	></MagicConvertMaterialComponent>
+
+</Entity>

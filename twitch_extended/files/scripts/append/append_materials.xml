@@ -4,7 +4,7 @@
   	_parent="spark"
   	_inherit_reactions="1"
   	name="spark_lava_1" 
-	ui_name="lava"
+	ui_name="lava_spark"
 	wang_color="7fffbf00"
 	gfx_glow="255"
 	>
@@ -18,7 +18,7 @@
   	_parent="spark"
   	_inherit_reactions="1"
   	name="spark_lava_2" 
-	ui_name="lava"
+	ui_name="lava_spark"
 	wang_color="7fff8c00"
 	gfx_glow="255"
 	>
@@ -32,7 +32,7 @@
   	_parent="spark"
   	_inherit_reactions="1"
   	name="spark_lava_3" 
-	ui_name="lava"
+	ui_name="lava_spark"
 	wang_color="7fff5500"
 	gfx_glow="255"
 	>
@@ -185,8 +185,8 @@
 
     <CellData
 	name="conversion_stone"
-	ui_name="Rock"
-	tags="[corrodible],[meltable_metal]"
+	ui_name="Conversion Stone"
+	tags="[corrodible],[meltable_metal],[box2d]"
 	burnable="0"
 	density="8"
 	cell_type="solid"
@@ -258,55 +258,6 @@
     </Graphics>
   </CellDataChild>
 
-  <CellDataChild
-  	_parent="aluminium"
-  	_inherit_reactions="1"
-	tags="[box2d],[corrodible],[alchemy],[meltable_metal],[solid]"
-  	name="malice"
-	ui_name="Shrine of Malice"
-	platform_type="1"
-	wang_color="ff4d2d3d"
-	electrical_conductivity="1"
-	audio_physics_material_wall="metalhollow_barrel"
-	audio_physics_material_solid="metalhollow_barrel" >
-  	<Graphics
-	texture_file="data/materials_gfx/steel.png"
-	color="fffwed4c" >
-    </Graphics>
-  </CellDataChild>
-  
-  <CellDataChild
-  	_parent="aluminium"
-  	_inherit_reactions="1"
-	tags="[box2d],[corrodible],[alchemy],[meltable_metal],[solid]"
-  	name="clone_machine"
-	ui_name="Mysterious Machine"
-	platform_type="0"
-	wang_color="ff4d2d3d"
-	electrical_conductivity="1"
-	audio_physics_material_wall="metalhollow_barrel"
-	audio_physics_material_solid="metalhollow_barrel" >
-  	<Graphics
-	texture_file="data/materials_gfx/steel.png"
-	color="fffwed4c" >
-    </Graphics>
-  </CellDataChild>
-
-    <CellDataChild
-  	_parent="aluminium"
-  	_inherit_reactions="1"
-	tags="[box2d],[corrodible],[alchemy],[meltable_metal],[solid]"
-  	name="white_hole"
-	ui_name="Void"
-	platform_type="0"
-	wang_color="ff4dDD3d"
-	electrical_conductivity="0">
-  	<Graphics
-	  	texture_file="mods/twitch_extended/files/gfx/materials/space.png"
-		color="00ffffff" >
-    </Graphics>
-  </CellDataChild>
-
    <CellData
 	name="bounce_mat"
 	ui_name="Rubber"
@@ -337,38 +288,6 @@
     </Graphics>
 	
   </CellData>
-
-
-    <CellData
-	name="forgotten_tome"
-	ui_name="Tome"
-	tags="[corrodible],[burnable],[meltable_metal]"
-	burnable="0"
-	density="8"
-	cell_type="solid"
-	wang_color="ff995d3c"
-	generates_smoke="0"
-	on_fire="0"
-	platform_type="1"
-	requires_oxygen="1"
-	fire_hp="600"
-	temperature_of_fire="90"
-	autoignition_temperature="85"
-	solid_friction="0.7"
-	solid_static_type="0"
-	hp="5000"
-	electrical_conductivity="1"
-	audio_physics_material_wall="woodwall"
-	audio_physics_material_solid="wood"
-	audio_materialbreakaudio_type="WOOD"
-	show_in_creative_mode="1"
-	>
-	<Graphics
-		texture_file="data/materials_gfx/wood.png"
-		color="ff413F24" >
-	</Graphics>
-  </CellData>
-
 
   <CellData
 	name="time_leak"
@@ -810,6 +729,185 @@
 	</StatusEffects>
   </CellDataChild>
 
+ 
+ <CellData 
+	name="twitch_extended_pandorium"
+	ui_name="Pandorium"
+  	tags="[liquid],[magic_liquid],[water],[impure],"
+	burnable="0"
+	density="1"
+	cell_type="liquid"
+	wang_color="8ba42ca3"
+	generates_smoke="0"
+	liquid_gravity="0.8"
+	liquid_sand="0"
+	gfx_glow="150"
+	on_fire="0"
+	requires_oxygen="0"
+	liquid_stains="1"
+	
+	>
+	<ParticleEffect
+		vel.y="-40"
+		vel_random.min_y="-20.21"
+		vel_random.max_y="-2.861"
+		vel_random.min_x="-6.667"
+		vel_random.max_x="6.667"
+		lifetime.min="0.3238"
+		lifetime.max="9.3238"
+		gravity.y="-100"
+		render_on_grid="1"
+		airflow_force="10"
+		airflow_scale="6.857"
+		draw_as_long="0"
+		friction="1.352"
+		probability="0.0343"
+	>
+	</ParticleEffect>
+	<Graphics 
+		color="44FF8DEA"
+		>
+    </Graphics>
+	
+  </CellData>
+ <CellData 
+	name="twitch_extended_pop_rocks"
+	ui_name="Pop Rocks"
+  	tags="[liquid],[magic_liquid],[water],[impure],"
+	burnable="0"
+	density="1"
+	cell_type="liquid"
+	wang_color="80a40621"
+	generates_smoke="0"
+	liquid_gravity="0.8"
+	liquid_sand="0"
+	gfx_glow="150"
+	on_fire="0"
+	requires_oxygen="0"
+	liquid_stains="1"
+	
+	>
+	<ParticleEffect
+		vel.y="-40"
+		vel_random.min_y="-20.21"
+		vel_random.max_y="-2.861"
+		vel_random.min_x="-6.667"
+		vel_random.max_x="6.667"
+		lifetime.min="0.3238"
+		lifetime.max="9.3238"
+		gravity.y="-100"
+		render_on_grid="1"
+		airflow_force="10"
+		airflow_scale="6.857"
+		draw_as_long="0"
+		friction="1.352"
+		probability="0.0343"
+	>
+	</ParticleEffect>
+	<Graphics 
+		color="984C4E59"
+		>
+    </Graphics>
+	
+  </CellData>
+ <CellData 
+	name="twitch_extended_unstable_pandorium"
+	ui_name="Unstable Pandorium"
+  	tags="[liquid],[magic_liquid],[water],[impure],"
+	burnable="0"
+	density="1"
+	cell_type="liquid"
+	wang_color="80a06c22"
+	generates_smoke="0"
+	liquid_gravity="0.8"
+	liquid_sand="0"
+	gfx_glow="150"
+	on_fire="0"
+	requires_oxygen="0"
+	liquid_stains="1"
+	
+	>
+	<ParticleEffect
+		vel.y="-40"
+		vel_random.min_y="-20.21"
+		vel_random.max_y="-2.861"
+		vel_random.min_x="-6.667"
+		vel_random.max_x="6.667"
+		lifetime.min="0.3238"
+		lifetime.max="9.3238"
+		gravity.y="-100"
+		render_on_grid="1"
+		airflow_force="10"
+		airflow_scale="6.857"
+		draw_as_long="0"
+		friction="1.352"
+		probability="0.0343"
+	>
+	</ParticleEffect>
+	<Graphics 
+		color="44FF4E99"
+		>
+    </Graphics>
+	
+  </CellData>
+
+	<Reaction probability = "4"
+		input_cell1="twitch_extended_pop_rocks" input_cell2="air"
+		output_cell1="air" output_cell2="air"
+	>
+	<ExplosionConfig
+		camera_shake="0" 
+		damage="0"
+		cell_explosion_power="5"
+		cell_explosion_damage_required="3000"
+		cell_explosion_radius_min="1"
+		cell_explosion_radius_max="1"
+		cell_explosion_probability="1.1"
+		explosion_sprite="data/particles/explosion_012.xml"
+		load_this_entity="mods/twitch_extended/files/entities/misc/physics_stone_01.xml" 
+		ray_energy="1"
+		>
+	</ExplosionConfig>
+	</Reaction>	
+
+ 	<Reaction probability = "0.9"
+		input_cell1="twitch_extended_unstable_pandorium" input_cell2="air"
+		output_cell1="air" output_cell2="air"
+	>
+	<ExplosionConfig
+		camera_shake="0" 
+		damage="0"
+		cell_explosion_power="5"
+		cell_explosion_damage_required="3000"
+		cell_explosion_radius_min="1"
+		cell_explosion_radius_max="1"
+		cell_explosion_probability="1.1"
+		explosion_sprite="data/particles/explosion_012.xml"
+		load_this_entity="mods/twitch_extended/files/entities/misc/random_spell_chaotic.xml" 
+		ray_energy="1"
+		>
+	</ExplosionConfig>
+	</Reaction>	
+
+	<Reaction probability = "2"
+		input_cell1="twitch_extended_pandorium" input_cell2="air"
+		output_cell1="air" output_cell2="air"
+	>
+	<ExplosionConfig
+		camera_shake="0" 
+		damage="0"
+		cell_explosion_power="5"
+		cell_explosion_damage_required="3000"
+		cell_explosion_radius_min="1"
+		cell_explosion_radius_max="1"
+		cell_explosion_probability="1.1"
+		explosion_sprite="data/particles/explosion_012.xml"
+		load_this_entity="mods/twitch_extended/files/entities/misc/random_spell.xml" 
+		ray_energy="1"
+		>
+	</ExplosionConfig>
+	</Reaction>	
+
   <Reaction probability="2"
 	input_cell1="midas_offbrand" 			input_cell2="[alchemy]"
 	output_cell1="midas_offbrand" 			output_cell2="gold" 
@@ -818,10 +916,6 @@
 	>
   </Reaction>
 
-    <Reaction probability="100"
-	input_cell1="twitch_cum" 		input_cell2="poo" input_cell3="urine"
-	output_cell1="midas_offbrand" 		output_cell2="midas_offbrand" output_cell3="midas_offbrand" >
-  </Reaction>
   
   <Reaction probability="100"
 	input_cell1="gold_decay" 			input_cell2="[alchemy]"

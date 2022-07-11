@@ -20,7 +20,7 @@ blacklist = {
 	"creepy_liquid",
 	"time_leak",
 	"killer_goo",
-	"poly_goo",
+	"e",
 	"hot_goo",
 	"alt_killer_goo",
 	"alt_corruption",

@@ -2,6 +2,67 @@
 
 bit_rewards = {
     {
+        reward_id = "local_shift",
+        reward_name = "$twitch_extended_channel_rewards_local_shift",
+        reward_description = "$twitch_extended_channel_rewards_local_shift_description",
+        reward_image = "mods/twitch_extended/files/gfx/reward_images/fungal_shift.png",
+        required_flag = "",
+        custom_options = {
+            {
+                type = "slider",
+                flag = "shift_distance",
+                name = "Shift Distance",
+                description = "How far away from the player will materials get shifted.",
+                default_number = 250,
+                min_number = 10,
+                max_number = 800,
+                format = "$0",
+            },
+            {
+                type = "toggle",
+                flag = "shift_random",
+                name = "Random if unknown material",
+                description = "If any of the materials do not exist pick random",
+                default = false
+            },
+            {
+                type = "toggle",
+                flag = "convert_flasks",
+                name = "Convert flasks",
+                description = "Convert vessels containing the material as well.",
+                default = false
+            },
+        },
+        no_display_message = true, 
+        func = function(reward, userdata)
+            local shift_distance = ModSettingGet("twitch_extended_bit_rewards_local_shift_shift_distance") or 250
+            local allow_random = HasSettingFlag("twitch_extended_bit_rewards_local_shift_shift_random")
+            local convert_flasks = HasSettingFlag("twitch_extended_bit_rewards_local_shift_convert_flasks")
+            fungal_shift_local(reward, userdata, allow_random, shift_distance, convert_flasks)
+        end,
+    },
+    {
+        reward_id = "fungal_shift",
+        reward_name = "$twitch_extended_channel_rewards_fungal_shift",
+        reward_description = "$twitch_extended_channel_rewards_fungal_shift_description",
+        reward_image = "mods/twitch_extended/files/gfx/reward_images/fungal_funny.png",
+        required_flag = "",
+        custom_options = {
+            {
+                type = "toggle",
+                flag = "shift_random",
+                name = "Random if unknown material",
+                description = "If any of the materials do not exist pick random",
+                default = false
+            },
+        },
+        no_display_message = true, 
+        func = function(reward, userdata)
+            local allow_random = HasSettingFlag("twitch_extended_bit_rewards_fungal_shift_shift_random")
+            fungal_shift_everywhere(reward, userdata)
+        end,
+    },
+    {
         reward_id = "emerald_tablet",
         reward_name = "$twitch_extended_sub_rewards_emerald_tablet",
         reward_description = "$twitch_extended_sub_rewards_emerald_tablet_description",
@@ -21,14 +82,32 @@ bit_rewards = {
             local player = get_player()
             local wallet = EntityGetFirstComponent(player, "WalletComponent")
             if(wallet ~= nil)then
-                local money = tonumber(ComponentGetValueInt(wallet, "money"))
+                local money_player = tonumber(ComponentGetValueInt(wallet, "money"))
                 -- APP: This is setting wallet to 0 so is basically scatter gold? Removed this and now is just giving 500 gold by deault
                 --ComponentSetValue(wallet, "money", 0)
-                local count = math.max(math.floor(money / 25), 40) + ((userdata.total_months or 1) * 10)
+                local money = math.max(math.floor(money_player / 25), 40) + ((userdata.total_months or 1) * 10)
                         
-                for i = 1, count do
-                    spawn_item("data/entities/items/pickup/goldnugget.xml", 50, 100)
-                end
+                nugget_count = 100
+				nugget_value = math.floor(money / 100)
+				
+
+				if(money < 100)then
+					nugget_count = money
+					nugget_value = 1
+				end
+				
+
+
+				for i = 1, nugget_count do
+					nugget = spawn_item("data/entities/items/pickup/goldnugget.xml", 50, 100)
+					storage_comps = EntityGetComponent(nugget, "VariableStorageComponent")
+					for k, v in pairs(storage_comps)do
+						if(ComponentGetValue2(v, "name") == "gold_value")then
+							ComponentSetValue2(v, "value_int", nugget_value) 
+						end
+					end
+				end
+
             end
         end,
     },
@@ -511,6 +590,67 @@ sub_rewards = {
 }
 
 channel_rewards = {
+    {
+        reward_id = "local_shift",
+        reward_name = "$twitch_extended_channel_rewards_local_shift",
+        reward_description = "$twitch_extended_channel_rewards_local_shift_description",
+        reward_image = "mods/twitch_extended/files/gfx/reward_images/fungal_shift.png",
+        required_flag = "",
+        custom_options = {
+            {
+                type = "slider",
+                flag = "shift_distance",
+                name = "Shift Distance",
+                description = "How far away from the player will materials get shifted.",
+                default_number = 250,
+                min_number = 10,
+                max_number = 800,
+                format = "$0",
+            },
+            {
+                type = "toggle",
+                flag = "shift_random",
+                name = "Random if unknown material",
+                description = "If any of the materials do not exist pick random",
+                default = false
+            },
+            {
+                type = "toggle",
+                flag = "convert_flasks",
+                name = "Convert flasks",
+                description = "Convert vessels containing the material as well.",
+                default = false
+            },
+        },
+        no_display_message = true, 
+        func = function(reward, userdata)
+            local shift_distance = ModSettingGet("twitch_extended_link_rewards_local_shift_shift_distance") or 250
+            local allow_random = HasSettingFlag("twitch_extended_link_rewards_local_shift_shift_random")
+            local convert_flasks = HasSettingFlag("twitch_extended_link_rewards_local_shift_convert_flasks")
+            fungal_shift_local(reward, userdata, allow_random, shift_distance, convert_flasks)
+        end,
+    },
+    {
+        reward_id = "fungal_shift",
+        reward_name = "$twitch_extended_channel_rewards_fungal_shift",
+        reward_description = "$twitch_extended_channel_rewards_fungal_shift_description",
+        reward_image = "mods/twitch_extended/files/gfx/reward_images/fungal_funny.png",
+        required_flag = "",
+        custom_options = {
+            {
+                type = "toggle",
+                flag = "shift_random",
+                name = "Random if unknown material",
+                description = "If any of the materials do not exist pick random",
+                default = false
+            },
+        },
+        no_display_message = true, 
+        func = function(reward, userdata)
+            local allow_random = HasSettingFlag("twitch_extended_link_rewards_fungal_shift_shift_random")
+            fungal_shift_everywhere(reward, userdata, allow_random)
+        end,
+    },
     {
         reward_id = "spawn_perk",
         reward_name = "$twitch_extended_channel_rewards_spawn_perk",

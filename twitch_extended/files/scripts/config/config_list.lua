@@ -4,8 +4,8 @@ dofile("mods/twitch_extended/config/loadouts.lua")
 dofile("mods/twitch_extended/files/scripts/utils/utilities.lua")
 dofile_once( "data/scripts/perks/perk_list.lua" )
 
-VERSION = "v2.5.0"
-DATE = "December 27 2021"
+VERSION = "v2.7.2"
+DATE = "March 20 2022"
 
 twitch_config_options = {
     mod_id = "twitch_extended",
@@ -45,6 +45,45 @@ twitch_config_options = {
                     required_flag = "",
                     type = "spacer"
                 },  
+                {
+                    offset_x = -4,
+                    offset_y = 0,
+                    name = "Reset All Settings",
+                    item_id = "reset_settings",
+                    required_flag = "",
+                    description = "Reset all settings to default",
+                    type = "button",
+                    callback = function(item)
+
+                        for k, v in pairs(channel_rewards)do
+                            ModSettingRemove("twitch_reward_"..v.reward_id)
+                            RemoveSettingFlag("twitch_extended_link_rewards_"..v.reward_id)
+                        end
+
+                        for k, v in pairs(twitch_config_options.categories)do
+                            for k2, item in pairs(v.items)do
+                                if(item.type == "toggle")then
+                                    if(item.default)then
+                                        AddSettingFlag(get_flag(twitch_config_options.mod_id, v.category_id, item.flag))
+                                    else
+                                        if(HasSettingFlag(get_flag(twitch_config_options.mod_id, v.category_id, item.flag)))then
+                                            RemoveSettingFlag(get_flag(twitch_config_options.mod_id, v.category_id, item.flag))
+                                        end
+                                    end
+                                elseif(item.type == "slider")then
+                                    ModSettingSet( get_flag(twitch_config_options.mod_id, v.category_id, item.flag), item.default_number )
+                                    item.current_number = item.default_number
+                                elseif(item.type == "enum")then
+                                    ModSettingSet( get_flag(twitch_config_options.mod_id, v.category_id, item.flag), item.default )
+                                    item.current_key = item.default
+                                elseif(item.type == "input")then
+                                    ModSettingSet( get_flag(twitch_config_options.mod_id, v.category_id, item.flag), item.default_text )
+                                    item.current_text = item.default_text
+                                end
+                            end
+                        end
+                    end
+                },
                 {
                     required_flag = "",
                     type = "spacer"
@@ -731,6 +770,21 @@ twitch_config_options = {
 
                     end
                 },      
+                {
+                    flag = "noita_together_shifts",
+                    required_flag = "noita_together_enabled",
+                    name = "[Noita Together] Shifts",
+                    description = "Synchronize fungal/local shifts with Noita Together",
+                    default = true,
+                    type = "toggle",
+                    requires_restart = false,
+                    callback = function(item, enabled)
+
+                    end
+                },      
+
+
+                
                 --[[{
                     flag = "bit_rewards",
                     required_flag = "",
@@ -895,6 +949,48 @@ twitch_config_options = {
             }
         },
         {
+            category_id = "shift_blacklist_input",
+            category = "$twitch_extended_config_category_shift_blacklist_input",
+            items_per_page = 45,
+            items_per_row = 15,
+            items = {
+                {
+                    name = "$twitch_extended_config_category_shift_blacklist_input_description",
+                    required_flag = "",
+                    description = "",
+                    offset_x = -4,
+                    offset_y = 0,
+                    color = "fff5ce42",
+                    type = "text"
+                },    
+                {
+                    required_flag = "",
+                    type = "spacer"
+                },    
+            }
+        },
+        {
+            category_id = "shift_blacklist_output",
+            category = "$twitch_extended_config_category_shift_blacklist_output",
+            items_per_page = 45,
+            items_per_row = 15,
+            items = {
+                {
+                    name = "$twitch_extended_config_category_shift_blacklist_output_description",
+                    required_flag = "",
+                    description = "",
+                    offset_x = -4,
+                    offset_y = 0,
+                    color = "fff5ce42",
+                    type = "text"
+                },    
+                {
+                    required_flag = "",
+                    type = "spacer"
+                },    
+            }
+        },
+        {
             category_id = "info",
             category = "$twitch_extended_info",
             items_per_page = 45,
@@ -958,6 +1054,236 @@ twitch_config_options = {
         },
     }
 }
+
+local mats = {}
+
+for k, v in ipairs(CellFactory_GetAllLiquids( true, false ))do
+    table.insert(mats, v)
+end
+for k, v in ipairs(CellFactory_GetAllSands( true, false ))do
+    table.insert(mats, v)
+end
+for k, v in ipairs(CellFactory_GetAllGases( true, false ))do
+    table.insert(mats, v)
+end
+for k, v in ipairs(CellFactory_GetAllFires( true, false ))do
+    table.insert(mats, v)
+end
+for k, v in ipairs(CellFactory_GetAllSolids( true, false ))do
+    table.insert(mats, v)
+end
+
+function abc_go_brrr( a,b )  
+	return a < b
+end
+
+table.sort(mats, abc_go_brrr)
+
+shift_material_blacklist_inputs = {
+    templerock_static = true,
+    templebrick_static = true,
+    templebrick_static_broken = true,
+    templebrick_static_soft = true,
+    templebrick_noedge_static = true,
+    templerock_soft = true,
+    templebrick_thick_static = true,
+    templebrick_thick_static_noedge = true,
+    templeslab_static = true,
+    templeslab_crumbling_static = true,
+    templebrickdark_static = true,
+    templebrick_golden_static = true,
+    templebrick_diamond_static = true,
+    templebrick_static_ruined = true,
+}
+
+
+shift_material_blacklist_outputs  = {
+    plastic = true,
+    air = true,
+    killer_goo = true,
+    poly_goo = true,
+    hot_goo = true,
+    alt_killer_goo = true,
+    alt_corruption = true,
+    corruption = true,
+    killer_goo_solid = true,
+    AA_MAT_BLOOM_ROOF_DEAD = true,
+    AA_MAT_BLOOM_ROOF_PLANT = true,
+    AA_MAT_BLOOM_MAGIC = true,
+    AA_MAT_BLOOM_ROOF = true,
+    AA_MAT_BLOOM = true,
+    monster_powder_test = true,
+    AA_MAT_DECAY = true,
+    AA_MAT_CONVERTED_SANDSTONE = true,
+    AA_MAT_CONVERTED_SAND = true,
+    AA_MAT_WORLD_DECAY = true,
+    aluminium = true,
+    aluminium_oxide = true,
+    aluminium_robot = true,
+    bloodgold_box2d = true,
+    bone_box2d = true,
+    brick = true,
+    cactus = true,
+    cloud_blood = true,
+    cloud_radioactive = true,
+    cloud_slime = true,
+    cocoon_box2d = true,
+    concrete_collapsed = true,
+    creepy_liquid = true,
+    creepy_liquid_emitter = true,
+    crystal = true,
+    crystal_magic = true,
+    crystal_purple = true,
+    fuse = true,
+    fuse_bright = true,
+    fuse_holy = true,
+    fuse_tnt = true,
+    gem_box2d = true,
+    gem_box2d_green = true,
+    gem_box2d_orange = true,
+    gem_box2d_pink = true,
+    gem_box2d_red = true,
+    glass = true,
+    glass_box2d = true,
+    glass_brittle = true,
+    glass_liquidcave = true,
+    gold_b2 = true,
+    gold_box2d = true,
+    grass_loose = true,
+    ice_b2 = true,
+    ice_blood_glass = true,
+    ice_ceiling = true,
+    ice_cold_glass = true,
+    ice_glass = true,
+    ice_glass_b2 = true,
+    ice_melting_perf_killer = true,
+    ice_radioactive_glass = true,
+    item_box2d = true,
+    item_box2d_glass = true,
+    magic_crystal = true,
+    magic_crystal_green = true,
+    meat = true,
+    meat_confusion = true,
+    meat_cursed = true,
+    meat_cursed_dry = true,
+    meat_fast = true,
+    meat_frog = true,
+    meat_fruit = true,
+    meat_helpless = true,
+    meat_polymorph = true,
+    meat_polymorph_protection = true,
+    meat_pumpkin = true,
+    meat_slime = true,
+    meat_slime_cursed = true,
+    meat_slime_green = true,
+    meat_slime_orange = true,
+    meat_teleport = true,
+    meat_trippy = true,
+    meat_worm = true,
+    metal = true,
+    metal_chain_nohit = true,
+    metal_nohit = true,
+    metal_prop = true,
+    metal_prop_loose = true,
+    metal_rust = true,
+    metal_rust_barrel = true,
+    metal_rust_barrel_rust = true,
+    metal_rust_rust = true,
+    metal_wire_nohit = true,
+    meteorite = true,
+    meteorite_crackable = true,
+    meteorite_green = true,
+    meteorite_test = true,
+    neon_tube_blood_red = true,
+    neon_tube_cyan = true,
+    neon_tube_purple = true,
+    nest_box2d = true,
+    physics_throw_material_part2 = true,
+    plasma_fading = true,
+    plasma_fading_bright = true,
+    plasma_fading_green = true,
+    plastic_molten = true,
+    plastic_prop = true,
+    plastic_prop_molten = true,
+    potion_glass_box2d = true,
+    radioactive_liquid_fading = true,
+    rock_box2d = true,
+    rock_box2d_hard = true,
+    rock_box2d_nohit = true,
+    rock_box2d_nohit_hard = true,
+    rock_eroding = true,
+    rock_loose = true,
+    rock_static_box2d = true,
+    rocket_particles = true,
+    snow_b2 = true,
+    steel = true,
+    steel_rust = true,
+    sulphur_box2d = true,
+    templebrick_box2d = true,
+    tnt = true,
+    tnt_static = true,
+    tube_physics = true,
+    waterrock = true,
+    wax_b2 = true,
+    wood = true,
+    wood_loose = true,
+    wood_player = true,
+    wood_player_b2 = true,
+    wood_player_b2_vertical = true,
+    wood_prop = true,
+    wood_prop_durable = true,
+    wood_prop_noplayerhit = true,
+    wood_trailer = true,
+    wood_wall = true,
+    rat_powder = true,
+	orb_powder = true,
+	gunpowder_unstable_boss_limbs = true,
+}
+
+for k, v in ipairs(mats)do
+    local allowed = true
+    for _, tag in ipairs(CellFactory_GetTags( CellFactory_GetType(v) ))do
+        if(tag == "[box2d]")then
+            allowed = false
+        end
+    end
+    
+    for k2, v2 in pairs(twitch_config_options.categories)do
+        if(v2.category_id == "shift_blacklist_input")then
+            table.insert(v2.items, {
+                flag = v,
+                required_flag = "",
+                name = v,
+                description = "[ "..GameTextGetTranslatedOrNot(CellFactory_GetUIName(CellFactory_GetType(v))).." ]",
+                default = shift_material_blacklist_inputs[v] ~= nil,
+                type = "toggle",
+                requires_restart = false,
+                callback = function(item, enabled)
+                end               
+            })
+        end
+        if(v2.category_id == "shift_blacklist_output")then
+            if(allowed)then
+                table.insert(v2.items, {
+                    flag = v,
+                    required_flag = "",
+                    name = v,
+                    description = "[ "..GameTextGetTranslatedOrNot(CellFactory_GetUIName(CellFactory_GetType(v))).." ]",
+                    default = shift_material_blacklist_outputs[v] ~= nil,
+                    type = "toggle",
+                    requires_restart = false,
+                    callback = function(item, enabled)
+                    end               
+                })
+            else
+                AddSettingFlag("twitch_extended_shift_blacklist_output_"..v)
+            end
+        end
+    end
+
+end
+
+
 
 is_links_disabled = is_links_disabled or false
 

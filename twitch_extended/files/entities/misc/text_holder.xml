@@ -1,0 +1,13 @@
+<Entity name="text_holder" serialize="0" >
+	<SpriteComponent
+		image_file="data/fonts/font_pixel_white.xml",
+		is_text_sprite="1",
+		text="a", 
+		update_transform="1",
+		update_transform_rotation="1",
+		has_special_scale="1",
+		special_scale_x="0.65",
+		special_scale_y="0.65",
+		alpha="0.5",
+	></SpriteComponent>
+</Entity>

@@ -183,6 +183,490 @@ function ShootProjectile( who_shot, entity_file, x, y, vx, vy, send_message )
 	return entity;
 end
 
+function EntityGetChildrenWithTag(entity, tag)
+	local children = EntityGetAllChildren(entity)
+	local children_with_tag = {}
+	for i, child in pairs(children) do
+		if EntityHasTag(child, tag) then
+			table.insert(children_with_tag, child)
+		end
+	end
+	return children_with_tag
+end
+
+material_cache = {}
+function find_material_by_id_or_name(input, is_input)
+	if(#material_cache == 0)then
+		for k, v in ipairs(CellFactory_GetAllLiquids( true, false ))do
+			table.insert(material_cache, v)
+		end
+		for k, v in ipairs(CellFactory_GetAllSands( true, false ))do
+			table.insert(material_cache, v)
+		end
+		for k, v in ipairs(CellFactory_GetAllGases( true, false ))do
+			table.insert(material_cache, v)
+		end
+		for k, v in ipairs(CellFactory_GetAllFires( true, false ))do
+			table.insert(material_cache, v)
+		end
+		for k, v in ipairs(CellFactory_GetAllSolids( true, false ))do
+			table.insert(material_cache, v)
+		end
+	end
+
+	local matches = {}
+
+	for i, v in ipairs(material_cache)do
+		if(string.lower(v) == input)then
+			if(is_input and not HasSettingFlag("twitch_extended_shift_blacklist_input_"..v) or not is_input and not HasSettingFlag("twitch_extended_shift_blacklist_output_"..v))then
+				if(not is_input)then
+					return { v }
+				else
+					table.insert(matches, v)
+				end
+			end
+		end
+		if(string.lower(GameTextGetTranslatedOrNot(CellFactory_GetUIName(CellFactory_GetType(v)))) == input)then
+			if(is_input and not HasSettingFlag("twitch_extended_shift_blacklist_input_"..v) or not is_input and not HasSettingFlag("twitch_extended_shift_blacklist_output_"..v))then
+				table.insert(matches, v)
+			end
+		end
+	end
+	return matches
+end
+
+function get_random_input_material()
+	local mats = {}
+
+	for k, v in ipairs(CellFactory_GetAllLiquids( true, false ))do	
+		if(not HasSettingFlag("twitch_extended_shift_blacklist_input_"..v))then
+			table.insert(mats, v)
+		end
+	end
+	for k, v in ipairs(CellFactory_GetAllSands( true, false ))do
+		if(not HasSettingFlag("twitch_extended_shift_blacklist_input_"..v))then
+			table.insert(mats, v)
+		end
+	end
+	for k, v in ipairs(CellFactory_GetAllGases( true, false ))do
+		if(not HasSettingFlag("twitch_extended_shift_blacklist_input_"..v))then
+			table.insert(mats, v)
+		end
+	end
+	for k, v in ipairs(CellFactory_GetAllFires( true, false ))do
+		if(not HasSettingFlag("twitch_extended_shift_blacklist_input_"..v))then
+			table.insert(mats, v)
+		end
+	end
+	for k, v in ipairs(CellFactory_GetAllSolids( true, false ))do
+		if(not HasSettingFlag("twitch_extended_shift_blacklist_input_"..v))then
+			table.insert(mats, v)
+		end
+	end
+
+	if(#mats == 0)then
+		return "water"
+	end
+
+	return mats[Random(1, #mats)]
+end
+
+function get_random_output_material()
+	local mats = {}
+
+	for k, v in ipairs(CellFactory_GetAllLiquids( true, false ))do	
+		if(not HasSettingFlag("twitch_extended_shift_blacklist_output_"..v))then
+			table.insert(mats, v)
+		end
+	end
+	for k, v in ipairs(CellFactory_GetAllSands( true, false ))do
+		if(not HasSettingFlag("twitch_extended_shift_blacklist_output_"..v))then
+			table.insert(mats, v)
+		end
+	end
+	for k, v in ipairs(CellFactory_GetAllGases( true, false ))do
+		if(not HasSettingFlag("twitch_extended_shift_blacklist_output_"..v))then
+			table.insert(mats, v)
+		end
+	end
+	for k, v in ipairs(CellFactory_GetAllFires( true, false ))do
+		if(not HasSettingFlag("twitch_extended_shift_blacklist_output_"..v))then
+			table.insert(mats, v)
+		end
+	end
+	for k, v in ipairs(CellFactory_GetAllSolids( true, false ))do
+		if(not HasSettingFlag("twitch_extended_shift_blacklist_output_"..v))then
+			table.insert(mats, v)
+		end
+	end
+
+	if(#mats == 0)then
+		return "water"
+	end
+
+	return mats[Random(1, #mats)]
+end
+
+function fungal_shift_local(reward, userdata, shift_random, shift_distance, convert_flasks)
+	function trim(s)
+		local from = s:match"^%s*()"
+		return from > #s and "" or s:match(".*%S", from)
+	end
+
+	local shifts = {}
+
+	local message = userdata.message
+
+	--print(message)
+
+	for word in string.gmatch(message, '([^>]+)') do
+		local shift = string.lower(trim(word))
+		--print(shift)
+		if(#shifts < 2)then
+			table.insert(shifts, shift)
+		end
+	end
+	if(shift_random)then
+		if(#shifts == 0 or shifts[1] == "")then
+			shifts[1] = get_random_input_material() or "water"
+		end
+
+		if(#shifts == 1 or shifts[2] == "")then
+			shifts[2] = get_random_output_material() or "water"
+		end
+	end
+
+	if(#shifts > 1)then
+		local player = get_player()
+		if(player ~= nil)then
+			local x,y = EntityGetTransform(player)
+
+			local found_inputs = find_material_by_id_or_name(shifts[1], true)
+			local found_outputs = find_material_by_id_or_name(shifts[2], false)
+
+			if(shift_random)then
+				if(#found_inputs == 0)then
+					found_inputs = {(get_random_input_material() or "water")}
+				end
+
+				if(#found_outputs == 0)then
+					found_outputs = {(get_random_output_material() or "water")}
+				end
+			end
+
+
+			if(#found_inputs == 0)then
+				return
+			end
+
+			if(#found_outputs == 0)then
+				return
+			end
+
+			--local input = found_inputs[Random(1, #found_inputs)]
+			local output = found_outputs[Random(1, #found_outputs)]
+			
+			local input_string = "[ "
+			for k, v in ipairs(found_inputs)do
+				if(k == #found_inputs)then
+					input_string = input_string..v
+				else
+					input_string = input_string..v..","
+				end
+			end
+			input_string = input_string.." ]"
+
+			GamePrint(input_string.." > "..output)
+			print("[Twitch Extended] - [Local Shift]: "..input_string.." > "..output)
+
+			GamePrintImportant(userdata.username.." redeemed Local Shift", userdata.username.." shifted nearby "..GameTextGetTranslatedOrNot(CellFactory_GetUIName(CellFactory_GetType(found_inputs[1]))).." into "..output..".", reward.reward_image)
+
+			if(input ~= output)then
+				shift_materials_in_range(shift_distance, found_inputs, output, convert_flasks)
+
+				if(ModIsEnabled("noita-together"))then
+					dofile_once("mods/noita-together/files/store.lua")
+					dofile_once("mods/noita-together/files/scripts/json.lua")
+
+					if(GameHasFlagRun("NT_GAMEMODE_CO_OP") and GameHasFlagRun("sync_shift")) then
+						local queue = json.decode(NT.wsQueue)
+
+						table.insert(queue, {
+							event="CustomModEvent", 
+							payload={
+								name="twitch_extended_local_shift",
+								found_inputs = found_inputs,
+								output = output,
+								radius = shift_distance,
+								game_print = input_string.." > "..output,
+								print = "[Twitch Extended] - [Local Shift]: "..input_string.." > "..output,
+								convert_flasks = convert_flasks,
+								userdata = userdata,
+								reward = reward,
+								sender = StreamingGetConnectedChannelName()
+							},
+							ignoreSelf=true
+						})
+
+						NT.wsQueue = json.encode(queue)
+					end
+				end
+			end
+		end
+	end
+end
+
+function fungal_shift_everywhere(reward, userdata, shift_random)
+	function trim(s)
+		local from = s:match"^%s*()"
+		return from > #s and "" or s:match(".*%S", from)
+	end
+
+	local shifts = {}
+
+	local message = userdata.message
+
+	--print(message)
+
+	for word in string.gmatch(message, '([^>]+)') do
+		local shift = string.lower(trim(word))
+		--print(shift)
+		if(#shifts < 2)then
+			table.insert(shifts, shift)
+		end
+	end
+
+	if(shift_random)then
+		if(#shifts == 0 or shifts[1] == "")then
+			shifts[1] = get_random_input_material() or "water"
+		end
+
+		if(#shifts == 1 or shifts[2] == "")then
+			shifts[2] = get_random_output_material() or "water"
+		end
+	end
+	
+
+	if(#shifts > 1)then
+		local player = get_player()
+		if(player ~= nil)then
+			local x,y = EntityGetTransform(player)
+
+			local found_inputs = find_material_by_id_or_name(shifts[1], true)
+			local found_outputs = find_material_by_id_or_name(shifts[2], false)
+
+			if(shift_random)then
+				if(#found_inputs == 0)then
+					found_inputs = {(get_random_input_material() or "water")}
+				end
+
+				if(#found_outputs == 0)then
+					found_outputs = {(get_random_output_material() or "water")}
+				end
+			end
+
+
+			if(#found_inputs == 0)then
+				return
+			end
+
+			if(#found_outputs == 0)then
+				return
+			end
+
+			
+			--local input = found_inputs[Random(1, #found_inputs)]
+			local output = found_outputs[Random(1, #found_outputs)]
+			
+			local input_string = "[ "
+			for k, v in ipairs(found_inputs)do
+				if(k == #found_inputs)then
+					input_string = input_string..v
+				else
+					input_string = input_string..v..","
+				end
+			end
+			
+			input_string = input_string.." ]"
+
+			GamePrint(input_string.." > "..output)
+			print("[Twitch Extended] - [Fungal Shift]: "..input_string.." > "..output)
+			
+			GamePrintImportant(userdata.username.." redeemed Fungal Shift", userdata.username.." shifted all "..GameTextGetTranslatedOrNot(CellFactory_GetUIName(CellFactory_GetType(found_inputs[1]))).." into "..output..".", reward.reward_image)
+
+			if(input ~= output)then
+				shift_materials(found_inputs, output)
+				if(ModIsEnabled("noita-together"))then
+					dofile_once("mods/noita-together/files/store.lua")
+					dofile_once("mods/noita-together/files/scripts/json.lua")
+		
+					if(GameHasFlagRun("NT_GAMEMODE_CO_OP") and GameHasFlagRun("sync_shift")) then
+						local queue = json.decode(NT.wsQueue)
+						table.insert(queue, {
+							event="CustomModEvent", 
+							payload={
+								name="twitch_extended_fungal_shift",
+								found_inputs = found_inputs,
+								output = output,
+								game_print = input_string.." > "..output,
+								print = "[Twitch Extended] - [Fungal Shift]: "..input_string.." > "..output,
+								userdata = userdata,
+								reward = reward,
+								sender = StreamingGetConnectedChannelName()
+							},
+							ignoreSelf=true
+						})
+						NT.wsQueue = json.encode(queue)
+					end
+				end
+			end
+		end
+	end
+end
+
+function shift_materials_in_range(radius, materials_input, output, convert_flasks)
+	local shift_entity = EntityCreateNew("shifting_guy")
+	local player = get_player()
+	if(player ~= nil)then
+		local x,y = EntityGetTransform(player)
+
+		-- get nearby entities
+		local entities = EntityGetInRadius(x, y, radius)
+
+		EntitySetTransform(shift_entity, x, y)
+		for k, v in ipairs(materials_input)do
+			EntityAddComponent2(shift_entity, "MagicConvertMaterialComponent", {
+				radius = radius,
+				from_material = CellFactory_GetType(v),
+				to_material = CellFactory_GetType(output),
+				kill_when_finished = true,
+				is_circle = true,
+				steps_per_frame = 256,
+			})
+			EntityAddComponent2(shift_entity, "LifetimeComponent", {
+				lifetime = 5,
+			})
+
+			function getMaterialCount(material, inventory)
+				local count_per_material_type = ComponentGetValue2( inventory, "count_per_material_type");
+				for k,v in pairs(count_per_material_type) do
+					if v ~= 0 then --material exists in the inventory
+						material_name = CellFactory_GetName(k-1)
+						material_amount = v
+						if(material_name == material)then
+							return material_amount
+						end
+					end
+				end   
+				return 0  
+			end
+
+			-- loop through entities
+			if(convert_flasks)then
+				for i, entity in ipairs(entities) do
+					local material_inventory = EntityGetFirstComponentIncludingDisabled( entity, "MaterialInventoryComponent" )
+
+					if(material_inventory ~= nil)then
+
+						local material_amount = getMaterialCount(v, material_inventory)
+
+						if(material_amount > 0)then
+
+							AddMaterialInventoryMaterial( entity, output, material_amount )
+							AddMaterialInventoryMaterial( entity, v, 0 )
+						end
+					end
+
+
+					local children = EntityGetAllChildren( entity )  or {};
+					for key, child in pairs( children ) do
+						if EntityGetName( child ) == "inventory_quick" then
+							local children2 = EntityGetAllChildren( child )  or {};
+							for key, child2 in pairs( children2 ) do
+								local material_inventory2 = EntityGetFirstComponentIncludingDisabled( child2, "MaterialInventoryComponent" )
+
+								if(material_inventory2 ~= nil)then
+
+									local material_amount = getMaterialCount(v, material_inventory2)
+
+									if(material_amount > 0)then
+
+										AddMaterialInventoryMaterial( child2, output, material_amount )
+										AddMaterialInventoryMaterial( child2, v, 0 )
+									end
+								end
+							end
+							break;
+						end
+					end
+				end
+			end
+		end
+	end
+end
+
+function shift_materials(materials_input, output)
+	local player = get_player()
+	if(player ~= nil)then
+		local x, y = EntityGetTransform(player)
+		converted_any = false
+
+		from = {materials = {}}
+		to = {material = output, twitch_extended = true}
+
+		for i,it in ipairs(materials_input) do
+			table.insert(from.materials, it)
+			
+			local from_material = CellFactory_GetType( it )
+			local to_material = CellFactory_GetType( output )
+			-- convert
+			if from_material ~= to_material then
+				ConvertMaterialEverywhere( from_material, to_material )
+				converted_any = true
+
+				-- shoot particles of new material
+				--GameCreateParticle( CellFactory_GetName(from_material), x-10, y-10, 20, rand(-100,100), rand(-100,-30), true, true )
+				--GameCreateParticle( CellFactory_GetName(from_material), x+10, y-10, 20, rand(-100,100), rand(-100,-30), true, true )
+			end
+		end
+
+		if converted_any then
+			-- audio
+			GameTriggerMusicFadeOutAndDequeueAll( 5.0 )
+			GameTriggerMusicEvent( "music/oneshot/tripping_balls_01", false, x, y )
+
+			-- particle fx
+			local eye = EntityLoad( "data/entities/particles/treble_eye.xml", x,y-10 )
+			if eye ~= 0 then
+				EntityAddChild( player, eye )
+			end
+
+			-- add ui icon
+			local add_icon = true
+			local children = EntityGetAllChildren(player)
+			if children ~= nil then
+				for i,it in ipairs(children) do
+					if ( EntityGetName(it) == "fungal_shift_ui_icon" ) then
+						add_icon = false
+						break
+					end
+				end
+			end
+
+			if add_icon then
+				local icon_entity = EntityCreateNew( "fungal_shift_ui_icon" )
+				EntityAddComponent( icon_entity, "UIIconComponent", 
+				{ 
+					name = "$status_reality_mutation",
+					description = "$statusdesc_reality_mutation",
+					icon_sprite_file = "data/ui_gfx/status_indicators/fungal_shift.png"
+				})
+				EntityAddChild( player, icon_entity )
+			end
+		end
+	end
+end
+
 function WandGetActiveOrRandom( entity )
     local chosen_wand = nil;
     local wands = {};
@@ -391,6 +875,17 @@ function math.round(num, numDecimalPlaces)
     return math.floor(num * mult + 0.5) / mult
 end
 
+function EntityApplyComponent(entity, component_name, values)
+	local component = EntityGetFirstComponentIncludingDisabled(entity, component_name)
+	if(component ~= nil)then
+		for k,v in pairs(values)do
+			ComponentSetValue(component, k, v)
+		end
+	else
+		EntityAddComponent2(entity, component_name, values)
+	end
+end
+
 function text_above_entity( entity_id, text, extra_offset )
     extra_offset = extra_offset or 0
     offset_x = string.len(text)*1.9
@@ -400,9 +895,13 @@ function text_above_entity( entity_id, text, extra_offset )
 				--EntityAddChild(get_player(), entity_id)
 			end
 			ent_x, ent_y = EntityGetTransform(entity_id)
-			text_holder = EntityCreateNew("text_holder")
+			text_holder = EntityLoad("mods/twitch_extended/files/entities/misc/text_holder.xml", ent_x, ent_y)
+
+			EntityAddComponent(text_holder, "StreamingKeepAliveComponent")
+
+
 			EntitySetTransform(text_holder, ent_x, ent_y)
-            local component = EntityAddComponent2( text_holder, "SpriteComponent",
+            local component = EntityApplyComponent(text_holder, "SpriteComponent",
             {
                 image_file="data/fonts/font_pixel_white.xml",
                 is_text_sprite=true,
@@ -631,12 +1130,12 @@ function spawn_homunculus(username, type_override)
 		"laser",
 		"punch"
 	}
-	enemies_list = {
+	local enemy_list = {
 		"mods/twitch_extended/files/entities/animals/homunculus/homunculus.xml",
 	}
 	local player = get_player()
 	if(player ~= nil)then
-		enemy = enemies_list[Random(1,table.getn(enemies_list))];
+		enemy = enemy_list[Random(1,table.getn(enemy_list))];
 	--	print("Summoned "..enemy)
 		local drone = spawn_item(enemy, 10, 50)
 
@@ -700,7 +1199,7 @@ function spawn_spell()
 	if(player ~= nil)then
 		local x,y = EntityGetTransform(player)
 
-		local action = GetRandomAction( x, y, 6, 1)
+		local action = GetRandomAction( x, y, 10, 1)
 		
 		CreateItemActionEntity( action, x, y )
 	end
@@ -816,7 +1315,7 @@ function spawn_enemy_biome(username)
 		}
 
 
-		biome_enemies = {
+		local biome_enemies = {
 
 		}
 
@@ -834,7 +1333,7 @@ function spawn_enemy_biome(username)
 				
 			if(g_small_enemies ~= nil)then
 				for k, v in pairs(g_small_enemies)do
-					if(k ~= "total_prob" and v.entity ~= "" and v.entity ~= "data/entities/buildings/arrowtrap_left.xml")then
+					if(k ~= "total_prob" and v.entity ~= "" and v.entity ~= nil and v.entity ~= "data/entities/buildings/arrowtrap_left.xml" and not string.match(v.entity, "lukki"))then
 						local already_has = false
 						if(biome_enemies[current_biome] ~= nil)then
 							for k2, v2 in pairs(biome_enemies[current_biome])do
@@ -861,7 +1360,7 @@ function spawn_enemy_biome(username)
 			end
 			if(g_big_enemies ~= nil)then
 				for k, v in pairs(g_big_enemies)do
-					if(k ~= "total_prob" and v.entity ~= "" and v.entity ~= "data/entities/buildings/arrowtrap_left.xml")then
+					if(k ~= "total_prob" and v.entity ~= "" and v.entity ~= nil and v.entity ~= "data/entities/buildings/arrowtrap_left.xml" and not string.match(v.entity, "lukki"))then
 						local already_has = false
 						if(biome_enemies[current_biome] ~= nil)then
 							for k2, v2 in pairs(biome_enemies[current_biome])do
@@ -905,18 +1404,48 @@ function spawn_enemy_biome(username)
 						for i = 1, Random(enemy.min_count or 1, enemy.max_count or 1)do
 							if(enemy.entities ~= nil and enemy.entities[1] ~= nil)then
 								to_spawn = enemy.entities[Random(1, #enemy.entities)]
-								drone = spawn_item(to_spawn, 50, 80)
 
-								text_above_entity(drone, username, 0)
-					
-								EntityAddTag( drone, "has_nametag")
+								if(to_spawn ~= nil)then
+
+									drone = spawn_item(to_spawn, 50, 80)
+
+									text_above_entity(drone, username, 0)
+						
+									EntityAddTag( drone, "has_nametag")
+
+								else
+									enemy = enemies[Random(1, #enemies)]
+									count = Random(1, 4)
+									for i = 1, count do
+										drone = spawn_item(enemy, 50, 80)
+			
+										text_above_entity(drone, username, 0)
+							
+										EntityAddTag( drone, "has_nametag")
+									end
+								end
 							else
 								to_spawn = enemy.entity
-								drone = spawn_item(to_spawn, 50, 80)
 
-								text_above_entity(drone, username, 0)
-					
-								EntityAddTag( drone, "has_nametag")
+								if(to_spawn ~= nil)then
+
+									drone = spawn_item(to_spawn, 50, 80)
+
+									text_above_entity(drone, username, 0)
+						
+									EntityAddTag( drone, "has_nametag")
+
+								else
+									enemy = enemies[Random(1, #enemies)]
+									count = Random(1, 4)
+									for i = 1, count do
+										drone = spawn_item(enemy, 50, 80)
+			
+										text_above_entity(drone, username, 0)
+							
+										EntityAddTag( drone, "has_nametag")
+									end
+								end
 							end
 						end
 					else
@@ -959,13 +1488,17 @@ function spawn_enemy_biome(username)
 				}
 			end
 
+
 			enemy = enemies[Random(1, #enemies)]
 
-			if(random(0,100) <= 5)then
-				enemy = "data/entities/animals/necromancer_shop.xml"
-			end
-			
 			count = Random(1, 4)
+			if(current_biome == "$biome_holymountain")then
+				if(Random(0,100) <= 5)then
+					enemy = "data/entities/animals/necromancer_shop.xml"
+				end
+				count = 1
+				print("yo?")
+			end
 			for i = 1, count do
 				drone = spawn_item(enemy, 50, 80)
 
@@ -1195,7 +1728,7 @@ function spawn_bomb()
 	if(player ~= nil)then
 		local x,y = EntityGetTransform(player)
 
-		EntityLoad("data/entities/projectiles/bomb.xml",x,y)
+		EntityLoad("mods/twitch_extended/files/entities/projectiles/bomb.xml",x,y)
 	end
 end
 

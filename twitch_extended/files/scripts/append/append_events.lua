@@ -287,7 +287,7 @@ for k, v in pairs(streaming_events)do
 		table.remove(streaming_events, k)
 	elseif(v.id == "PORTAL_EAST")then
 		v.action = function(event)
-			local effect_id = spawn_item("mods/twitch_extended/files/entities/misc/portal_east.xml", 50, 100, true, false, 50)
+			local effect_id = spawn_item("mods/twitch_extended/files/entities/misc/portal_east.xml", 0, 5, true, false, 50)
 			set_lifetime( effect_id )		
 			local pos_x, pos_y = EntityGetTransform( effect_id )
 			pos_x = pos_x + 512 * 70
@@ -295,12 +295,13 @@ for k, v in pairs(streaming_events)do
 		end
 	elseif(v.id == "PORTAL_BEGINNING")then
 		v.action = function(event)
-			local effect_id = spawn_item("data/scripts/streaming_integration/entities/portal_beginning.xml", 50, 100, true, false, 50)
+			local effect_id = spawn_item("data/scripts/streaming_integration/entities/portal_beginning.xml", 0, 5, true, false, 50)
 			set_lifetime( effect_id )	
+			
 		end
 	elseif(v.id == "PORTAL_RANDOM")then
 		v.action = function(event)
-			local effect_id = spawn_item("data/scripts/streaming_integration/entities/portal_random.xml", 50, 100, true, false, 50)
+			local effect_id = spawn_item("data/scripts/streaming_integration/entities/portal_random.xml", 0, 5, true, false, 50)
 			set_lifetime( effect_id )	
 		end
 	end
@@ -734,7 +735,7 @@ append_events = {
 		ui_description = "$twitch_extended_mighty_duck_description",
 		ui_icon = "",
 		ui_author = "Evaisa",
-		weight = 1.0,
+		weight = 0.5,
 		kind = STREAMING_EVENT_BAD,
 		action = function(event)
 			spawn_giant_duck(StreamingGetRandomViewerName())
@@ -2175,7 +2176,7 @@ append_events = {
 	},
 	{
 		id = "TWITCH_EXTENDED_HAMIS",
-		ui_name = "Revenge Of Hamïs",
+		ui_name = "Revenge Of Hämis",
 		ui_description = "They have arrived to claim your life.",
 		ui_icon = "",
 		ui_author = "Evaisa",
@@ -2256,6 +2257,60 @@ append_events = {
 				local x, y = EntityGetTransform(entity_id)
 
 				EntityLoad("mods/twitch_extended/files/entities/misc/materials_to_barrier.xml", x, y)
+			end
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_PANDORIUM",
+		ui_name = "Pandorium",
+		ui_description = "Nearby liquid is transformed to pandorium.",
+		ui_icon = "data/ui_gfx/streaming_event_icons/health_plus.png",
+		ui_author = "Evaisa",
+		weight = 0.4,
+		kind = STREAMING_EVENT_BAD,
+		action = function(event)
+			local players = get_players()
+			
+			for i,entity_id in ipairs( players ) do
+				local x, y = EntityGetTransform(entity_id)
+
+				EntityLoad("mods/twitch_extended/files/entities/misc/materials_to_pandorium.xml", x, y)
+			end
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_UNSTABLE_PANDORIUM",
+		ui_name = "Unstable Pandorium",
+		ui_description = "Nearby liquid is transformed to unstable pandorium.",
+		ui_icon = "data/ui_gfx/streaming_event_icons/health_plus.png",
+		ui_author = "Evaisa",
+		weight = 0.1,
+		kind = STREAMING_EVENT_BAD,
+		action = function(event)
+			local players = get_players()
+			
+			for i,entity_id in ipairs( players ) do
+				local x, y = EntityGetTransform(entity_id)
+
+				EntityLoad("mods/twitch_extended/files/entities/misc/materials_to_unstable_pandorium.xml", x, y)
+			end
+		end,
+	},
+	{
+		id = "TWITCH_EXTENDED_POPROCKS",
+		ui_name = "Poprocks",
+		ui_description = "Nearby liquid is transformed to poprocks.",
+		ui_icon = "data/ui_gfx/streaming_event_icons/health_plus.png",
+		ui_author = "Evaisa",
+		weight = 0.1,
+		kind = STREAMING_EVENT_BAD,
+		action = function(event)
+			local players = get_players()
+			
+			for i,entity_id in ipairs( players ) do
+				local x, y = EntityGetTransform(entity_id)
+
+				EntityLoad("mods/twitch_extended/files/entities/misc/materials_to_poprocks.xml", x, y)
 			end
 		end,
 	},

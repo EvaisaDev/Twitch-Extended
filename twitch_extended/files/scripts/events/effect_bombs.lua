@@ -27,7 +27,7 @@ if ( #projectiles > 0 ) then
 				end)
 			end
 			
-			entity = shoot_projectile_from_projectile( projectile_id, "data/entities/projectiles/bomb.xml", px, py, vel_x, vel_y )
+			entity = shoot_projectile_from_projectile( projectile_id, "mods/twitch_extended/files/entities/projectiles/bomb.xml", px, py, vel_x, vel_y )
 
 			EntityAddTag(entity, "donotrepeat")
 
