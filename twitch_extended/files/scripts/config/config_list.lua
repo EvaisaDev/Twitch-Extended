@@ -877,6 +877,69 @@ twitch_config_options = {
             }
         },
         {
+            category_id = "shift_blacklist_input",
+            category = "$twitch_extended_config_category_shift_blacklist_input",
+            items_per_page = 45,
+            items_per_row = 15,
+            items = {
+                {
+                    name = "$twitch_extended_config_category_shift_blacklist_input_description",
+                    required_flag = "",
+                    description = "",
+                    offset_x = -4,
+                    offset_y = 0,
+                    color = "fff5ce42",
+                    type = "text"
+                },    
+                {
+                    required_flag = "",
+                    type = "spacer"
+                },    
+            }
+        },
+        {
+            category_id = "shift_blacklist_output",
+            category = "$twitch_extended_config_category_shift_blacklist_output",
+            items_per_page = 45,
+            items_per_row = 15,
+            items = {
+                {
+                    name = "$twitch_extended_config_category_shift_blacklist_output_description",
+                    required_flag = "",
+                    description = "",
+                    offset_x = -4,
+                    offset_y = 0,
+                    color = "fff5ce42",
+                    type = "text"
+                },    
+                {
+                    required_flag = "",
+                    type = "spacer"
+                },    
+            }
+        },
+        {
+            category_id = "commands",
+            category = "$twitch_extended_config_category_commands",
+            items_per_page = 45,
+            items_per_row = 15,
+            items = {
+                {
+                    name = "$twitch_extended_config_category_commands_description",
+                    required_flag = "",
+                    description = "",
+                    offset_x = -4,
+                    offset_y = 0,
+                    color = "fff5ce42",
+                    type = "text"
+                },      
+                {
+                    required_flag = "",
+                    type = "spacer"
+                },  
+            }
+        },
+        {
             category_id = "link_rewards",
             category = "$twitch_extended_config_category_link_rewards",
             items_per_page = 20,
@@ -935,48 +998,6 @@ twitch_config_options = {
             items = {
                 {
                     name = "$twitch_extended_config_category_bit_rewards_description",
-                    required_flag = "",
-                    description = "",
-                    offset_x = -4,
-                    offset_y = 0,
-                    color = "fff5ce42",
-                    type = "text"
-                },    
-                {
-                    required_flag = "",
-                    type = "spacer"
-                },    
-            }
-        },
-        {
-            category_id = "shift_blacklist_input",
-            category = "$twitch_extended_config_category_shift_blacklist_input",
-            items_per_page = 45,
-            items_per_row = 15,
-            items = {
-                {
-                    name = "$twitch_extended_config_category_shift_blacklist_input_description",
-                    required_flag = "",
-                    description = "",
-                    offset_x = -4,
-                    offset_y = 0,
-                    color = "fff5ce42",
-                    type = "text"
-                },    
-                {
-                    required_flag = "",
-                    type = "spacer"
-                },    
-            }
-        },
-        {
-            category_id = "shift_blacklist_output",
-            category = "$twitch_extended_config_category_shift_blacklist_output",
-            items_per_page = 45,
-            items_per_row = 15,
-            items = {
-                {
-                    name = "$twitch_extended_config_category_shift_blacklist_output_description",
                     required_flag = "",
                     description = "",
                     offset_x = -4,
@@ -1585,6 +1606,193 @@ for k, v in pairs(sub_rewards)do
         end
     end
 end
+
+for k, v in pairs(commands)do
+    for k2, v2 in pairs(twitch_config_options.categories)do
+        if(v2.category_id == "commands")then
+            new_item1 = {
+                name = v.reward_name,
+                required_flag = "",
+                description = v.reward_description,
+                offset_x = -4,
+                offset_y = 0,
+                color = "ffb0bfeb",
+                type = "text"
+            }  
+            new_item2 = {
+                flag = v.reward_id,
+                required_flag = "",
+                name = "$twitch_extended_enable",
+                description = v.reward_description,
+                default = false,
+                type = "toggle",
+                requires_restart = false,
+                callback = function(item, enabled)
+                end               
+            }
+            table.insert(v2.items, new_item1)
+            table.insert(v2.items, {
+                type = "spacer"
+            })
+            table.insert(v2.items, new_item2)
+            table.insert(v2.items, {
+                flag = v.reward_id.."_command",
+                required_flag = "",
+                name = "Chat command",
+                description = "What to type in chat to run this command.",
+                default_text = "!"..v.reward_id,
+                allowed_chars = "",
+                text_max_length = 50,
+                type = "input",
+                requires_restart = false,
+                callback = function(number)
+
+                end
+            })
+            table.insert(v2.items, {
+                flag = v.reward_id.."_permission",
+                required_flag = "",
+                name = "$twitch_extended_permission_name",
+                description = "$twitch_extended_permission_description",
+                default = "everyone",
+                values = {{"everyone", "Everyone"}, {"sub", "Subscribers"}, {"mod", "Moderators"}, {"broadcaster", "Broadcaster"}},
+                type = "enum",
+                requires_restart = false,
+                callback = function(item, value)
+
+                end
+            })
+            table.insert(v2.items, {
+                flag = v.reward_id.."_cooldown",
+                required_flag = "",
+                name = "$twitch_extended_cooldown_name",
+                description = "$twitch_extended_cooldown_description",
+                default_number = 0,
+                max_number = 300,
+                min_number = 0,
+                format = "$0s",
+                type = "slider",
+                requires_restart = false,
+                callback = function(number)
+
+                end
+            })
+            table.insert(v2.items, {
+                flag = v.reward_id.."_cooldown_type",
+                required_flag = "",
+                name = "$twitch_extended_cooldown_type_name",
+                description = "$twitch_extended_cooldown_type_description",
+                default = "global",
+                values = {{"global", "Global"}, {"user", "Per User"}},
+                type = "enum",
+                requires_restart = false,
+                callback = function(item, value)
+
+                end
+            })
+            table.insert(v2.items, {
+                flag = v.reward_id.."_no_message",
+                required_flag = "",
+                name = "$twitch_extended_no_redeem_message_name",
+                description = "$twitch_extended_no_redeem_message_description",
+                default = false,
+                type = "toggle",
+                requires_restart = false,
+                callback = function(item, enabled)
+                end               
+            })
+            if(v.custom_options ~= nil)then
+                for k3, option in pairs(v.custom_options)do
+                    if(option.type == "toggle")then
+                        table.insert(v2.items, {
+                            flag = v.reward_id.."_"..option.flag,
+                            required_flag = "",
+                            name = option.name,
+                            description = option.description,
+                            default = option.default,
+                            type = "toggle",
+                            requires_restart = false,
+                            callback = function(item, enabled)
+                            end               
+                        })
+                    elseif(option.type == "slider")then
+                        table.insert(v2.items, {
+                            flag = v.reward_id.."_"..option.flag,
+                            required_flag = "",
+                            name = option.name,
+                            description = option.description,
+                            default_number = option.default_number,
+                            max_number = option.max_number,
+                            min_number = option.min_number,
+                            format = option.format,
+                            type = "slider",
+                            requires_restart = false,
+                            callback = function(number)
+        
+                            end
+                        })
+                    elseif(option.type == "input")then
+                        table.insert(v2.items, {
+                            flag = v.reward_id.."_"..option.flag,
+                            required_flag = "",
+                            name = option.name,
+                            description = option.description,
+                            default_text = option.default_text,
+                            allowed_chars = option.allowed_chars,
+                            text_max_length = option.text_max_length,
+                            type = "input",
+                            requires_restart = false,
+                            callback = function(number)
+            
+                            end
+                        })
+                    elseif(option.type == "enum")then
+                        table.insert(v2.items, {
+                            flag = v.reward_id.."_"..option.flag,
+                            required_flag = "",
+                            name = option.name,
+                            description = option.description,
+                            default = option.default_enum,
+                            values = option.values,
+                            type = "enum",
+                            requires_restart = false,
+                            callback = function(item, value)
+        
+                            end
+                        })
+                    end
+                end
+            end
+			table.insert(v2.items, {
+				name = "Run Command",
+				item_id = "run_command_"..v.reward_id,
+				required_flag = "",
+				description = "Run the command for testing purposes.",
+				type = "button",
+				callback = function(item)
+					v.func(v, {
+						username = "test",
+						user_id = "NaN",
+						broadcaster = false,
+						mod = false,
+						subscriber = false,
+						turbo = false,
+						custom_reward = "NaN",
+						message = "This is a test.",
+						bits = 0,
+						total_months = 0,
+						streak = 0
+					})
+					GamePrintImportant(GameTextGetTranslatedOrNot(v.reward_name), GameTextGetTranslatedOrNot(v.reward_description))
+				end
+			})
+			table.insert(v2.items, {
+                type = "spacer"
+            })
+        end
+    end
+end
+
 
 for k, v in pairs(bit_rewards)do
     for k2, v2 in pairs(twitch_config_options.categories)do

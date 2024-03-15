@@ -1,4 +1,3 @@
-dofile_once("mods/config_lib/files/utilities.lua")
 local function split(str, delim)
     local ret = {}
     if not str then

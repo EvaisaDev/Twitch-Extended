@@ -22,13 +22,11 @@ if(get_player() ~= nil)then
             end
         end
     else
-       -- GamePrint("Everything is fine.")
 
         allow_return = false
 
         local models = EntityGetComponent( entity_id, "VariableStorageComponent" )
         for i,v in ipairs( models ) do
-           -- GamePrint("you hoe")
             local name = ComponentGetValue2( v, "name" )
           --  GamePrint(name)
             if ( name == "duck_pacifist_timer" ) then

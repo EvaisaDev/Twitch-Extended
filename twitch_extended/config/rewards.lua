@@ -1,4 +1,19 @@
 -- This file has complete access to anything within the utilities.lua file of this mod.
+commands = {
+    {
+        reward_id = "ping",
+        reward_name = "Ping",
+        reward_description = "Pong!",
+        reward_image = nil,
+        required_flag = "",
+        custom_options = {},
+        no_display_message = true,
+        func = function(reward, userdata)
+            print("Pong!")
+            GamePrint("Pong!")
+        end,
+    }
+}
 
 bit_rewards = {
     {
@@ -27,6 +42,13 @@ bit_rewards = {
             },
             {
                 type = "toggle",
+                flag = "random_pool",
+                name = "Random Pool",
+                description = "For the random pick, pool materials with the same name together.",
+                default = false
+            },
+            {
+                type = "toggle",
                 flag = "convert_flasks",
                 name = "Convert flasks",
                 description = "Convert vessels containing the material as well.",
@@ -37,8 +59,9 @@ bit_rewards = {
         func = function(reward, userdata)
             local shift_distance = ModSettingGet("twitch_extended_bit_rewards_local_shift_shift_distance") or 250
             local allow_random = HasSettingFlag("twitch_extended_bit_rewards_local_shift_shift_random")
+            local random_pool =  HasSettingFlag("twitch_extended_bit_rewards_local_shift_random_pool")
             local convert_flasks = HasSettingFlag("twitch_extended_bit_rewards_local_shift_convert_flasks")
-            fungal_shift_local(reward, userdata, allow_random, shift_distance, convert_flasks)
+            fungal_shift_local(reward, userdata, allow_random, shift_distance, convert_flasks, random_pool)
         end,
     },
     {
@@ -55,11 +78,19 @@ bit_rewards = {
                 description = "If any of the materials do not exist pick random",
                 default = false
             },
+            {
+                type = "toggle",
+                flag = "random_pool",
+                name = "Random Pool",
+                description = "For the random pick, pool materials with the same name together.",
+                default = false
+            },
         },
         no_display_message = true, 
         func = function(reward, userdata)
             local allow_random = HasSettingFlag("twitch_extended_bit_rewards_fungal_shift_shift_random")
-            fungal_shift_everywhere(reward, userdata)
+            local random_pool =  HasSettingFlag("twitch_extended_bit_rewards_fungal_shift_random_pool")
+            fungal_shift_everywhere(reward, userdata, allow_random, random_pool)
         end,
     },
     {
@@ -616,6 +647,13 @@ channel_rewards = {
             },
             {
                 type = "toggle",
+                flag = "random_pool",
+                name = "Random Pool",
+                description = "For the random pick, pool materials with the same name together.",
+                default = false
+            },
+            {
+                type = "toggle",
                 flag = "convert_flasks",
                 name = "Convert flasks",
                 description = "Convert vessels containing the material as well.",
@@ -626,8 +664,9 @@ channel_rewards = {
         func = function(reward, userdata)
             local shift_distance = ModSettingGet("twitch_extended_link_rewards_local_shift_shift_distance") or 250
             local allow_random = HasSettingFlag("twitch_extended_link_rewards_local_shift_shift_random")
+            local random_pool =  HasSettingFlag("twitch_extended_link_rewards_local_shift_random_pool")
             local convert_flasks = HasSettingFlag("twitch_extended_link_rewards_local_shift_convert_flasks")
-            fungal_shift_local(reward, userdata, allow_random, shift_distance, convert_flasks)
+            fungal_shift_local(reward, userdata, allow_random, shift_distance, convert_flasks, random_pool)
         end,
     },
     {
@@ -644,11 +683,19 @@ channel_rewards = {
                 description = "If any of the materials do not exist pick random",
                 default = false
             },
+            {
+                type = "toggle",
+                flag = "random_pool",
+                name = "Random Pool",
+                description = "For the random pick, pool materials with the same name together.",
+                default = false
+            },
         },
         no_display_message = true, 
         func = function(reward, userdata)
             local allow_random = HasSettingFlag("twitch_extended_link_rewards_fungal_shift_shift_random")
-            fungal_shift_everywhere(reward, userdata, allow_random)
+            local random_pool =  HasSettingFlag("twitch_extended_link_rewards_fungal_shift_random_pool")
+            fungal_shift_everywhere(reward, userdata, allow_random, random_pool)
         end,
     },
     {

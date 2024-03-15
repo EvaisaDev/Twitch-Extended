@@ -5,6 +5,82 @@ if(ModIsEnabled("twitch_lib"))then
 	dofile_once("mods/twitch_lib/files/twitch_overwrites.lua")
 end
 
+function StartsWith(str, start)
+	return str:sub(1, #start) == start
+end
+
+
+command_cooldowns = command_cooldowns or {}
+player_cooldowns = player_cooldowns or {}
+
+function CheckCommandPermission(id, userdata)
+	local setting = ModSettingGet("twitch_extended_commands_"..id.."_permission")
+	if(setting == nil)then
+		setting = "everyone"
+	end
+
+	if(setting == "everyone")then
+		return true
+	elseif(setting == "sub")then
+		if(userdata.subscriber or userdata.mod or userdata.broadcaster)then
+			return true
+		end
+	elseif(setting == "mod")then
+		if(userdata.mod or userdata.broadcaster)then
+			return true
+		end
+	elseif(setting == "broadcaster")then
+		if(userdata.broadcaster)then
+			return true
+		end
+	end
+
+	return false
+end
+
+function CheckCommandCooldown(id, userdata)
+	local cooldown_type = ModSettingGet("twitch_extended_commands_"..id.."_cooldown_type")
+	if(cooldown_type == nil)then
+		cooldown_type = "global"
+	end
+
+	local cooldown = ModSettingGet("twitch_extended_commands_"..id.."_cooldown")
+	if(cooldown == nil)then
+		cooldown = 0
+	end
+
+	-- cooldown is in seconds, so multiply by 60
+
+	if(cooldown_type == "global")then
+		if(command_cooldowns[id] == nil)then
+			command_cooldowns[id] = 0
+		end
+
+		if(command_cooldowns[id] > GameGetFrameNum())then
+			return false
+		end
+
+		command_cooldowns[id] = GameGetFrameNum() + (cooldown * 60)
+
+		return true
+	elseif(cooldown_type == "user")then
+		if(player_cooldowns[userdata.user_id] == nil)then
+			player_cooldowns[userdata.user_id] = {}
+		end
+
+		if(player_cooldowns[userdata.user_id][id] == nil)then
+			player_cooldowns[userdata.user_id][id] = 0
+		end
+
+		if(player_cooldowns[userdata.user_id][id] > GameGetFrameNum())then
+			return false
+		end
+
+		player_cooldowns[userdata.user_id][id] = GameGetFrameNum() + (cooldown * 60)
+
+		return true
+	end
+end
 
 function OnMessage(userdata, message)
 	
@@ -55,11 +131,11 @@ function OnMessage(userdata, message)
 	--	print("Reward redeemed by ["..userdata.username.."]:"..tostring(userdata.custom_reward))
 	--end
 
+	words = {}
+
+	for word in message:gmatch("%S+") do table.insert(words, word) end
 
 	if( userdata.broadcaster or userdata.mod )then
-		words = {}
-
-		for word in message:gmatch("%S+") do table.insert(words, word) end
 
 		if(words[1] ~= nil)then
 			if(words[1] == "!reward")then
@@ -78,6 +154,45 @@ function OnMessage(userdata, message)
 					if(tonumber(words[2]) ~= nil)then
 						userdata.bits = tonumber(words[2])
 					end
+				end
+			end
+		end
+	end
+	
+	--[[
+		example command:
+		{
+			command_id = "ping",
+			command_name = "Ping",
+			command_description = "Pong!",
+			command_image = nil,
+			required_flag = "",
+			permission = "moderator", -- "moderator", "subscriber", "everyone", "broadcaster"
+			func = function(reward, userdata)
+				print("Pong!")
+				GamePrint("Pong!")
+			end,
+		}
+	]]
+
+	
+
+	-- loop through commands
+	for k, v in ipairs(commands)do
+		if(v.required_flag == "" or HasFlagPersistent(v.required_flag) or GameHasFlagRun(v.required_flag))then
+			if(HasSettingFlag("twitch_extended_commands_"..v.reward_id) and CheckCommandPermission(v.reward_id, userdata) and CheckCommandCooldown(v.reward_id, userdata))then
+				local command = ModSettingGet("twitch_extended_commands_"..v.reward_id.."_command") or ("!"..v.reward_id)
+				if(words[1] ~= nil and StartsWith(message, command))then
+
+					v.no_display_message = v.no_display_message or false
+					
+					
+
+					if(v.no_display_message ~= true and HasSettingFlag("twitch_extended_commands_"..v.reward_id.."_no_message") == false)then
+						GamePrintImportant(userdata.username.." used command \""..GameTextGetTranslatedOrNot(v.reward_name).."\"", GameTextGetTranslatedOrNot(v.reward_description), v.reward_image)
+					end
+
+					v.func(v, userdata)
 				end
 			end
 		end

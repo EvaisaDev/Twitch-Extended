@@ -13,9 +13,9 @@ function file_exists(filename)
 end
 
 function table_get_key_count(t)
-local count = 0
-for _ in pairs(t) do count = count + 1 end
-return count
+	local count = 0
+	for _ in pairs(t) do count = count + 1 end
+	return count
 end
 
 
@@ -111,11 +111,11 @@ return t
 end
 
 function math_average(t)
-local avg = 0
-for i,v in ipairs(t) do
-	avg = avg + v
-end
-return avg / #t
+	local avg = 0
+	for i,v in ipairs(t) do
+		avg = avg + v
+	end
+	return avg / #t
 end
 
 -- Normalizes the values of a table so that they sum up to 1
@@ -147,12 +147,12 @@ return out
 end
 
 function get_sign(num)
-num = tonumber(num)
-if num >= 0 then
-	return 1
-else
-	return -1
-end
+	num = tonumber(num)
+	if num >= 0 then
+		return 1
+	else
+		return -1
+	end
 end
 
 function get_component_with_member(entity_id, member_name)

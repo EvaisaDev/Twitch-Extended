@@ -235,6 +235,14 @@ function find_material_by_id_or_name(input, is_input)
 	return matches
 end
 
+function isValidMaterial(input, is_input)
+	local matches = find_material_by_id_or_name(input, is_input)
+	if(#matches == 0)then
+		return false
+	end
+	return true
+end
+
 function get_random_input_material()
 	local mats = {}
 
@@ -307,7 +315,7 @@ function get_random_output_material()
 	return mats[Random(1, #mats)]
 end
 
-function fungal_shift_local(reward, userdata, shift_random, shift_distance, convert_flasks)
+function fungal_shift_local(reward, userdata, shift_random, shift_distance, convert_flasks, random_pool)
 	function trim(s)
 		local from = s:match"^%s*()"
 		return from > #s and "" or s:match(".*%S", from)
@@ -322,17 +330,27 @@ function fungal_shift_local(reward, userdata, shift_random, shift_distance, conv
 	for word in string.gmatch(message, '([^>]+)') do
 		local shift = string.lower(trim(word))
 		--print(shift)
-		if(#shifts < 2)then
-			table.insert(shifts, shift)
+		if(#shifts < 1)then
+			if(isValidMaterial(shift, true))then
+				table.insert(shifts, shift)
+			else
+				table.insert(shifts, "")
+			end
+		elseif(#shifts < 2)then
+			if(isValidMaterial(shift, false))then
+				table.insert(shifts, shift)
+			else
+				table.insert(shifts, "")
+			end
 		end
 	end
 	if(shift_random)then
 		if(#shifts == 0 or shifts[1] == "")then
-			shifts[1] = get_random_input_material() or "water"
+			shifts[1] = random_pool and string.lower(GameTextGetTranslatedOrNot(CellFactory_GetUIName(CellFactory_GetType(get_random_input_material() or "water")))) or (get_random_input_material() or "water")
 		end
 
 		if(#shifts == 1 or shifts[2] == "")then
-			shifts[2] = get_random_output_material() or "water"
+			shifts[2] = random_pool and string.lower(GameTextGetTranslatedOrNot(CellFactory_GetUIName(CellFactory_GetType((get_random_output_material() or "water"))))) or (get_random_output_material() or "water")
 		end
 	end
 
@@ -416,7 +434,7 @@ function fungal_shift_local(reward, userdata, shift_random, shift_distance, conv
 	end
 end
 
-function fungal_shift_everywhere(reward, userdata, shift_random)
+function fungal_shift_everywhere(reward, userdata, shift_random, random_pool)
 	function trim(s)
 		local from = s:match"^%s*()"
 		return from > #s and "" or s:match(".*%S", from)
@@ -426,24 +444,36 @@ function fungal_shift_everywhere(reward, userdata, shift_random)
 
 	local message = userdata.message
 
-	--print(message)
+	
 
 	for word in string.gmatch(message, '([^>]+)') do
 		local shift = string.lower(trim(word))
 		--print(shift)
-		if(#shifts < 2)then
-			table.insert(shifts, shift)
+		if(#shifts < 1)then
+			if(isValidMaterial(shift, true))then
+				table.insert(shifts, shift)
+			else
+				table.insert(shifts, "")
+			end
+		elseif(#shifts < 2)then
+			if(isValidMaterial(shift, false))then
+				table.insert(shifts, shift)
+			else
+				table.insert(shifts, "")
+			end
 		end
 	end
-
 	if(shift_random)then
 		if(#shifts == 0 or shifts[1] == "")then
-			shifts[1] = get_random_input_material() or "water"
+			shifts[1] = random_pool and string.lower(GameTextGetTranslatedOrNot(CellFactory_GetUIName(CellFactory_GetType(get_random_input_material() or "water")))) or (get_random_input_material() or "water")
 		end
 
 		if(#shifts == 1 or shifts[2] == "")then
-			shifts[2] = get_random_output_material() or "water"
+			shifts[2] = random_pool and string.lower(GameTextGetTranslatedOrNot(CellFactory_GetUIName(CellFactory_GetType((get_random_output_material() or "water"))))) or (get_random_output_material() or "water")
 		end
+
+		print(shifts[1])
+		print(shifts[2])
 	end
 	
 
@@ -891,9 +921,6 @@ function text_above_entity( entity_id, text, extra_offset )
     offset_x = string.len(text)*1.9
     if(entity_id ~= nil)then
 		if text ~= "" then
-			if(get_player() ~= nil and entity_id ~= get_player())then
-				--EntityAddChild(get_player(), entity_id)
-			end
 			ent_x, ent_y = EntityGetTransform(entity_id)
 			text_holder = EntityLoad("mods/twitch_extended/files/entities/misc/text_holder.xml", ent_x, ent_y)
 
@@ -1497,7 +1524,6 @@ function spawn_enemy_biome(username)
 					enemy = "data/entities/animals/necromancer_shop.xml"
 				end
 				count = 1
-				print("yo?")
 			end
 			for i = 1, count do
 				drone = spawn_item(enemy, 50, 80)
