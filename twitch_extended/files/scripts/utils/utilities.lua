@@ -909,7 +909,7 @@ function EntityApplyComponent(entity, component_name, values)
 	local component = EntityGetFirstComponentIncludingDisabled(entity, component_name)
 	if(component ~= nil)then
 		for k,v in pairs(values)do
-			ComponentSetValue(component, k, v)
+			ComponentSetValue2(component, k, v)
 		end
 	else
 		EntityAddComponent2(entity, component_name, values)
@@ -1422,7 +1422,7 @@ function spawn_enemy_biome(username)
 
 					if(enemies[1] ~= nil)then
 						local enemy = enemies[Random(1,#enemies)]
-						local our_x, our_y = get_spawn_pos(50, 80)
+						local our_x, our_y = get_spawn_pos(50, 80, x, y)
 						--spawn_with_limited_random(enemies,our_x,our_y,0,0,{}, username)
 						--print(table.dump(enemy))
 
@@ -1851,61 +1851,63 @@ end
 
 function get_spawn_pos(min_range, max_range, x, y)
 
-		local x2, y2 =  get_player_pos()
-		
-		x = x or x2 or 0
-		y = y or y2 or 0
-		
-		local spawn_points = {}
-		
-		local count = 0
-		
-		for i = 1, 1000 do
-		
-			local angle = Random()*math.pi*2;
-		  
-			local dx = x + (math.cos(angle)*Random(min_range, max_range));
-			local dy = y + (math.sin(angle)*Random(min_range, max_range));		
-			
-			local rhit, rx, ry = RaytracePlatforms(dx - 2, dy - 2, dx + 2, dy + 2)
-			
-			
-			
-			if(rhit) then 
-				--DEBUG_MARK( dx, dy, "bad_spawn_point",0, 0, 1 )
-			else
+	SetRandomSeed( x + GameGetFrameNum(), y  + GameGetFrameNum() )
 
-				table.insert(spawn_points, {
-					x = dx,
-					y = dy,
-				})
-			end
-		end
-
-		if(#spawn_points == 0)then
-			return x, y
-		end
-		local spawn_index = Random(1, #spawn_points)
-
-
+	local x2, y2 =  get_player_pos()
+	
+	x = x or x2 or 0
+	y = y or y2 or 0
+	
+	local spawn_points = {}
+	
+	local count = 0
+	
+	for i = 1, 1000 do
+	
+		local angle = Random()*math.pi*2;
 		
-		local spawn_x = spawn_points[spawn_index].x
-		local spawn_y = spawn_points[spawn_index].y
+		local dx = x + (math.cos(angle)*Random(min_range, max_range));
+		local dy = y + (math.sin(angle)*Random(min_range, max_range));		
 		
-		if(spawn_x == nil)then
-			local angle = Random()*math.pi*2;
-		  
-			local dx = x + (math.cos(angle)*Random(min_range, max_range));
-			local dy = y + (math.sin(angle)*Random(min_range, max_range));		
-			
-			--EntityLoad("mods/twitch_extended/files/entities/short_blackhole.xml", dx, dy)
-			create_hole_of_size(dx, dy, 12)
-			
-			return dx, dy
+		local rhit, rx, ry = RaytracePlatforms(dx - 2, dy - 2, dx + 2, dy + 2)
+		
+		
+		
+		if(rhit) then 
+			--DEBUG_MARK( dx, dy, "bad_spawn_point",0, 0, 1 )
 		else
 
-			return spawn_x, spawn_y
+			table.insert(spawn_points, {
+				x = dx,
+				y = dy,
+			})
 		end
+	end
+
+	if(#spawn_points == 0)then
+		return x, y
+	end
+	local spawn_index = Random(1, #spawn_points)
+
+
+	
+	local spawn_x = spawn_points[spawn_index].x
+	local spawn_y = spawn_points[spawn_index].y
+	
+	if(spawn_x == nil)then
+		local angle = Random()*math.pi*2;
+		
+		local dx = x + (math.cos(angle)*Random(min_range, max_range));
+		local dy = y + (math.sin(angle)*Random(min_range, max_range));		
+		
+		--EntityLoad("mods/twitch_extended/files/entities/short_blackhole.xml", dx, dy)
+		create_hole_of_size(dx, dy, 12)
+		
+		return dx, dy
+	else
+
+		return spawn_x, spawn_y
+	end
 
 end
 

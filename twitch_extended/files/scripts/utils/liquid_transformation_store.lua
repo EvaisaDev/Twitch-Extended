@@ -56,7 +56,9 @@ blacklist = {
 
 function add_materials_file(materials_file)
 
-	local xml2lua = dofile("mods/twitch_extended/lib/xml2lua/xml2lua.lua")
+	local nxml = dofile("mods/twitch_extended/lib/nxml.lua")
+
+	--[[local xml2lua = dofile("mods/twitch_extended/lib/xml2lua/xml2lua.lua")
 	local handler = dofile("mods/twitch_extended/lib/xml2lua/xmlhandler/tree.lua")
 
 
@@ -85,51 +87,62 @@ function add_materials_file(materials_file)
 			end
 		end
 	  end
+	end]]
+
+	--[[ NXML EXAMPLE
+		local data = nxml.parse(biomes)
+
+		for elem in data:each_child() do
+			if elem.name == "Topology" then
+				if(elem.attr ~= nil)then
+					local biome_name = elem.attr.name
+					local lua_script = elem.attr.lua_script
+
+					--print(biome_name)
+					--print(lua_script)
+
+					if(lua_script ~= nil and biome_name ~= nil)then
+						if(biome_scripts[biome_name] == nil)then
+							biome_scripts[biome_name] = {}
+						end
+						table.insert(biome_scripts[biome_name], lua_script)
+					end
+				end
+			end
+		end
+	]]
+	if(not ModDoesFileExist(materials_file))then
+		return
+	end
+	
+	local materials = ModTextFileGetContent(materials_file)
+
+	local data = nxml.parse(materials)
+
+	for elem in data:each_child() do
+		-- if celldata or celldatachild
+		if elem.name == "CellData" or elem.name == "CellDataChild" then
+			if(elem.attr ~= nil)then
+				local tags = parse_tags(elem.attr.tags)
+				
+				if tags.liquid then
+					local name = elem.attr.name
+					if(table.has(blacklist,name) == false and name ~= nil and name ~= "")then
+						table.insert(material_names, name)
+					end
+				end
+			end
+		end
 	end
 end
 
 add_materials_file("data/materials.xml")
 
 
-local mod_ids = ModGetActiveModIDs()
-
-for _, id in pairs(mod_ids)do
-	if(id ~= "twitch_extended")then
-		if(file_exists("mods/"..id.."/init.lua"))then
-			local content = ModTextFileGetContent("mods/"..id.."/init.lua")
-			if(content == nil)then
-				return
-			end
-			content = string.gsub(content, "%-%-%[%[[^%[%]]*%]%]", "")
-
-			lines = {}
-			for s in content:gmatch("[^\r\n]+") do
-				table.insert(lines, s)
-			end
-			
-			content = ""
-
-			for i, line in ipairs(lines) do
-				--if string.match(line, "%s*%-%-") == nil then
-				-- Not a commented out line
-			--	end
-
-				line = string.gsub(line, "%-%-(.*)", "")
-
-				content = content..line..string.char(10)
-			end
-
-			local arguments = string.gmatch(content, "ModMaterialsFileAdd%(%s*\"([^()]+)\"%s*%)")
-
-			for argument in arguments do
-
-				if(not string.find(argument, "..") and not string.find(argument, "("))then
-					add_materials_file(argument)
-				end
-			end
-		end
-	end
+for i, v in ipairs(ModMaterialFilesGet() or {})do
+	add_materials_file(v)
 end
+
 
 local barrel_script = "local materials = {"
 
@@ -139,5 +152,6 @@ for k, v in pairs(material_names)do
 end
 
 barrel_script = barrel_script.."}"..string.char(10)..ModTextFileGetContent("mods/twitch_extended/files/scripts/events/liquid_transformation.lua")
+
 --print(barrel_script)
 ModTextFileSetContent("mods/twitch_extended/files/scripts/events/liquid_transformation.lua", barrel_script)

@@ -3,6 +3,7 @@ dofile_once("data/scripts/lib/utilities.lua")
 
 dofile("mods/twitch_extended/files/scripts/misc/initial_compat.lua")
 
+
 if(ModIsEnabled("spellbound_bundle"))then
 	GameAddFlagRun("spellbound_enabled")
 end
@@ -15,9 +16,13 @@ if(ModIsEnabled("twitch_lib"))then
 	dofile_once("mods/twitch_lib/files/twitch_overwrites.lua")
 end
 
+ModRegisterAudioEventMappings("mods/twitch_extended/GUIDs.txt")
+
+local nxml = dofile("mods/twitch_extended/lib/nxml.lua")
 if(ModIsEnabled( "config_lib" ))then
 	dofile_once("mods/twitch_extended/lib/persistent_store.lua")
 	dofile_once("mods/config_lib/files/utilities.lua")
+	local try = dofile_once("mods/twitch_extended/files/scripts/utils/try_catch.lua")
 	
 
 	ModLuaFileAppend("mods/config_lib/files/config_list.lua", "mods/twitch_extended/files/scripts/config/config_list.lua")
@@ -71,27 +76,31 @@ if(ModIsEnabled( "config_lib" ))then
 	function get_biome_xml_files()
 		local biomes_all = ModTextFileGetContent("data/biome/_biomes_all.xml")
 		
-		local xml2lua = dofile("mods/twitch_extended/lib/xml2lua/xml2lua.lua")
-		local handler = dofile("mods/twitch_extended/lib/xml2lua/xmlhandler/tree.lua")
+		--local xml2lua = dofile("mods/twitch_extended/lib/xml2lua/xml2lua.lua")
+		--local handler = dofile("mods/twitch_extended/lib/xml2lua/xmlhandler/tree.lua")
 
 
-		local parser = xml2lua.parser(handler)
 
-		parser:parse(biomes_all)
+		--local parser = xml2lua.parser(handler)
+
+
+		--parser:parse(biomes_all)
+
+
+		local data = nxml.parse(biomes_all)
 
 		local xml_files = {}
 
 
-		for i, p in pairs(handler.root.BiomesToLoad) do
-			if i == "Biome" then
-				for i2, p2 in pairs(handler.root.BiomesToLoad[i]) do
-					if(p2._attr ~= nil)then
-						local filename = p2._attr.biome_filename
+		for elem in data:each_child() do
+			if elem.name == "Biome" then
+	
+				if(elem.attr ~= nil)then
+					local filename = elem.attr.biome_filename
 
-						table.insert(xml_files, filename)
-
-					end
+					table.insert(xml_files, filename)
 				end
+	
 			end
 		end
 		return xml_files
@@ -100,15 +109,19 @@ if(ModIsEnabled( "config_lib" ))then
 
 	function get_biome_scripts(biome_xml)
 
-		local xml2lua = dofile("mods/twitch_extended/lib/xml2lua/xml2lua.lua")
+		--[[local xml2lua = dofile("mods/twitch_extended/lib/xml2lua/xml2lua.lua")
 		local handler = dofile("mods/twitch_extended/lib/xml2lua/xmlhandler/tree.lua")
 
 
-		local parser = xml2lua.parser(handler)
+		local parser = xml2lua.parser(handler)]]
+
+		if not ModDoesFileExist(biome_xml) then
+			return
+		end
 
 		local biomes = ModTextFileGetContent(biome_xml)
-
-		parser:parse(biomes)
+		
+		--[[parser:parse(biomes)
 
 		for i, p in pairs(handler.root.Biome) do
 			if i == "Topology" then
@@ -127,7 +140,29 @@ if(ModIsEnabled( "config_lib" ))then
 					end
 				end
 			end
+		end]]
+
+		local data = nxml.parse(biomes)
+
+		for elem in data:each_child() do
+			if elem.name == "Topology" then
+				if(elem.attr ~= nil)then
+					local biome_name = elem.attr.name
+					local lua_script = elem.attr.lua_script
+
+					--print(biome_name)
+					--print(lua_script)
+
+					if(lua_script ~= nil and biome_name ~= nil)then
+						if(biome_scripts[biome_name] == nil)then
+							biome_scripts[biome_name] = {}
+						end
+						table.insert(biome_scripts[biome_name], lua_script)
+					end
+				end
+			end
 		end
+		
 	end
 end
 
@@ -169,11 +204,11 @@ end
 
 function OnMagicNumbersAndWorldSeedInitialized()
 
-	local xml2lua = dofile("mods/twitch_extended/lib/xml2lua/xml2lua.lua")
-	local handler = dofile("mods/twitch_extended/lib/xml2lua/xmlhandler/tree.lua")
+	--local xml2lua = dofile("mods/twitch_extended/lib/xml2lua/xml2lua.lua")
+	--local handler = dofile("mods/twitch_extended/lib/xml2lua/xmlhandler/tree.lua")
 
 
-	local parser = xml2lua.parser(handler)
+	--local parser = xml2lua.parser(handler)
 	local modifier_base = ModTextFileGetContent("mods/twitch_extended/files/entities/misc/base_modifier_effect.xml")
 	for k, v in pairs(actions)do
 		if(v.type == ACTION_TYPE_MODIFIER)then
@@ -200,10 +235,9 @@ function OnMagicNumbersAndWorldSeedInitialized()
 		
 			
 		
-			parser:parse(modifier_base)
+			--parser:parse(modifier_base)
 
-
-			for i, p in pairs(handler.root.Entity) do
+			--[[for i, p in pairs(handler.root.Entity) do
 				if(i == "GameEffectComponent")then
 					if(p._attr == nil)then
 						p._attr = {}
@@ -243,7 +277,51 @@ function OnMagicNumbersAndWorldSeedInitialized()
 			end
 			
 
-			local file_content = xml2lua.toXml(handler.root, "Entity", 0)
+			local file_content = xml2lua.toXml(handler.root, "Entity", 0)]]
+
+			local data = nxml.parse(modifier_base)
+
+			for elem in data:each_child() do
+				if elem.name == "GameEffectComponent" then
+					if(elem.attr == nil)then
+						elem.attr = {}
+					end
+					elem.attr.custom_effect_id = "TWITCH_EXTENDED_"..v.id
+				elseif elem.name == "ShotEffectComponent" then
+					if(elem.attr == nil)then
+						elem.attr = {}
+					end
+					elem.attr.extra_modifier = "base_modifier_"..v.id
+				end
+			end
+
+			-- use :add_child(element : nxml.element) and :new_element(name : string[, attr : table{string => any}]) to add new elements
+
+			if(data.attr == nil)then
+				data.attr = {}
+			end
+
+			data.attr.name = "TWITCH_EXTENDED_"..v.id
+
+			for k, v in pairs(c)do
+				if(v ~= c_defaults[k])then
+					local new_elem = nxml.new_element("VariableStorageComponent", {
+						name = tostring(k),
+						value_string = tostring(v)
+					})
+					data:add_child(new_elem)
+				end
+			end
+
+
+			local file_content = tostring(data)
+
+
+
+
+			
+
+			
 
 			--print(file_content)
 

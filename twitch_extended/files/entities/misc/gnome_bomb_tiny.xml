@@ -1,0 +1,91 @@
+<Entity name="$projectile_default">
+
+  <Base file="data/entities/base_projectile_physics.xml">
+
+    <PhysicsImageShapeComponent 
+      image_file="mods/twitch_extended/files/gfx/entity_gfx/gnome_big.png"
+      material="fuse_tnt" >
+    </PhysicsImageShapeComponent>
+  
+		<DamageModelComponent 
+        hp="4.0"
+			>
+			<damage_multipliers
+				explosion="0.0" >
+			</damage_multipliers>
+		</DamageModelComponent>
+
+  <PhysicsThrowableComponent
+      throw_force_coeff="2.0" >
+    </PhysicsThrowableComponent>
+
+    <ProjectileComponent
+      _enabled="1"
+      speed_min="800"
+      speed_max="800"
+      damage="0"
+      lifetime="50"
+      lifetime_randomness = "100"
+      on_death_explode="1"
+      on_lifetime_out_explode="1"
+    ><config_explosion
+      damage="1"
+      explosion_radius="5"
+      max_durability_to_destroy="11"
+      camera_shake="10"
+      ray_energy="4000000"
+      hole_destroy_physics_dynamic="0"
+      stains_enabled="1" 
+      stains_radius="16"
+      explosion_sprite="data/particles/explosion_016.xml" 
+      load_this_entity="mods/twitch_extended/files/entities/misc/gnome_bomb_explosion_3.xml"
+      spark_material="spark_purple_bright"
+      >
+      </config_explosion>
+    </ProjectileComponent>
+  </Base>
+
+	<SetStartVelocityComponent
+		randomize_speed.min="80"
+		randomize_speed.max="120"
+		randomize_angle.min="0"
+		randomize_angle.max="6.28319" 
+	>
+	</SetStartVelocityComponent>
+
+
+  <!-- fx -->
+
+  <ParticleEmitterComponent 
+    emitted_material_name="smoke"
+    offset.x="2"
+    offset.y="-3"
+    x_pos_offset_min="-1"
+    y_pos_offset_min="-1"
+    x_pos_offset_max="1"
+    y_pos_offset_max="1"
+    x_vel_min="-10"
+    x_vel_max="10"
+    y_vel_min="-10"
+    y_vel_max="10"
+    count_min="0"
+    count_max="4"
+    lifetime_min="0.1"
+    lifetime_max="0.3"
+    create_real_particles="1"
+    emit_cosmetic_particles="0"
+    emission_interval_min_frames="1"
+    emission_interval_max_frames="1"
+    is_emitting="1" >
+  </ParticleEmitterComponent>
+
+  <AudioComponent
+      file="mods/twitch_extended/twitch_extended.bank"
+      event_root="gnome">
+  </AudioComponent>
+
+
+  <MusicEnergyAffectorComponent>
+  </MusicEnergyAffectorComponent>
+  
+</Entity>

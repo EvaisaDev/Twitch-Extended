@@ -493,6 +493,18 @@ append_events = {
 		end,
 	},
 	{
+		id = "TWITCH_EXTENDED_GNOME",
+		ui_name = "$twitch_extended_duende",
+		ui_description = "$twitch_extended_duende_description",
+		ui_icon = "",
+		ui_author = "Evaisa",
+		weight = 1.0,
+		kind = STREAMING_EVENT_NEUTRAL,
+		action = function(event)
+			spawn_item("mods/twitch_extended/files/entities/misc/gnome_bomb.xml", 0, 0, false, true)
+		end,
+	},
+	{
 		id = "TWITCH_EXTENDED_DEERPOCALYPSE",
 		ui_name = "$twitch_extended_deerpocalypse",
 		ui_description = "$twitch_extended_deerpocalypse_description",
@@ -776,7 +788,7 @@ append_events = {
 			end
 			if base_wand ~= nil then
 				local children = EntityGetAllChildren( base_wand );
-				local ability_component = WandGetAbilityComponent( base_wand );
+				local ability_component = EntityGetFirstComponentIncludingDisabled( base_wand, "AbilityComponent" );
 					if ability_component ~= nil then
 					local deck_capacity = tonumber( ComponentObjectGetValue( ability_component, "gun_config", "deck_capacity" ) );
 					ComponentObjectSetValue( ability_component, "gun_config", "deck_capacity", tostring( deck_capacity + 1 ) );
@@ -1707,22 +1719,10 @@ append_events = {
 							spells = {}
 						}
 		
-						-- APP: This is where failure is occurring with bug. base_wand is being shown as nil. Not getting wands correctly it seems.
-						-- WandGetAbilityComponent doesn't look to exist anymore in api?
-						--local ability_component = WandGetAbilityComponent( base_wand );
-						
-						-- APP: Has been replaced with EntityGetAllComponents it seems? Have to get all components and then loop through and find the ability component and then set. After that, everything looks to work normally.
-						local wandComponents = EntityGetAllComponents( base_wand );
-						local ability_component = ""
-						for index, data in ipairs(wandComponents) do
-							componentName = ComponentGetTypeName(data)
-							if componentName == "AbilityComponent" then
-								ability_component = data
-							end
-						end
+						local ability_component = EntityGetFirstComponentIncludingDisabled( base_wand, "AbilityComponent" );
 
 						if ability_component ~= nil then
-							local deck_capacity = tonumber( ComponentObjectGetValue( ability_component, "gun_config", "deck_capacity" ) );
+							local deck_capacity = ComponentObjectGetValue2( ability_component, "gun_config", "deck_capacity" );
 							if(wand_in_table(base_wand) == false)then
 								wand_prototype.wand_id = base_wand
 								table.insert(wand_table, wand_prototype)
