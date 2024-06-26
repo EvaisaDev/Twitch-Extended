@@ -928,7 +928,7 @@ function text_above_entity( entity_id, text, extra_offset )
 
 
 			EntitySetTransform(text_holder, ent_x, ent_y)
-            local component = EntityApplyComponent(text_holder, "SpriteComponent",
+            local component = EntityAddComponent2(text_holder, "SpriteComponent",
             {
                 image_file="data/fonts/font_pixel_white.xml",
                 is_text_sprite=true,
@@ -969,7 +969,8 @@ end
 
 function update_text( entity_id, component, text )
     offset_x = string.len(text)*1.9
-    if(component ~= nil and component ~= 0)then
+	
+	if(component ~= nil and component ~= 0)then
         ComponentSetValue2( component, "text", text )
         ComponentSetValue2( component, "offset_x", offset_x )
         EntityRefreshSprite( entity_id, component )

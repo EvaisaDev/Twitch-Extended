@@ -24,7 +24,7 @@ async(function()
 		end
 		previous_event = event
 		table.remove(allowed_picks,index)
-		
+
 		update_text( timer_holder, timer, GameTextGetTranslatedOrNot(event.ui_name) )
 		
 	end

@@ -136,9 +136,6 @@ function add_materials_file(materials_file)
 	end
 end
 
-add_materials_file("data/materials.xml")
-
-
 for i, v in ipairs(ModMaterialFilesGet() or {})do
 	add_materials_file(v)
 end
