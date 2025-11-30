@@ -157,7 +157,7 @@
   <CellData
 	name="hour_glass"
 	ui_name="Hour Glass"
-	tags="[box2d],[corrodible],[meltable_metal]"
+	tags="[box2d],[corrodible]"
 	burnable="0"
 	density="8"
 	cell_type="solid"
@@ -186,7 +186,7 @@
     <CellData
 	name="conversion_stone"
 	ui_name="Conversion Stone"
-	tags="[corrodible],[meltable_metal],[box2d]"
+	tags="[corrodible],[box2d]"
 	burnable="0"
 	density="8"
 	cell_type="solid"
@@ -639,7 +639,7 @@
   <CellData
 	name="gold_corrupted"
 	ui_name="Gold Decay"
-  	tags="[sand_metal],[corrodible],[meltable_metal],[gold],[solid]"
+  	tags="[sand_metal],[corrodible],[gold],[solid]"
 	burnable="0"
 	density="9"
 	cell_type="liquid"
